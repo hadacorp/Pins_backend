@@ -11,8 +11,8 @@
 &nbsp;
 
 # DB modeling
-ERD v1.0
-![v1.0-Erd](./DB_Modeling/Erd-image/Pins-v1.0.png)
+ERD v2.0
+![v1.0-Erd](./DB_Modeling/Erd-image/Pins-v2.0.png)
 
 &nbsp;
 &nbsp;
