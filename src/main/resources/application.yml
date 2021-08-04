@@ -9,7 +9,7 @@ spring:
     hibernate:
       ddl-auto: create
   datasource:
-    url: jdbc:mysql://localhost:3306/book_manager?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/pins?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password:
   sql:
