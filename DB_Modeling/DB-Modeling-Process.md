@@ -9,3 +9,7 @@
 ### 7/25
  * v1.0 수정 필요 부분 수정 
  ![v1.0-Erd](./Erd-image/Pins-v2.0.png)
+### 8/05
+ * date& time 합치는게 좋은듯
+ * location은 longitude, latitude로 나누기 
+ * regRegNum -> resRedNum
