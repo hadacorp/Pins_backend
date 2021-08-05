@@ -41,7 +41,7 @@ class MeetingPinRepositoryTest {
         userRepository.save(user);
 
         userRepository.findAll().forEach(System.out::println);
-        System.out.println(userRepository.findAll().get(0).getCreatedAt().getDayOfMonth());
+//        System.out.println(userRepository.findAll().get(0).getCreatedAt().getDayOfMonth());
 
 
 
@@ -49,10 +49,10 @@ class MeetingPinRepositoryTest {
 
         MeetingPin meetingPin = MeetingPin.builder()
                 .title("제목1")
-                .user(user)
+                .createUser(user)
                 .content("내용1111")
                 .category("운동")
-                .setgender(Gender.Both)
+                .setGender(Gender.Both)
                 .setAge(10)
                 .date(LocalDateTime.parse("2021-01-03 13:00",DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .latitude(23.123434)
