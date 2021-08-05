@@ -4,6 +4,8 @@ import com.hada.pins_backend.domain.BaseTimeEntity;
 import com.hada.pins_backend.domain.Gender;
 import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.UserAndMeetingPin;
+import com.hada.pins_backend.domain.storyPin.StoryPinComment;
+import com.hada.pins_backend.domain.storyPin.StoryPinLike;
 import lombok.*;
 
 import javax.persistence.*;
@@ -43,6 +45,14 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<UserAndMeetingPin> userAndMeetingPins;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<StoryPinLike> storyPinLikes;
+
+    @OneToMany(mappedBy = "writeUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<StoryPinComment> storyPinComments;
 
     @Builder
     public User(String name,
