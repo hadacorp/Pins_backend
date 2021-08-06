@@ -13,3 +13,6 @@
  * date& time 합치는게 좋은듯
  * location은 longitude, latitude로 나누기 
  * regRegNum -> resRedNum
+### 8/06
+ * Storypin에서 like 부분 user와 엮어 many to one 으로 수정(양방향)
+ * 
