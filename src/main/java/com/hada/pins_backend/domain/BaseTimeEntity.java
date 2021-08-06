@@ -1,7 +1,5 @@
 package com.hada.pins_backend.domain;
 
-import com.hada.pins_backend.domain.listenter.Auditable;
-import lombok.Data;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

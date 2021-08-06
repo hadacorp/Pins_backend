@@ -63,7 +63,7 @@ class StoryPinRepositoryTest {
         storyPinCommentRepository.save(storyPinComment);
 
         entityManager.clear();
-        System.out.println(storyPinRepository.findAll().get(0));
+        System.out.println(storyPinRepository.findAll().get(0).getCreatedAt());
         System.out.println(storyPinLikeRepository.findAll().get(0).getStoryPin());
         System.out.println(storyPinCommentRepository.findAll().get(0).getWriteUser());
 
