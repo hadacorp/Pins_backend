@@ -7,9 +7,15 @@ import com.hada.pins_backend.domain.meetingPin.UserAndMeetingPin;
 import com.hada.pins_backend.domain.storyPin.StoryPinComment;
 import com.hada.pins_backend.domain.storyPin.StoryPinLike;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by bangjinhyuk on 2021/08/04.
@@ -18,12 +24,14 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @ToString
-public class User extends BaseTimeEntity {
+public class User extends BaseTimeEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
+
+    private String password;
 
     private String nickName;
 
@@ -54,6 +62,46 @@ public class User extends BaseTimeEntity {
     @ToString.Exclude
     private List<StoryPinComment> storyPinComments;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.id.toString();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     @Builder
     public User(String name,
                 String nickName,
@@ -61,7 +109,8 @@ public class User extends BaseTimeEntity {
                 String phoneNum,
                 int age,
                 Gender gender,
-                String image){
+                String image,
+                List<String> roles){
         this.name = name;
         this.nickName = nickName;
         this.resRedNumber = resRedNumber;
@@ -69,6 +118,8 @@ public class User extends BaseTimeEntity {
         this.age = age;
         this.gender = gender;
         this.image = image;
+        this.image = image;
+        this.roles = roles;
     }
 
 
