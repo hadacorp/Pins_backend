@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hada.pins_backend.domain.user.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ import java.util.List;
 /**
  * Created by bangjinhyuk on 2021/08/12.
  */
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
@@ -34,6 +36,7 @@ public class JwtTokenProvider {
     public static String createToken(User user, List<String> roles){
         return JWT.create()
                 .withSubject(user.getPhoneNum())
+                .withExpiresAt(new Date(System.currentTimeMillis() + AUTH_TIME))
                 .withClaim("roles",roles)
                 .sign(ALGORITHM);
 
@@ -63,6 +66,8 @@ public class JwtTokenProvider {
     public boolean validateToken(String jwtToken) {
         try {
             DecodedJWT verify = JWT.require(ALGORITHM).build().verify(jwtToken);
+            log.info("1234");
+            log.info("verify: {}",verify.getExpiresAt().before(new Date())+"");
             return !verify.getExpiresAt().before(new Date());
         } catch (Exception e) {
             return false;

@@ -53,11 +53,5 @@ public class UserController {
         return jwtTokenProvider.createToken(member, member.getRoles());
     }
 
-    //유저 정보 반환
-    @GetMapping("/getGender")
-    public String getGender(){
-        Object[] objects = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().toArray();
-        log.info("Auth string : {}", objects);
-        return "hello";
-    }
+
 }
