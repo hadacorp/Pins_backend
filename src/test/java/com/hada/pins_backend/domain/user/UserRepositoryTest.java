@@ -35,7 +35,7 @@ class UserRepositoryTest {
         userRepository.save(user);
         entityManager.clear();
         User user1 = userRepository.findAll().get(0);
-        System.out.println(user1.getRoles());
+        System.out.println(user1.getAuthorities());
 
     }
 }
