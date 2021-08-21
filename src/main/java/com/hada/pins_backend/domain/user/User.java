@@ -31,8 +31,6 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     private String name;
 
-    private String password;
-
     private String nickName;
 
     private int resRedNumber;
@@ -74,7 +72,7 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.password;
+        return "";
     }
 
     @Override
@@ -110,7 +108,6 @@ public class User extends BaseTimeEntity implements UserDetails {
                 int age,
                 Gender gender,
                 String image,
-                String password,
                 List<String> roles){
         this.name = name;
         this.nickName = nickName;
@@ -120,7 +117,6 @@ public class User extends BaseTimeEntity implements UserDetails {
         this.gender = gender;
         this.image = image;
         this.image = image;
-        this.password = password;
         this.roles = roles;
     }
 

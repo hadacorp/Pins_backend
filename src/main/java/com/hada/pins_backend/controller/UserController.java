@@ -6,17 +6,15 @@ import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collections;
 import java.util.Map;
 
 /**
  * Created by bangjinhyuk on 2021/08/12.
  */
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -30,7 +28,6 @@ public class UserController {
     public Long join(@RequestBody Map<String, String> user) {
         return userRepository.save(User.builder()
                 .phoneNum(user.get("phonenum"))
-                .password(passwordEncoder.encode(user.get("password")))
                 .name("bang")
                 .nickName("bbangi")
                 .resRedNumber(9801031)
@@ -40,7 +37,6 @@ public class UserController {
                 .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
                 .build()).getId();
     }
-
     // 로그인
     @PostMapping("/login")
     public String login(@RequestBody Map<String, String> user) {

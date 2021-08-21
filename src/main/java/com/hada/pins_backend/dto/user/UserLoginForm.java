@@ -14,5 +14,4 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserLoginForm {
     private String userphonenum;
-    private String password;
 }
