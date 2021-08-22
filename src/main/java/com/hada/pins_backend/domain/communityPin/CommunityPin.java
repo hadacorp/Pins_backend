@@ -2,6 +2,7 @@ package com.hada.pins_backend.domain.communityPin;
 
 import com.hada.pins_backend.domain.BaseTimeEntity;
 import com.hada.pins_backend.domain.Gender;
+import com.hada.pins_backend.domain.communityPost.CommunityPost;
 import com.hada.pins_backend.domain.storyPin.StoryPinComment;
 import com.hada.pins_backend.domain.user.User;
 import lombok.*;
@@ -52,13 +53,17 @@ public class CommunityPin extends BaseTimeEntity {
     @NotNull
     private double latitude;
 
-    @OneToMany(mappedBy = "", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "communityPin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<MembersAndCommunityPin> membersAndCommunityPins;
+
+    @OneToMany(mappedBy = "communityPin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<MiddleMgmtAndCommunityPin> middleMgmtAndCommunityPins;
 
-    @OneToMany(mappedBy = "", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "communityPin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
-    private List<MembersAndCommunityPin> membersAndCommunityPins;
+    private List<CommunityPost> communityPosts;
 
     @Builder
     public CommunityPin(User superUser,
