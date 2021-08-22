@@ -32,7 +32,7 @@ class MeetingPinRepositoryTest {
         User user = User.builder()
                 .name("bang")
                 .nickName("bbangi")
-                .resRedNumber(9801031)
+                .resRedNumber("9801031")
                 .phoneNum("01077606393")
                 .age(24)
                 .gender(Gender.Male)

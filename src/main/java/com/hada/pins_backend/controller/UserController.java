@@ -30,7 +30,7 @@ public class UserController {
                 .phoneNum(user.get("phonenum"))
                 .name("bang")
                 .nickName("bbangi")
-                .resRedNumber(9801031)
+                .resRedNumber("9801031")
                 .age(24)
                 .gender(Gender.Male)
                 .image("http;//...")

@@ -6,12 +6,16 @@ import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.UserAndMeetingPin;
 import com.hada.pins_backend.domain.storyPin.StoryPinComment;
 import com.hada.pins_backend.domain.storyPin.StoryPinLike;
+import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.NotFound;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -29,14 +33,25 @@ public class User extends BaseTimeEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(min = 1,max = 4)
     private String name;
 
+    @Size(min = 2,max = 8)
+    @NotBlank
+    @Pattern(regexp = "^[가-힣|0-9]+$")
     private String nickName;
 
-    private int resRedNumber;
+    @NotBlank
+    @Pattern(regexp = "\\d{6}-$")
+    private String resRedNumber;
 
+    @NotBlank
+    @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
     private String phoneNum;
 
+    @DecimalMin(value="20",inclusive = true)
+    @DecimalMax(value="50",inclusive = true)
     private int age;
 
     @Enumerated(value = EnumType.STRING)
@@ -103,7 +118,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Builder
     public User(String name,
                 String nickName,
-                int resRedNumber,
+                String resRedNumber,
                 String phoneNum,
                 int age,
                 Gender gender,
@@ -115,7 +130,6 @@ public class User extends BaseTimeEntity implements UserDetails {
         this.phoneNum = phoneNum;
         this.age = age;
         this.gender = gender;
-        this.image = image;
         this.image = image;
         this.roles = roles;
     }
