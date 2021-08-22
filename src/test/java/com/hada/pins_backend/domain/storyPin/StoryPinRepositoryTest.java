@@ -75,10 +75,11 @@ class StoryPinRepositoryTest {
         storyPinCommentRepository.save(storyPinComment);
 
         entityManager.clear();
-        System.out.println(storyPinRepository.findAll().get(0).getCreatedAt());
+        System.out.println(storyPinRepository.findAll().get(0).getStoryPinLikes());
+        System.out.println(storyPinRepository.findAll().get(0).getStoryPinComments());
 
-        System.out.println(storyPinLikeRepository.findStoryPinLikesByStoryPin(
-                storyPinRepository.findAll().get(0)).size());
+        System.out.println(storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(
+                storyPinRepository.findAll().get(0).getId()).size());
 
         System.out.println(storyPinCommentRepository.findAll().get(0).getWriteUser());
 

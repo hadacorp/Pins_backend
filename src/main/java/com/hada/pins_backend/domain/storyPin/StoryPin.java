@@ -46,6 +46,9 @@ public class StoryPin extends BaseTimeEntity {
     @ToString.Exclude
     private List<StoryPinLike> storyPinLikes;
 
+    @OneToMany(mappedBy = "storyPin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<StoryPinComment> storyPinComments;
 
     @Builder
     public StoryPin(User createUser,

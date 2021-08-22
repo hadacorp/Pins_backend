@@ -8,5 +8,5 @@ import java.util.List;
  * Created by bangjinhyuk on 2021/08/05.
  */
 public interface StoryPinLikeRepository extends JpaRepository<StoryPinLike,Long> {
-    List<StoryPinLike> findStoryPinLikesByStoryPin (StoryPin storyPinLikeId);
+    List<StoryPinLike> findStoryPinLikesByStoryPin_Id (Long storyPinLikeId);
 }
