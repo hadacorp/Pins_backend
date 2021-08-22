@@ -7,6 +7,9 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,21 +30,28 @@ public class MeetingPin extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User createUser;
 
+    @NotBlank
     private String title;
 
+    @NotNull
     private String content;
 
+    @NotBlank
     private String category;
 
     @Enumerated(value = EnumType.STRING)
     private Gender setGender;
 
-    private int setAge;
+    @NotBlank
+    private String setAge;
 
+    @DecimalMin(value = "1")
     private int setLimit;
 
+    @NotNull
     private double longitude;
 
+    @NotNull
     private double latitude;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
@@ -57,7 +67,7 @@ public class MeetingPin extends BaseTimeEntity {
                       String content,
                       String category,
                       Gender setGender,
-                      int setAge,
+                      String setAge,
                       int setLimit,
                       double longitude,
                       double latitude,

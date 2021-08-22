@@ -43,15 +43,15 @@ public class User extends BaseTimeEntity implements UserDetails {
     private String nickName;
 
     @NotBlank
-    @Pattern(regexp = "\\d{6}-$")
+    @Pattern(regexp = "\\d{6}-[1-4]$")
     private String resRedNumber;
 
     @NotBlank
     @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
     private String phoneNum;
 
-    @DecimalMin(value="20",inclusive = true)
-    @DecimalMax(value="50",inclusive = true)
+    @DecimalMin(value="20")
+    @DecimalMax(value="50")
     private int age;
 
     @Enumerated(value = EnumType.STRING)
