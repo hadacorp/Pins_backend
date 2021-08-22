@@ -46,7 +46,7 @@ class UserAndMeetingPinRepositoryTest {
                 .content("내용1111")
                 .category("운동")
                 .setGender(Gender.Both)
-                .setAge(10)
+                .setAge("10-20")
                 .date(LocalDateTime.parse("2021-01-03 13:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .latitude(23.123434)
                 .longitude(35.1234)

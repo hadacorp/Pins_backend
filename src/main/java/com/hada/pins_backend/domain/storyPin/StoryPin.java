@@ -6,6 +6,8 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,20 +27,28 @@ public class StoryPin extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User createUser;
 
+    @NotBlank
     private String title;
 
+    @NotNull
     private String content;
 
+    @NotBlank
     private String category;
 
+    @NotNull
     private double longitude;
 
+    @NotNull
     private double latitude;
 
     @OneToMany(mappedBy = "storyPin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<StoryPinLike> storyPinLikes;
 
+    @OneToMany(mappedBy = "storyPin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<StoryPinComment> storyPinComments;
 
     @Builder
     public StoryPin(User createUser,

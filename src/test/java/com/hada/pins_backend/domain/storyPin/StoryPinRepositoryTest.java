@@ -2,9 +2,11 @@ package com.hada.pins_backend.domain.storyPin;
 
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -52,6 +54,14 @@ class StoryPinRepositoryTest {
                 .storyPin(storyPin)
                 .user(user2)
                 .build();
+        StoryPinLike storyPinLike1 = StoryPinLike.builder()
+                .storyPin(storyPin)
+                .user(user1)
+                .build();
+        StoryPinLike storyPinLike2 = StoryPinLike.builder()
+                .storyPin(storyPin)
+                .user(user3)
+                .build();
 
         StoryPinComment storyPinComment = StoryPinComment.builder()
                 .storyPin(storyPin)
@@ -60,11 +70,17 @@ class StoryPinRepositoryTest {
                 .build();
 
         storyPinLikeRepository.save(storyPinLike);
+        storyPinLikeRepository.save(storyPinLike1);
+        storyPinLikeRepository.save(storyPinLike2);
         storyPinCommentRepository.save(storyPinComment);
 
         entityManager.clear();
-        System.out.println(storyPinRepository.findAll().get(0).getCreatedAt());
-        System.out.println(storyPinLikeRepository.findAll().get(0).getStoryPin());
+        System.out.println(storyPinRepository.findAll().get(0).getStoryPinLikes());
+        System.out.println(storyPinRepository.findAll().get(0).getStoryPinComments());
+
+        System.out.println(storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(
+                storyPinRepository.findAll().get(0).getId()).size());
+
         System.out.println(storyPinCommentRepository.findAll().get(0).getWriteUser());
 
 
