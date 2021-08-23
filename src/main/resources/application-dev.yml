@@ -7,9 +7,9 @@ spring:
         format_sql: true
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
   datasource:
-    url: jdbc:mysql://localhost:3306/pins?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://bangi98.cafe24.com:3306/pins?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: 1234
   sql:
