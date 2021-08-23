@@ -25,7 +25,7 @@ import java.util.List;
 public class JwtTokenProvider {
 
     private static final Algorithm ALGORITHM = Algorithm.HMAC256("hadaPins");
-    private static final long AUTH_TIME = 60 * 60 * 24 * 30 * 1000L; // 1달 유지 토큰
+    private static final long AUTH_TIME = 12 * 60 * 60 * 24 * 30 * 1000L; // 1년 유지 토큰
     private final UserDetailsService userDetailsService;
 
     /**
@@ -68,10 +68,9 @@ public class JwtTokenProvider {
     public boolean validateToken(String jwtToken) {
         try {
             DecodedJWT verify = JWT.require(ALGORITHM).build().verify(jwtToken);
-            log.info("1234");
-            log.info("verify: {}",verify.getExpiresAt().before(new Date())+"");
             return !verify.getExpiresAt().before(new Date());
         } catch (Exception e) {
+            log.info("validateToken: failed");
             return false;
         }
     }
