@@ -12,9 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +25,7 @@ import java.util.List;
 public class JwtTokenProvider {
 
     private static final Algorithm ALGORITHM = Algorithm.HMAC256("hadaPins");
-    private static final long AUTH_TIME = 60 * 60 * 24 * 30 * 1000L; // 1달 유지 토큰
+    private static final long AUTH_TIME = 12 * 60 * 60 * 24 * 30 * 1000L; // 1년 유지 토큰
     private final UserDetailsService userDetailsService;
 
     /**
@@ -42,13 +40,17 @@ public class JwtTokenProvider {
 
     }
 
-    // JWT 토큰에서 인증 정보 조회
+    /**
+     * JWT 토큰에서 인증 정보 조회
+     */
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    // 토큰에서 회원 정보 추출
+    /**
+     * 토큰에서 회원 정보 추출
+     */
     public String getUserPk(String token) {
         return JWT.require(ALGORITHM).build().verify(token).getSubject();
     }
@@ -66,10 +68,9 @@ public class JwtTokenProvider {
     public boolean validateToken(String jwtToken) {
         try {
             DecodedJWT verify = JWT.require(ALGORITHM).build().verify(jwtToken);
-            log.info("1234");
-            log.info("verify: {}",verify.getExpiresAt().before(new Date())+"");
             return !verify.getExpiresAt().before(new Date());
         } catch (Exception e) {
+            log.info("validateToken: failed");
             return false;
         }
     }
