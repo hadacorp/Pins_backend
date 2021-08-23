@@ -12,9 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -42,13 +40,17 @@ public class JwtTokenProvider {
 
     }
 
-    // JWT 토큰에서 인증 정보 조회
+    /**
+     * JWT 토큰에서 인증 정보 조회
+     */
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    // 토큰에서 회원 정보 추출
+    /**
+     * 토큰에서 회원 정보 추출
+     */
     public String getUserPk(String token) {
         return JWT.require(ALGORITHM).build().verify(token).getSubject();
     }
