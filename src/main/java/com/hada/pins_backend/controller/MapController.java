@@ -23,19 +23,4 @@ import java.util.Map;
 @RequestMapping("/user")
 public class MapController {
 
-    @GetMapping("/getMeetingPin")
-    public MeetingPin pins(){
-        return new MeetingPin();
-    }
-
-    //유저 정보 반환
-    @GetMapping("/getGender")
-    public String getGender(){
-        log.info("Auth string : before");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        log.info("Auth string : {}", user.getPhoneNum());
-        SecurityContextHolder.clearContext();
-        return user.getPhoneNum();
-    }
 }
