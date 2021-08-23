@@ -11,5 +11,4 @@ public class PinsBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(PinsBackendApplication.class, args);
     }
-
 }
