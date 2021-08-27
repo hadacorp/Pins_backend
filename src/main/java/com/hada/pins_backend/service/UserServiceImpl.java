@@ -12,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.StringTokenizer;
@@ -69,6 +72,13 @@ public class UserServiceImpl implements UserService{
     public Boolean checkOldUser(UserLoginForm userLoginForm) {
 
         Optional<User> user = userRepository.findByPhoneNum(userLoginForm.getUserphonenum());
+        return user.isPresent();
+    }
+
+    @Override
+    public Boolean checkNickname(String nickname) {
+        String pattern = "^[가-힣|0-9]+$";
+        Optional<User> user = userRepository.findByNickName(nickname);
         return user.isPresent();
     }
 }

@@ -9,4 +9,5 @@ import com.hada.pins_backend.dto.user.response.JoinUserResponse;
 public interface UserService {
     JoinUserResponse insertUser(JoinUserRequest joinUserRequest);
     Boolean checkOldUser(UserLoginForm userLoginForm);
+    Boolean checkNickname(String nickname);
 }

@@ -6,6 +6,7 @@ import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
+import com.hada.pins_backend.dto.user.NicknameDto;
 import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.dto.user.response.JoinUserResponse;
@@ -45,6 +46,12 @@ public class UserController {
     @PostMapping("/users/old-user")
     public Boolean oldUser(@RequestBody @Valid UserLoginForm userLoginForm){
         return userService.checkOldUser(userLoginForm);
+    }
+
+    //닉네임 중복 확인
+    @PostMapping("/users/nickname")
+    public Boolean nickname(@RequestBody @Valid NicknameDto nickname){
+        return userService.checkNickname(nickname.getNickname());
     }
 
 //    // 로그인
