@@ -1,7 +1,9 @@
 package com.hada.pins_backend.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hada.pins_backend.config.JwtTokenProvider;
+import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.service.CustomUserDetailService;
 import com.hada.pins_backend.service.UserService;
@@ -64,6 +66,30 @@ class UserControllerTest {
                 "image1");
         mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
                         .content(objectMapper.writeValueAsString(joinUserRequest))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("가입여부 확인 컨트롤러 테스트")
+    void oldUser() throws Exception {
+        UserLoginForm userLoginForm = UserLoginForm.builder().userphonenum("010-7760-6393").build();
+        mockMvc.perform(MockMvcRequestBuilders.post("/users/old-user")
+                        .content(objectMapper.writeValueAsString(userLoginForm))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("false"))
+                .andDo(print());
+    }
+    @Test
+    @DisplayName("가입여부 확인 컨트롤러 오류 테스트")
+    void errorOldUser() throws Exception {
+        UserLoginForm userLoginForm = UserLoginForm.builder().userphonenum("0107760-6393").build();
+        mockMvc.perform(MockMvcRequestBuilders.post("/users/old-user")
+                        .content(objectMapper.writeValueAsString(userLoginForm))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
