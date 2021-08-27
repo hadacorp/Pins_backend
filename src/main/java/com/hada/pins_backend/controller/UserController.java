@@ -28,21 +28,22 @@ public class UserController {
 
 
     // 회원가입
-    @PostMapping("/join")
+    @PostMapping("/users/join")
     public Long join(@RequestBody Map<String, String> user) {
-        return userRepository.save(User.builder()
-                .phoneNum(user.get("phonenum"))
-                .name("bang")
-                .nickName("닉네넨임")
-                .resRedNumber("980103-1")
-                .age(24)
-                .gender(Gender.Male)
-                .image("http;//...")
-                .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
-                .build()).getId();
+//        return userRepository.save(User.builder()
+//                .phoneNum(user.get("phonenum"))
+//                .name(user.get("name"))
+//                .nickName(user.get("nickName"))
+//                .resRedNumber(user.get("resRedNumber"))
+//                .age()
+//                .gender(Gender.Male)
+//                .image("http;//...")
+//                .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
+//                .build()).getId();
+        return 11L;
     }
     // 로그인
-    @PostMapping("/login")
+    @PostMapping("/users/login")
     public String login(@RequestBody Map<String, String> user) {
         User member = userRepository.findByPhoneNum(user.get("phonenum"))
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
@@ -51,7 +52,7 @@ public class UserController {
     }
 
     //유저 정보 반환
-    @GetMapping("/user/getphonenum")
+    @GetMapping("/users/getphonenum")
     public String getPhonenum(){
         log.info("Auth string : before");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
