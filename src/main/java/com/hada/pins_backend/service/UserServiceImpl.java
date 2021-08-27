@@ -44,8 +44,13 @@ public class UserServiceImpl implements UserService{
         //성별
         int genderNum = Integer.parseInt(resRedTokens.nextToken());
         Gender gender;
-        if (genderNum%2==1) gender = Gender.Male;
+        String genderKor = "여자";
+        if (genderNum%2==1) {
+            gender = Gender.Male;
+            genderKor = "남자";
+        }
         else gender = Gender.Female;
+
 
         log.info("insertUser age ={}, gender = {}",age,gender);
 
@@ -67,7 +72,7 @@ public class UserServiceImpl implements UserService{
                     .phoneNum(user.getPhoneNum())
                     .nickName(user.getNickName())
                     .image(user.getImage())
-                    .data(age+"세 "+gender)
+                    .data(age+"세 "+genderKor)
                     .build();
         }else {
             return null;
@@ -95,11 +100,13 @@ public class UserServiceImpl implements UserService{
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
         log.info("User Roles : {}", member.getRoles());
         String jwtToken = JwtTokenProvider.createToken(member, member.getRoles());
+        String genderKor = "여자";
+        if (member.getGender() == Gender.Male) genderKor = "남자";
         return LoginUserResponse.builder()
                 .phoneNum(member.getPhoneNum())
                 .nickName(member.getNickName())
                 .image(member.getImage())
-                .data(member.getAge()+"세 "+member.getGender())
+                .data(member.getAge()+"세 "+genderKor)
                 .jwtToken(jwtToken)
                 .build();
     }
