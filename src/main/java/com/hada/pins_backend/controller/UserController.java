@@ -42,7 +42,7 @@ public class UserController {
     // 회원가입
     @PostMapping("/users/join")
     public ResponseEntity<JoinUserResponse> join(@RequestBody @Valid JoinUserRequest userDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.insertUser(userDto));
+        return userService.insertUser(userDto);
     }
 
     //가입 여부 확인

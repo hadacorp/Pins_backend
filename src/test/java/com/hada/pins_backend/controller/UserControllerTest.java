@@ -52,7 +52,7 @@ class UserControllerTest {
                 "011212-2",
                 "010-1234-5678",
                 "image2");
-        JoinUserResponse joinUserResponse= userService.insertUser(joinUserRequest);
+        userService.insertUser(joinUserRequest);
     }
 
     @Test
@@ -75,8 +75,8 @@ class UserControllerTest {
     @DisplayName("회원가입 컨트롤러 오류 테스트 -형식 오류")
     void errorJoin() throws Exception{
         JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
-                "bang",
-                "980103-1",
+                "뱅",
+                "9801031",
                 "010-7760-6393",
                 "image1");
         mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
@@ -154,6 +154,17 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+    @Test
+    @DisplayName("로그인 컨트롤러 오류 테스트- 존재하지 않는 아이디")
+    void errorLogin2() throws Exception {
+        UserLoginForm userLoginForm = UserLoginForm.builder().userphonenum("010-1234-5679").build();
+        mockMvc.perform(MockMvcRequestBuilders.post("/users/login")
+                        .content(objectMapper.writeValueAsString(userLoginForm))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized())
                 .andDo(print());
     }
 

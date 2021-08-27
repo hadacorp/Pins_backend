@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,7 +33,7 @@ class UserServiceImplTest {
                 "980103-1",
                 "010-7760-6393",
                 "image1");
-        JoinUserResponse joinUserResponse= userService.insertUser(joinUserRequest);
+        userService.insertUser(joinUserRequest);
     }
 
     @Test
@@ -44,8 +45,8 @@ class UserServiceImplTest {
                 "010-1234-5678",
                 "image2");
 
-        JoinUserResponse joinUserResponse= userService.insertUser(joinUserRequest);
-        System.out.println(joinUserResponse);
+        ResponseEntity<JoinUserResponse> responseEntity = userService.insertUser(joinUserRequest);
+        System.out.println(responseEntity);
         User user = userRepository.findByPhoneNum("010-1234-5678")
                 .orElseThrow(()->new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
         System.out.println(user);

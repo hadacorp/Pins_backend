@@ -8,9 +8,12 @@ import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.dto.user.response.JoinUserResponse;
 import com.hada.pins_backend.dto.user.response.LoginUserResponse;
+import com.hada.pins_backend.exception.user.NotExistException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +34,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public JoinUserResponse insertUser(JoinUserRequest joinUserRequest) {
+    public ResponseEntity<JoinUserResponse> insertUser(JoinUserRequest joinUserRequest) {
         //나이 계산
         StringTokenizer resRedTokens = new StringTokenizer(joinUserRequest.getResRedNumber(),"-");
         Calendar cal = Calendar.getInstance();
@@ -68,14 +71,14 @@ public class UserServiceImpl implements UserService{
                     .roles(Collections.singletonList("USER"))
                     .build();
             userRepository.save(user);
-            return JoinUserResponse.builder()
+            return ResponseEntity.status(HttpStatus.CREATED).body(JoinUserResponse.builder()
                     .phoneNum(user.getPhoneNum())
                     .nickName(user.getNickName())
                     .image(user.getImage())
                     .data(age+"세 "+genderKor)
-                    .build();
+                    .build());
         }else {
-            return null;
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 
@@ -97,7 +100,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public LoginUserResponse login(UserLoginForm userLoginForm) {
         User member = userRepository.findByPhoneNum(userLoginForm.getUserphonenum())
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
+                .orElseThrow(NotExistException::new);
         log.info("User Roles : {}", member.getRoles());
         String jwtToken = JwtTokenProvider.createToken(member, member.getRoles());
         String genderKor = "여자";

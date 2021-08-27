@@ -13,13 +13,17 @@ import javax.validation.ConstraintViolationException;
  * Created by bangjinhyuk on 2021/08/27.
  */
 @RestControllerAdvice(basePackageClasses = UserController.class)
-public class UserControllerException {
+public class UserControllerAdvice {
     @ExceptionHandler(value = ConstraintViolationException.class)
-    public ResponseEntity ConstraintViolationException(ConstraintViolationException e){
+    public ResponseEntity<String> ConstraintViolationException(ConstraintViolationException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Request body 형식 오류");
     }
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity MethodArgumentNotValidException(MethodArgumentNotValidException e){
+    public ResponseEntity<String> MethodArgumentNotValidException(MethodArgumentNotValidException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Request body 형식 오류");
+    }
+    @ExceptionHandler(value = NotExistException.class)
+    public ResponseEntity<String> NotExistException(NotExistException e){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("존재하지 않는 아이디 입니다.");
     }
 }
