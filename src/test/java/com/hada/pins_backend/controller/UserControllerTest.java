@@ -6,8 +6,10 @@ import com.hada.pins_backend.config.JwtTokenProvider;
 import com.hada.pins_backend.dto.user.NicknameDto;
 import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
+import com.hada.pins_backend.dto.user.response.JoinUserResponse;
 import com.hada.pins_backend.service.CustomUserDetailService;
 import com.hada.pins_backend.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +42,18 @@ class UserControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    UserService userService;
+
+    @BeforeEach
+    void insertOne(){
+        JoinUserRequest joinUserRequest = new JoinUserRequest("아무개",
+                "아아무무개",
+                "011212-2",
+                "010-1234-5678",
+                "image2");
+        JoinUserResponse joinUserResponse= userService.insertUser(joinUserRequest);
+    }
 
     @Test
     @DisplayName("회원가입 컨트롤러 테스트")
@@ -117,6 +131,18 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("로그인 컨트롤러 테스트")
+    void login() throws Exception {
+        UserLoginForm userLoginForm = UserLoginForm.builder().userphonenum("010-1234-5678").build();
+        mockMvc.perform(MockMvcRequestBuilders.post("/users/login")
+                        .content(objectMapper.writeValueAsString(userLoginForm))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 
