@@ -67,7 +67,7 @@ class UserControllerTest {
                         .content(objectMapper.writeValueAsString(joinUserRequest))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andDo(print());
     }
 
@@ -142,7 +142,7 @@ class UserControllerTest {
                         .content(objectMapper.writeValueAsString(userLoginForm))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andDo(print());
     }
     @Test

@@ -16,6 +16,8 @@ import com.hada.pins_backend.service.UserService;
 import com.hada.pins_backend.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,8 +41,8 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/users/join")
-    public JoinUserResponse join(@RequestBody @Valid JoinUserRequest userDto) {
-        return userService.insertUser(userDto);
+    public ResponseEntity<JoinUserResponse> join(@RequestBody @Valid JoinUserRequest userDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.insertUser(userDto));
     }
 
     //가입 여부 확인
@@ -57,8 +59,8 @@ public class UserController {
 
     // 로그인
     @PostMapping("/users/login")
-    public LoginUserResponse login(@RequestBody @Valid UserLoginForm userLoginForm) {
-        return userService.login(userLoginForm);
+    public ResponseEntity<LoginUserResponse> login(@RequestBody @Valid UserLoginForm userLoginForm) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.login(userLoginForm));
     }
 //
 //    //유저 정보 반환
