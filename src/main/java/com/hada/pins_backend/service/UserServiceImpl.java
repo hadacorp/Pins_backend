@@ -1,11 +1,13 @@
 package com.hada.pins_backend.service;
 
+import com.hada.pins_backend.config.JwtTokenProvider;
 import com.hada.pins_backend.domain.Gender;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
 import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.dto.user.response.JoinUserResponse;
+import com.hada.pins_backend.dto.user.response.LoginUserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.Calendar;
-import java.util.Optional;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * Created by bangjinhyuk on 2021/08/08.
@@ -27,6 +27,7 @@ import java.util.StringTokenizer;
 @Slf4j
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     @Transactional
@@ -56,6 +57,7 @@ public class UserServiceImpl implements UserService{
                 .age(age)
                 .gender(gender)
                 .image(joinUserRequest.getImage())
+                .roles(Collections.singletonList("USER"))
                 .build();
         userRepository.save(user);
 
@@ -80,5 +82,20 @@ public class UserServiceImpl implements UserService{
         String pattern = "^[가-힣|0-9]+$";
         Optional<User> user = userRepository.findByNickName(nickname);
         return user.isPresent();
+    }
+
+    @Override
+    public LoginUserResponse login(UserLoginForm userLoginForm) {
+        User member = userRepository.findByPhoneNum(userLoginForm.getUserphonenum())
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
+        log.info("User Roles : {}", member.getRoles());
+        String jwtToken = JwtTokenProvider.createToken(member, member.getRoles());
+        return LoginUserResponse.builder()
+                .phoneNum(member.getPhoneNum())
+                .nickName(member.getNickName())
+                .image(member.getImage())
+                .data(member.getAge()+"세 "+member.getGender())
+                .jwtToken(jwtToken)
+                .build();
     }
 }

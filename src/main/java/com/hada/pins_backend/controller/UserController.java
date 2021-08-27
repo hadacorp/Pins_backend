@@ -10,6 +10,7 @@ import com.hada.pins_backend.dto.user.NicknameDto;
 import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.dto.user.response.JoinUserResponse;
+import com.hada.pins_backend.dto.user.response.LoginUserResponse;
 import com.hada.pins_backend.service.CustomUserDetailService;
 import com.hada.pins_backend.service.UserService;
 import com.hada.pins_backend.service.UserServiceImpl;
@@ -54,14 +55,11 @@ public class UserController {
         return userService.checkNickname(nickname.getNickname());
     }
 
-//    // 로그인
-//    @PostMapping("/users/login")
-//    public String login(@RequestBody Map<String, String> user) {
-//        User member = userRepository.findByPhoneNum(user.get("phonenum"))
-//                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
-//        log.info("User Roles : {}", member.getRoles());
-//        return jwtTokenProvider.createToken(member, member.getRoles());
-//    }
+    // 로그인
+    @PostMapping("/users/login")
+    public LoginUserResponse login(@RequestBody @Valid UserLoginForm userLoginForm) {
+        return userService.login(userLoginForm);
+    }
 //
 //    //유저 정보 반환
 //    @GetMapping("/users/getphonenum")
