@@ -3,6 +3,7 @@ package com.hada.pins_backend.service;
 import com.hada.pins_backend.domain.Gender;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
+import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.dto.user.response.JoinUserResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
+import java.util.Optional;
 import java.util.StringTokenizer;
 
 /**
@@ -60,5 +62,13 @@ public class UserServiceImpl implements UserService{
                 .image(user.getImage())
                 .data(age+"세 "+gender)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public Boolean checkOldUser(UserLoginForm userLoginForm) {
+
+        Optional<User> user = userRepository.findByPhoneNum(userLoginForm.getUserphonenum());
+        return user.isPresent();
     }
 }

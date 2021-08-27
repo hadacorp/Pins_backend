@@ -6,6 +6,7 @@ import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
+import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.dto.user.response.JoinUserResponse;
 import com.hada.pins_backend.service.CustomUserDetailService;
@@ -38,6 +39,12 @@ public class UserController {
     @PostMapping("/users/join")
     public JoinUserResponse join(@RequestBody @Valid JoinUserRequest userDto) {
         return userService.insertUser(userDto);
+    }
+
+    //가입 여부 확인
+    @PostMapping("/users/old-user")
+    public Boolean oldUser(@RequestBody @Valid UserLoginForm userLoginForm){
+        return userService.checkOldUser(userLoginForm);
     }
 
 //    // 로그인
