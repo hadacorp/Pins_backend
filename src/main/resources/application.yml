@@ -2,4 +2,8 @@ spring:
   profiles:
     active: dev
 server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
   port: 9090
