@@ -49,24 +49,29 @@ public class UserServiceImpl implements UserService{
 
         log.info("insertUser age ={}, gender = {}",age,gender);
 
-        User user = User.builder()
-                .name(joinUserRequest.getName())
-                .nickName(joinUserRequest.getNickName())
-                .resRedNumber(joinUserRequest.getResRedNumber())
-                .phoneNum(joinUserRequest.getPhoneNum())
-                .age(age)
-                .gender(gender)
-                .image(joinUserRequest.getImage())
-                .roles(Collections.singletonList("USER"))
-                .build();
-        userRepository.save(user);
+        Optional<User> oldUser = userRepository.findByPhoneNum(joinUserRequest.getPhoneNum());
 
-        return JoinUserResponse.builder()
-                .phoneNum(user.getPhoneNum())
-                .nickName(user.getNickName())
-                .image(user.getImage())
-                .data(age+"세 "+gender)
-                .build();
+        if (oldUser.isEmpty()) {
+            User user = User.builder()
+                    .name(joinUserRequest.getName())
+                    .nickName(joinUserRequest.getNickName())
+                    .resRedNumber(joinUserRequest.getResRedNumber())
+                    .phoneNum(joinUserRequest.getPhoneNum())
+                    .age(age)
+                    .gender(gender)
+                    .image(joinUserRequest.getImage())
+                    .roles(Collections.singletonList("USER"))
+                    .build();
+            userRepository.save(user);
+            return JoinUserResponse.builder()
+                    .phoneNum(user.getPhoneNum())
+                    .nickName(user.getNickName())
+                    .image(user.getImage())
+                    .data(age+"세 "+gender)
+                    .build();
+        }else {
+            return null;
+        }
     }
 
     @Override

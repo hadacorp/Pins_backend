@@ -72,7 +72,7 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("회원가입 컨트롤러 오류 테스트")
+    @DisplayName("회원가입 컨트롤러 오류 테스트 -형식 오류")
     void errorJoin() throws Exception{
         JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
                 "bang",
@@ -100,7 +100,7 @@ class UserControllerTest {
                 .andDo(print());
     }
     @Test
-    @DisplayName("가입여부 확인 컨트롤러 오류 테스트")
+    @DisplayName("가입여부 확인 컨트롤러 오류 테스트 - 형식 오류")
     void errorOldUser() throws Exception {
         UserLoginForm userLoginForm = UserLoginForm.builder().userphonenum("0107760-6393").build();
         mockMvc.perform(MockMvcRequestBuilders.post("/users/old-user")
@@ -123,7 +123,7 @@ class UserControllerTest {
                 .andDo(print());
     }
     @Test
-    @DisplayName("닉네임 중복 여부 컨트롤러 오류 테스트")
+    @DisplayName("닉네임 중복 여부 컨트롤러 오류 테스트 - 형식 오류")
     void errorNickname() throws Exception {
         NicknameDto nicknameDto = new NicknameDto("bang12");
         mockMvc.perform(MockMvcRequestBuilders.post("/users/nickname")
@@ -143,6 +143,17 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andDo(print());
+    }
+    @Test
+    @DisplayName("로그인 컨트롤러 오류 테스트- 형식 오류")
+    void errorLogin() throws Exception {
+        UserLoginForm userLoginForm = UserLoginForm.builder().userphonenum("0101234-5678").build();
+        mockMvc.perform(MockMvcRequestBuilders.post("/users/login")
+                        .content(objectMapper.writeValueAsString(userLoginForm))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
                 .andDo(print());
     }
 
