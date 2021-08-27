@@ -47,4 +47,18 @@ class UserServiceImplTest {
         System.out.println(userService.checkOldUser(userLoginForm));
     }
 
+    @Test
+    @DisplayName("닉네임 중복 확인 테스트")
+    void Test3(){
+        System.out.println(userService.checkNickname("뱅뱅뱅"));
+        JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
+                "뱅뱅뱅",
+                "980103-1",
+                "010-7760-6393",
+                "image1");
+
+        JoinUserResponse joinUserResponse= userService.insertUser(joinUserRequest);
+        System.out.println(userService.checkNickname("bang"));
+    }
+
 }

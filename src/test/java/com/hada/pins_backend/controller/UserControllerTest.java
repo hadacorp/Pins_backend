@@ -3,6 +3,7 @@ package com.hada.pins_backend.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hada.pins_backend.config.JwtTokenProvider;
+import com.hada.pins_backend.dto.user.NicknameDto;
 import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.service.CustomUserDetailService;
@@ -90,6 +91,29 @@ class UserControllerTest {
         UserLoginForm userLoginForm = UserLoginForm.builder().userphonenum("0107760-6393").build();
         mockMvc.perform(MockMvcRequestBuilders.post("/users/old-user")
                         .content(objectMapper.writeValueAsString(userLoginForm))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("닉네임 중복 여부 컨트롤러 테스트")
+    void nickname() throws Exception {
+        NicknameDto nicknameDto = new NicknameDto("뱅뱅뱅");
+        mockMvc.perform(MockMvcRequestBuilders.post("/users/nickname")
+                .content(objectMapper.writeValueAsString(nicknameDto))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+    @Test
+    @DisplayName("닉네임 중복 여부 컨트롤러 오류 테스트")
+    void errorNickname() throws Exception {
+        NicknameDto nicknameDto = new NicknameDto("bang12");
+        mockMvc.perform(MockMvcRequestBuilders.post("/users/nickname")
+                        .content(objectMapper.writeValueAsString(nicknameDto))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
