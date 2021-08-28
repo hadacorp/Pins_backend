@@ -1,11 +1,12 @@
 
-package com.hada.pins_backend.service;
+package com.hada.pins_backend.service.user;
 
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
 import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.dto.user.response.JoinUserResponse;
+import com.hada.pins_backend.service.user.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by bangjinhyuk on 2021/08/27.

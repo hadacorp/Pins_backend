@@ -1,4 +1,4 @@
-package com.hada.pins_backend.service;
+package com.hada.pins_backend.service.user;
 
 import com.hada.pins_backend.config.JwtTokenProvider;
 import com.hada.pins_backend.domain.Gender;
@@ -17,9 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.util.*;
 
 /**

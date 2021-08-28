@@ -1,4 +1,4 @@
-package com.hada.pins_backend.service;
+package com.hada.pins_backend.service.user;
 
 import com.hada.pins_backend.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;

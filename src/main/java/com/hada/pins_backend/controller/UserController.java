@@ -5,7 +5,7 @@ import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.dto.user.response.JoinUserResponse;
 import com.hada.pins_backend.dto.user.response.LoginUserResponse;
-import com.hada.pins_backend.service.UserService;
+import com.hada.pins_backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
