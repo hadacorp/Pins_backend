@@ -6,6 +6,8 @@ import com.hada.pins_backend.domain.communityPin.CommunityPin;
 import com.hada.pins_backend.domain.communityPin.CommunityPinRepository;
 import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
+import com.hada.pins_backend.domain.storyPin.StoryPin;
+import com.hada.pins_backend.domain.storyPin.StoryPinRepository;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
@@ -30,24 +32,43 @@ class HomeServiceImplTest {
     @Autowired
     private CommunityPinRepository communityPinRepository;
     @Autowired
+    private StoryPinRepository storyPinRepository;
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private UserServiceImpl userService;
     @Autowired
     private HomeServiceImpl homeService;
+    /**
+     * 테스트 핀과 유저 넣기
+     */
     @BeforeEach
     public void insertPin(){
+        insertUser();
+        User user1 = userRepository.findAll().get(0);
+        insertMeetingPin(user1);
+        insertCommunityPin(user1);
+        insertStoryPin(user1);
+    }
+
+    @Test
+    void Test1(){
+        homeService.loadPin("010-7760-6393",37.282083,127.043850);
+    }
+
+
+    private void insertUser(){
         JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
                 "뱅뱅뱅",
                 "980103-1",
                 "010-7760-6393",
                 "image1");
         userService.insertUser(joinUserRequest);
+    }
 
-        User user1 = userRepository.findAll().get(0);
-
+    private void insertMeetingPin(User user){
         MeetingPin meetingPin1 = MeetingPin.builder()
-                .createUser(user1)
+                .createUser(user)
                 .title("Kfc에서 보실분")
                 .content("kfc에서 만납시다.")
                 .minAge(25)
@@ -60,7 +81,7 @@ class HomeServiceImplTest {
                 .build();
 
         MeetingPin meetingPin2 = MeetingPin.builder()
-                .createUser(user1)
+                .createUser(user)
                 .title("아주대 정문에서 보실분")
                 .content("정문에서 만납시다.")
                 .minAge(20)
@@ -74,7 +95,7 @@ class HomeServiceImplTest {
 
 
         MeetingPin meetingPin3 = MeetingPin.builder()
-                .createUser(user1)
+                .createUser(user)
                 .title("아주대 후문에서 보실분")
                 .content("후문에서 만납시다.")
                 .minAge(20)
@@ -87,13 +108,14 @@ class HomeServiceImplTest {
                 .build();
 
         meetingPinRepository.saveAll(Lists.newArrayList(meetingPin1,meetingPin2,meetingPin3));
+    }
 
-
+    private void insertCommunityPin(User user){
         CommunityPin communityPin1 = CommunityPin.builder()
-                .superUser(user1)
+                .superUser(user)
                 .title("아주대학교 ** 소학회 모임")
                 .content("** 소학회 모임입니다.")
-                .category("카테고리")
+                .category("대학/상담")
                 .setGender(Gender.Both)
                 .minAge(20)
                 .maxAge(40)
@@ -103,24 +125,40 @@ class HomeServiceImplTest {
                 .build();
 
         CommunityPin communityPin2 = CommunityPin.builder()
-                .superUser(user1)
+                .superUser(user)
                 .title("아주대학교 ## 소학회 모임")
                 .content("## 소학회 모임입니다.")
-                .category("카테고리")
+                .category("문화생활")
                 .setGender(Gender.Female)
                 .minAge(20)
                 .maxAge(40)
                 .setLimit(10)
-                .latitude(37.287281)
-                .longitude(127.046374)
+                .latitude(37.287287)
+                .longitude(127.046378)
                 .build();
 
         communityPinRepository.saveAll(Lists.newArrayList(communityPin1,communityPin2));
     }
 
-    @Test
-    void Test1(){
-        homeService.loadPin("010-7760-6393",37.282083,127.043850);
-    }
+    private void insertStoryPin(User user){
 
+        StoryPin storyPin1 = StoryPin.builder()
+                .createUser(user)
+                .title("에어팟 잃어버리신분")
+                .content("삼거리 횡단보도에서 파란색 에어팟을 찾았아요")
+                .category("분실/실종")
+                .latitude(37.280019)
+                .longitude(127.043544)
+                .build();
+        StoryPin storyPin2 = StoryPin.builder()
+                .createUser(user)
+                .title("사거리 교통사고")
+                .content("사거리 교통사고 보신분")
+                .category("사건/사고")
+                .latitude(37.278130)
+                .longitude(127.043497)
+                .build();
+
+        storyPinRepository.saveAll(Lists.newArrayList(storyPin1,storyPin2));
+    }
 }
