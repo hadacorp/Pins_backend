@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -114,6 +115,8 @@ public class HomeServiceImpl implements HomeService{
         ));
 
 //        homePinResponses.forEach(System.out::println);
+
+        Collections.sort(homePinResponses);
 
         return ResponseEntity.status(HttpStatus.OK).body(homePinResponses);
     }

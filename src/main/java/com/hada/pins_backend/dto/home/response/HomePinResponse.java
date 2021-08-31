@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-public class HomePinResponse {
+public class HomePinResponse implements Comparable<HomePinResponse>{
     private double distance;
     private String pinType;
     private String category;
@@ -28,5 +28,10 @@ public class HomePinResponse {
         this.latitude = latitude;
         this.longitude = longitude;
         this.category = category;
+    }
+
+    @Override
+    public int compareTo(HomePinResponse o) {
+        return Double.compare(this.distance, o.distance);
     }
 }
