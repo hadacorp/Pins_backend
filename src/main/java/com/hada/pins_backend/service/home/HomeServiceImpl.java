@@ -5,6 +5,8 @@ import com.hada.pins_backend.domain.communityPin.CommunityPin;
 import com.hada.pins_backend.domain.communityPin.CommunityPinRepository;
 import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
+import com.hada.pins_backend.domain.storyPin.StoryPin;
+import com.hada.pins_backend.domain.storyPin.StoryPinRepository;
 import com.hada.pins_backend.domain.user.UserRepository;
 import com.hada.pins_backend.dto.home.response.HomePinResponse;
 import lombok.Getter;
@@ -26,6 +28,7 @@ import java.util.List;
 public class HomeServiceImpl implements HomeService{
     private final MeetingPinRepository meetingPinRepository;
     private final CommunityPinRepository communityPinRepository;
+    private final StoryPinRepository storyPinRepository;
     private final UserRepository userRepository;
 
     @Override
@@ -49,7 +52,8 @@ public class HomeServiceImpl implements HomeService{
                 maxLongitude,
                 minLongitude,
                 age,
-                age);
+                age
+        );
 
         //커뮤니티핀 가져오기
         List<CommunityPin> communityPins =communityPinRepository.findByLatitudeLessThanEqualAndLatitudeGreaterThanEqualAndLongitudeLessThanEqualAndLongitudeGreaterThanEqualAndMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(
@@ -58,8 +62,17 @@ public class HomeServiceImpl implements HomeService{
                 maxLongitude,
                 minLongitude,
                 age,
-                age);
+                age
+        );
         List<HomePinResponse> homePinResponses = new ArrayList<>();
+
+        //이야기핀 가져오기
+        List<StoryPin> storyPins = storyPinRepository.findByLatitudeLessThanEqualAndLatitudeGreaterThanEqualAndLongitudeLessThanEqualAndLongitudeGreaterThanEqual(
+                maxLatitude,
+                minLatitude,
+                maxLongitude,
+                minLongitude
+        );
 
         System.out.println("<-------------->");
 
@@ -91,6 +104,17 @@ public class HomeServiceImpl implements HomeService{
         }
         });
 
+        //이야기 핀에서 homePinResponses에 거리를 계산하여 넣어준다.
+        storyPins.forEach((pin)-> homePinResponses.add(HomePinResponse.builder()
+                .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
+                .pinType("storyPins")
+                .latitude(pin.getLatitude())
+                .longitude(pin.getLongitude())
+                .pinDBId(pin.getId())
+                .category(pin.getCategory())
+                .build()
+        ));
+
         homePinResponses.forEach(System.out::println);
 
         return null;
@@ -105,7 +129,7 @@ public class HomeServiceImpl implements HomeService{
      * @param lat2 지점 2 위도
      * @param lon2 지점 2 경도
      * @param unit 거리 표출단위
-     * @return
+     * @return double 거리
      */
     private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
 
