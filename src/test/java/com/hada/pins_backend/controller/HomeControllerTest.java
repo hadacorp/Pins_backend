@@ -1,6 +1,6 @@
-package com.hada.pins_backend.service.home;
+package com.hada.pins_backend.controller;
 
-import antlr.collections.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hada.pins_backend.domain.Gender;
 import com.hada.pins_backend.domain.communityPin.CommunityPin;
 import com.hada.pins_backend.domain.communityPin.CommunityPinRepository;
@@ -10,24 +10,37 @@ import com.hada.pins_backend.domain.storyPin.StoryPin;
 import com.hada.pins_backend.domain.storyPin.StoryPinRepository;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
+import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
-import com.hada.pins_backend.service.user.UserServiceImpl;
+import com.hada.pins_backend.dto.user.response.LoginUserResponse;
+import com.hada.pins_backend.service.user.UserService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Date;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Created by bangjinhyuk on 2021/08/28.
+ * Created by bangjinhyuk on 2021/09/01.
  */
 @SpringBootTest
-class HomeServiceImplTest {
+@AutoConfigureMockMvc
+class HomeControllerTest {
+    @Autowired
+    MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
+    @Autowired
+    UserService userService;
     @Autowired
     private MeetingPinRepository meetingPinRepository;
     @Autowired
@@ -36,10 +49,6 @@ class HomeServiceImplTest {
     private StoryPinRepository storyPinRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private UserServiceImpl userService;
-    @Autowired
-    private HomeServiceImpl homeService;
     /**
      * 테스트 핀과 유저 넣기
      */
@@ -53,11 +62,17 @@ class HomeServiceImplTest {
     }
 
     @Test
-    @DisplayName("홈화면 핀 로딩 기능")
-    void Test1(){
-        homeService.loadPin("010-7760-6393",37.282083,127.043850);
+    @DisplayName("홈화면 핀 로딩 mvc 테스트 ")
+    void join() throws Exception{
+        LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
+        mockMvc.perform(MockMvcRequestBuilders.get("/home/pin")
+                        .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
+                        .param("latitude", "37.282083")
+                        .param("longitude", "127.043850")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
-
 
     private void insertUser(){
         JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
