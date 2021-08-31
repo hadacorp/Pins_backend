@@ -11,7 +11,7 @@
 
 # DB modeling
 ERD v2.0
-![v1.0-Erd](./DB_Modeling/Erd-image/Pins-v2.0.png)
+![v1.0-Erd](./DB_Modeling/Erd-image/Pins-mvp.png)
 
 &nbsp;
 &nbsp;
@@ -53,6 +53,7 @@ ERD v2.0
 &nbsp;
 
 # API Documentiaion
+[API 명세서 제작중 링크](https://documenter.getpostman.com/view/14767155/TzzHksGm)
 [.](https://github.com/wecode-bootcamp-korea/we-fish-backend/blob/master/README.md)
 
 &nbsp;
