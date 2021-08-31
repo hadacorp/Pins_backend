@@ -63,10 +63,24 @@ class HomeControllerTest {
 
     @Test
     @DisplayName("홈화면 핀 로딩 mvc 테스트 ")
-    void join() throws Exception{
+    void loadPin() throws Exception{
         LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
         mockMvc.perform(MockMvcRequestBuilders.get("/home/pin")
                         .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
+                        .param("latitude", "37.282083")
+                        .param("longitude", "127.043850")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("홈화면 키워드 핀 검색 mvc 테스트 ")
+    void searchPin() throws Exception{
+        LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
+        mockMvc.perform(MockMvcRequestBuilders.get("/home/search/pin")
+                        .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
+                        .param("keyword","아주대")
                         .param("latitude", "37.282083")
                         .param("longitude", "127.043850")
                         .accept(MediaType.APPLICATION_JSON))

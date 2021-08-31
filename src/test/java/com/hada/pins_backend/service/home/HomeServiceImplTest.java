@@ -55,9 +55,14 @@ class HomeServiceImplTest {
     @Test
     @DisplayName("홈화면 핀 로딩 기능")
     void Test1(){
-        homeService.loadPin("010-7760-6393",37.282083,127.043850);
+        System.out.println(homeService.loadPin("010-7760-6393",37.282083,127.043850));
     }
 
+    @Test
+    @DisplayName("홈화면 핀 키워드 검색 기능")
+    void Test2(){
+        System.out.println(homeService.searchPin("010-7760-6393","아주대",37.282083,127.043850));
+    }
 
     private void insertUser(){
         JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
@@ -87,7 +92,7 @@ class HomeServiceImplTest {
                 .title("아주대 정문에서 보실분")
                 .content("정문에서 만납시다.")
                 .minAge(20)
-                .maxAge(23)
+                .maxAge(25)
                 .setGender(Gender.Both)
                 .setLimit(2)
                 .category("산책/반려동물")
