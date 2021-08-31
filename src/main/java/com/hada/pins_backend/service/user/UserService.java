@@ -1,4 +1,4 @@
-package com.hada.pins_backend.service;
+package com.hada.pins_backend.service.user;
 
 import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;

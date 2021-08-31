@@ -1,4 +1,4 @@
-package com.hada.pins_backend.service;
+package com.hada.pins_backend.service.user;
 
 import com.hada.pins_backend.config.JwtTokenProvider;
 import com.hada.pins_backend.domain.Gender;
@@ -17,9 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.util.*;
 
 /**
@@ -68,7 +65,7 @@ public class UserServiceImpl implements UserService{
                     .age(age)
                     .gender(gender)
                     .image(joinUserRequest.getImage())
-                    .roles(Collections.singletonList("USER"))
+                    .roles(Collections.singletonList("ROLE_USER"))
                     .build();
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(JoinUserResponse.builder()

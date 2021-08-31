@@ -41,8 +41,11 @@ public class CommunityPin extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private Gender setGender;
 
-    @NotBlank
-    private String setAge;
+    @NotNull
+    private int minAge;
+
+    @NotNull
+    private int maxAge;
 
     @DecimalMin(value = "1")
     private int setLimit;
@@ -71,7 +74,8 @@ public class CommunityPin extends BaseTimeEntity {
                         String content,
                         String category,
                         Gender setGender,
-                        String setAge,
+                        int minAge,
+                        int maxAge,
                         int setLimit,
                         double longitude,
                         double latitude){
@@ -80,7 +84,8 @@ public class CommunityPin extends BaseTimeEntity {
         this.content = content;
         this.category = category;
         this.setGender = setGender;
-        this.setAge = setAge;
+        this.minAge = minAge;
+        this.maxAge = maxAge;
         this.setLimit = setLimit;
         this.longitude = longitude;
         this.latitude = latitude;
