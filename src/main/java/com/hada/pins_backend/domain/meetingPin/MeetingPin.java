@@ -42,10 +42,10 @@ public class MeetingPin extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private Gender setGender;
 
-    @NotBlank
+    @NotNull
     private int minAge;
 
-    @NotBlank
+    @NotNull
     private int maxAge;
 
     @DecimalMin(value = "1")
