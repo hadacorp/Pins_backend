@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface HomeService {
     ResponseEntity<List<HomePinResponse>>loadPin(String phoneNum,double latitude, double logitude);
+    ResponseEntity<List<HomePinResponse>> searchPin(String phoneNum, String keyword, double latitude, double longitude);
 }

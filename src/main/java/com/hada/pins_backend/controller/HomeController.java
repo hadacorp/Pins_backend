@@ -26,10 +26,22 @@ import java.util.List;
 public class HomeController {
     private final HomeService homeService;
 
+    /**
+     * 홈화면 핀 로딩
+     */
     @GetMapping("/pin")
-    public ResponseEntity<List<HomePinResponse>> pin(@RequestParam double latitude, @RequestParam double longitude){
+    public ResponseEntity<List<HomePinResponse>> loadPin(@RequestParam double latitude, @RequestParam double longitude){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         return homeService.loadPin(user.getPhoneNum(),latitude,longitude);
+    }
+    /**
+     * 키워드 핀 검색
+     */
+    @GetMapping("/search/pin")
+    public ResponseEntity<List<HomePinResponse>> searchPin(@RequestParam String keyword, double latitude, @RequestParam double longitude){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return homeService.searchPin(user.getPhoneNum(),keyword,latitude,longitude);
     }
 }

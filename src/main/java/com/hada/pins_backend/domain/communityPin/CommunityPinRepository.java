@@ -13,6 +13,9 @@ public interface CommunityPinRepository extends JpaRepository<CommunityPin,Long>
     List<CommunityPin> findByLatitudeLessThanEqualAndLatitudeGreaterThanEqualAndLongitudeLessThanEqualAndLongitudeGreaterThanEqualAndMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(double maxLatitude,
                                                                                                                                                                                 double minLatitude,
                                                                                                                                                                                 double maxLongitude,
-                                                                                                                                                                                double minLongitude, int userAge_1, int userAge_2);
+                                                                                                                                                                                double minLongitude,
+                                                                                                                                                                                int userAge_1,
+                                                                                                                                                                                int userAge_2);
+
 
 }
