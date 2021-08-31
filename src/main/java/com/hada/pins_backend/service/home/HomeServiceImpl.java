@@ -74,8 +74,6 @@ public class HomeServiceImpl implements HomeService{
                 minLongitude
         );
 
-        System.out.println("<-------------->");
-
         //만남핀에서 성별조건 확인후 homePinResponses에 거리를 계산하여 넣어준다.
         meetingPins.forEach((pin)->{if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
             homePinResponses.add(HomePinResponse.builder()
@@ -115,9 +113,9 @@ public class HomeServiceImpl implements HomeService{
                 .build()
         ));
 
-        homePinResponses.forEach(System.out::println);
+//        homePinResponses.forEach(System.out::println);
 
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(homePinResponses);
     }
 
 

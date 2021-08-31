@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService{
                     .age(age)
                     .gender(gender)
                     .image(joinUserRequest.getImage())
-                    .roles(Collections.singletonList("USER"))
+                    .roles(Collections.singletonList("ROLE_USER"))
                     .build();
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(JoinUserResponse.builder()
