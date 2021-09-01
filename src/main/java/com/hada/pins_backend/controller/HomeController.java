@@ -30,18 +30,35 @@ public class HomeController {
      * 홈화면 핀 로딩
      */
     @GetMapping("/pin")
-    public ResponseEntity<List<HomePinResponse>> loadPin(@RequestParam double latitude, @RequestParam double longitude){
+    public ResponseEntity<List<HomePinResponse>> loadPin(@RequestParam double latitude,
+                                                         @RequestParam double longitude,
+                                                         @RequestParam String meetingPinCategory,
+                                                         @RequestParam String meetDate,
+                                                         @RequestParam String meetTime,
+                                                         @RequestParam String meetGender,
+                                                         @RequestParam String meetAge,
+                                                         @RequestParam String communityPinCategory,
+                                                         @RequestParam String storyPinCategory){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        return homeService.loadPin(user.getPhoneNum(),latitude,longitude);
+        return homeService.loadPin(user.getPhoneNum(),latitude,longitude,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
     }
     /**
      * 키워드 핀 검색
      */
     @GetMapping("/search/pin")
-    public ResponseEntity<List<HomePinResponse>> searchPin(@RequestParam String keyword, double latitude, @RequestParam double longitude){
+    public ResponseEntity<List<HomePinResponse>> searchPin(@RequestParam String keyword,
+                                                           @RequestParam double latitude,
+                                                           @RequestParam double longitude,
+                                                           @RequestParam String meetingPinCategory,
+                                                           @RequestParam String meetDate,
+                                                           @RequestParam String meetTime,
+                                                           @RequestParam String meetGender,
+                                                           @RequestParam String meetAge,
+                                                           @RequestParam String communityPinCategory,
+                                                           @RequestParam String storyPinCategory){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        return homeService.searchPin(user.getPhoneNum(),keyword,latitude,longitude);
+        return homeService.searchPin(user.getPhoneNum(),keyword,latitude,longitude,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
     }
 }
