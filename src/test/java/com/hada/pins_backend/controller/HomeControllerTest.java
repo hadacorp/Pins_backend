@@ -16,6 +16,7 @@ import com.hada.pins_backend.dto.user.response.LoginUserResponse;
 import com.hada.pins_backend.service.user.UserService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -62,6 +65,7 @@ class HomeControllerTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("홈화면 핀 로딩 mvc 테스트 ")
     void loadPin() throws Exception{
         LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
@@ -75,6 +79,7 @@ class HomeControllerTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("홈화면 키워드 핀 검색 mvc 테스트 ")
     void searchPin() throws Exception{
         LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
@@ -87,6 +92,48 @@ class HomeControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+    @Test
+    @DisplayName("홈화면 핀 로딩 + 필터 mvc 테스트 ")
+    void loadPinFilter() throws Exception{
+        LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
+        mockMvc.perform(MockMvcRequestBuilders.get("/home/pin")
+                        .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
+                        .param("latitude", "37.282083")
+                        .param("longitude", "127.043850")
+                        .param("meetingPinCategory", "산책/반려동물")
+                        .param("meetDate", "0-1-2-3")
+                        .param("meetTime", "1-23")
+                        .param("meetGender", "Male")
+                        .param("meetAge", "20-30")
+                        .param("communityPinCategory", "all")
+                        .param("storyPinCategory", "#분실/실종")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("홈화면 키워드 핀 검색 + 필터 mvc 테스트 ")
+    void searchPinFilter() throws Exception{
+        LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
+        mockMvc.perform(MockMvcRequestBuilders.get("/home/search/pin")
+                        .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
+                        .param("keyword","아주대")
+                        .param("latitude", "37.282083")
+                        .param("longitude", "127.043850")
+                        .param("meetingPinCategory", "산책/반려동물")
+                        .param("meetDate", "0-1-2-3")
+                        .param("meetTime", "1-23")
+                        .param("meetGender", "Male")
+                        .param("meetAge", "20-30")
+                        .param("communityPinCategory", "all")
+                        .param("storyPinCategory", "#분실/실종")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+
 
     private void insertUser(){
         JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
@@ -109,6 +156,7 @@ class HomeControllerTest {
                 .category("맛집탐방")
                 .latitude(37.278132)
                 .longitude(127.043496)
+                .date(LocalDateTime.now().plusDays(2))
                 .build();
 
         MeetingPin meetingPin2 = MeetingPin.builder()
@@ -116,12 +164,13 @@ class HomeControllerTest {
                 .title("아주대 정문에서 보실분")
                 .content("정문에서 만납시다.")
                 .minAge(20)
-                .maxAge(23)
+                .maxAge(25)
                 .setGender(Gender.Both)
                 .setLimit(2)
                 .category("산책/반려동물")
                 .latitude(37.280019)
                 .longitude(127.043544)
+                .date(LocalDateTime.now().plusDays(3))
                 .build();
 
 
@@ -136,6 +185,7 @@ class HomeControllerTest {
                 .category("산책/반려동물")
                 .latitude(37.287281)
                 .longitude(127.046374)
+                .date(LocalDateTime.now().plusDays(4))
                 .build();
 
         meetingPinRepository.saveAll(Lists.newArrayList(meetingPin1,meetingPin2,meetingPin3));
@@ -146,7 +196,7 @@ class HomeControllerTest {
                 .superUser(user)
                 .title("아주대학교 ** 소학회 모임")
                 .content("** 소학회 모임입니다.")
-                .category("대학/상담")
+                .category("대화/친목")
                 .setGender(Gender.Both)
                 .minAge(20)
                 .maxAge(40)
@@ -159,7 +209,7 @@ class HomeControllerTest {
                 .superUser(user)
                 .title("아주대학교 ## 소학회 모임")
                 .content("## 소학회 모임입니다.")
-                .category("문화생활")
+                .category("스터디/독서")
                 .setGender(Gender.Female)
                 .minAge(20)
                 .maxAge(40)
@@ -177,7 +227,7 @@ class HomeControllerTest {
                 .createUser(user)
                 .title("에어팟 잃어버리신분")
                 .content("삼거리 횡단보도에서 파란색 에어팟을 찾았아요")
-                .category("분실/실종")
+                .category("#분실/실종")
                 .latitude(37.280019)
                 .longitude(127.043544)
                 .build();
@@ -185,7 +235,7 @@ class HomeControllerTest {
                 .createUser(user)
                 .title("사거리 교통사고")
                 .content("사거리 교통사고 보신분")
-                .category("사건/사고")
+                .category("#사건사고")
                 .latitude(37.278130)
                 .longitude(127.043497)
                 .build();
