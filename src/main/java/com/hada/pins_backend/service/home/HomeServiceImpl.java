@@ -405,7 +405,6 @@ public class HomeServiceImpl implements HomeService{
         return (dist);
     }
 
-
     // This function converts decimal degrees to radians
     private static double deg2rad(double deg) {
         return (deg * Math.PI / 180.0);

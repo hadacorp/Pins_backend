@@ -83,20 +83,20 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public Boolean checkOldUser(UserLoginForm userLoginForm) {
 
-        Optional<User> user = userRepository.findByPhoneNum(userLoginForm.getUserphonenum());
+        Optional<User> user = userRepository.findByPhoneNum(userLoginForm.getUserPhonenum());
         return user.isPresent();
     }
 
     @Override
-    public Boolean checkNickname(String nickname) {
+    public Boolean checkNickname(String nickName) {
         String pattern = "^[가-힣|0-9]+$";
-        Optional<User> user = userRepository.findByNickName(nickname);
+        Optional<User> user = userRepository.findByNickName(nickName);
         return user.isPresent();
     }
 
     @Override
     public LoginUserResponse login(UserLoginForm userLoginForm) {
-        User member = userRepository.findByPhoneNum(userLoginForm.getUserphonenum())
+        User member = userRepository.findByPhoneNum(userLoginForm.getUserPhonenum())
                 .orElseThrow(NotExistException::new);
         log.info("User Roles : {}", member.getRoles());
         String jwtToken = JwtTokenProvider.createToken(member, member.getRoles());

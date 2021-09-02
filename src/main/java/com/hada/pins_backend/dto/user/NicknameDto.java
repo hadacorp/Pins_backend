@@ -18,5 +18,5 @@ public class NicknameDto {
     @Size(min = 2,max = 8)
     @NotBlank
     @Pattern(regexp = "^[가-힣|0-9]+$")
-    private String nickname;
+    private String nickName;
 }

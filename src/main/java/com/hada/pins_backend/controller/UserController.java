@@ -43,8 +43,8 @@ public class UserController {
 
     //닉네임 중복 확인
     @PostMapping("/nickname")
-    public Boolean nickname(@RequestBody @Valid NicknameDto nickname){
-        return userService.checkNickname(nickname.getNickname());
+    public Boolean nickname(@RequestBody @Valid NicknameDto nickName){
+        return userService.checkNickname(nickName.getNickName());
     }
 
     // 로그인

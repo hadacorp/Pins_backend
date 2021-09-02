@@ -14,10 +14,10 @@ import javax.validation.constraints.Pattern;
 public class UserLoginForm {
     @NotBlank
     @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
-    private String userphonenum;
+    private String userPhonenum;
 
     @Builder
     public UserLoginForm(String userphonenum) {
-        this.userphonenum = userphonenum;
+        this.userPhonenum = userphonenum;
     }
 }
