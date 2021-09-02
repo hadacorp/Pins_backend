@@ -18,16 +18,22 @@ public class HomePinResponse implements Comparable<HomePinResponse>{
     private Long pinDBId;
     private double latitude;
     private double longitude;
+    private String date;
+    private String title;
+    private String image;
 
 
     @Builder
-    public HomePinResponse(String pinType, double distance, String category, Long pinDBId, double latitude, double longitude) {
-        this.pinType = pinType;
+    public HomePinResponse(double distance, String pinType, String category, Long pinDBId, double latitude, double longitude, String date, String title, String image) {
         this.distance = distance;
+        this.pinType = pinType;
+        this.category = category;
         this.pinDBId = pinDBId;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.category = category;
+        this.date = date;
+        this.title = title;
+        this.image = image;
     }
 
     @Override

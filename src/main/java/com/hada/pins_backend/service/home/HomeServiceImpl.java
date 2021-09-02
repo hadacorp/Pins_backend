@@ -15,8 +15,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.*;
 
 /**
@@ -146,6 +149,17 @@ public class HomeServiceImpl implements HomeService{
                         pin.getCreateUser().getAge() >=minAge && pin.getCreateUser().getAge() <= maxAge &&
                         pin.getDate().getHour()>=minTime && pin.getDate().getHour()<=maxTime &&
                         renameDate.contains(pin.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))){
+
+                    // 날짜 핀카드 형식대로 받아오기
+                    LocalDateTime getdate = pin.getDate();
+                    int renameHour = getdate.getHour();
+                    String amPm = "오전 ";
+                    if (getdate.getHour() > 12) {
+                        amPm = "오후 ";
+                        renameHour -= 12;
+                    }
+                    DayOfWeek dayOfWeek = getdate.getDayOfWeek();
+
                     homePinResponses.add(HomePinResponse.builder()
                             .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
                             .pinType("meetingPin")
@@ -153,6 +167,9 @@ public class HomeServiceImpl implements HomeService{
                             .longitude(pin.getLongitude())
                             .pinDBId(pin.getId())
                             .category(pin.getCategory())
+                            .title(pin.getTitle())
+                            .image(pin.getCreateUser().getImage())
+                            .date(getdate.format(DateTimeFormatter.ofPattern("M월 dd일 ("))+dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)+") "+ amPm + renameHour+"시")
                             .build()
                     );
                 }
@@ -170,6 +187,8 @@ public class HomeServiceImpl implements HomeService{
                             .longitude(pin.getLongitude())
                             .pinDBId(pin.getId())
                             .category(pin.getCategory())
+                            .title(pin.getTitle())
+                            .image(pin.getImage())
                             .build()
                     );
                 }
@@ -186,6 +205,7 @@ public class HomeServiceImpl implements HomeService{
                         .longitude(pin.getLongitude())
                         .pinDBId(pin.getId())
                         .category(pin.getCategory())
+                        .title(pin.getTitle())
                         .build()
                 );
             }
@@ -321,6 +341,17 @@ public class HomeServiceImpl implements HomeService{
                         pin.getCreateUser().getAge() >=minAge && pin.getCreateUser().getAge() <= maxAge &&
                         pin.getDate().getHour()>=minTime && pin.getDate().getHour()<=maxTime &&
                         renameDate.contains(pin.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))){
+
+                    // 날짜 핀카드 형식대로 받아오기
+                    LocalDateTime getdate = pin.getDate();
+                    int renameHour = getdate.getHour();
+                    String amPm = "오전 ";
+                    if (getdate.getHour() > 12) {
+                        amPm = "오후 ";
+                        renameHour -= 12;
+                    }
+                    DayOfWeek dayOfWeek = getdate.getDayOfWeek();
+
                     homePinResponses.add(HomePinResponse.builder()
                             .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
                             .pinType("meetingPin")
@@ -328,6 +359,9 @@ public class HomeServiceImpl implements HomeService{
                             .longitude(pin.getLongitude())
                             .pinDBId(pin.getId())
                             .category(pin.getCategory())
+                            .title(pin.getTitle())
+                            .image(pin.getCreateUser().getImage())
+                            .date(getdate.format(DateTimeFormatter.ofPattern("MM월 dd일 ("))+dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)+") "+ amPm + renameHour+"시")
                             .build()
                     );
                 }
@@ -346,6 +380,8 @@ public class HomeServiceImpl implements HomeService{
                             .longitude(pin.getLongitude())
                             .pinDBId(pin.getId())
                             .category(pin.getCategory())
+                            .title(pin.getTitle())
+                            .image(pin.getImage())
                             .build()
                     );
                 }
@@ -364,6 +400,7 @@ public class HomeServiceImpl implements HomeService{
                             .longitude(pin.getLongitude())
                             .pinDBId(pin.getId())
                             .category(pin.getCategory())
+                            .title(pin.getTitle())
                             .build()
                     );
                 }
