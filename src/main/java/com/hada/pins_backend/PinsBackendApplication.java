@@ -8,13 +8,17 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 public class PinsBackendApplication {
 
-    public static final String APPLICATION_LOCATIONS = "spring.config.location="
-            + "classpath:application.yml,"
-            + "classpath:aws.yml";
-
+    // 2개 yml 파일을 같이 사용할때
+//    public static final String APPLICATION_LOCATIONS = "spring.config.location="
+//            + "classpath:application.yml,"
+//            + "classpath:aws.yml";
+//
+//    public static void main(String[] args) {
+//        new SpringApplicationBuilder(PinsBackendApplication.class)
+//                .properties(APPLICATION_LOCATIONS)
+//                .run(args);
+//    }
     public static void main(String[] args) {
-        new SpringApplicationBuilder(PinsBackendApplication.class)
-                .properties(APPLICATION_LOCATIONS)
-                .run(args);
+        SpringApplication.run(PinsBackendApplication.class, args);
     }
 }

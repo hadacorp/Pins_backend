@@ -2,8 +2,10 @@ package com.hada.pins_backend.dto.user.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -26,7 +28,7 @@ public class JoinUserRequest {
     @NotBlank
     @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
     private String phoneNum;
-    @NotBlank
-    private String image;
+    @NotNull
+    private MultipartFile image;
 
 }

@@ -31,7 +31,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/join")
-    public ResponseEntity<JoinUserResponse> join(@RequestBody @Valid JoinUserRequest userDto) {
+    public ResponseEntity<JoinUserResponse> join( @Valid JoinUserRequest userDto) {
         return userService.insertUser(userDto);
     }
 
