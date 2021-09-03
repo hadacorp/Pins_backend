@@ -56,6 +56,8 @@ public class CommunityPin extends BaseTimeEntity {
     @NotNull
     private double latitude;
 
+    private String image;
+
     @OneToMany(mappedBy = "communityPin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<MembersAndCommunityPin> membersAndCommunityPins;
@@ -78,7 +80,8 @@ public class CommunityPin extends BaseTimeEntity {
                         int maxAge,
                         int setLimit,
                         double longitude,
-                        double latitude){
+                        double latitude,
+                        String image){
         this.superUser = superUser;
         this.title = title;
         this.content = content;
@@ -89,6 +92,7 @@ public class CommunityPin extends BaseTimeEntity {
         this.setLimit = setLimit;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.image = image;
     }
 
 }
