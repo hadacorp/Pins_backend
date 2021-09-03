@@ -18,7 +18,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDateTime;
 
 /**
@@ -42,7 +46,7 @@ class HomeServiceImplTest {
      * 테스트 핀과 유저 넣기
      */
     @BeforeEach
-    public void insertPin(){
+    public void insertPin() throws IOException {
         insertUser();
         User user1 = userRepository.findAll().get(0);
         insertMeetingPin(user1);
@@ -76,12 +80,14 @@ class HomeServiceImplTest {
         System.out.println(homeService.searchPin("010-7760-6393","아주대",37.282083,127.043850,"산책/반려동물", "0-1-2-3", "1-23", "Male", "20-30", "all", "#분실/실종"));
     }
 
-    private void insertUser(){
+    private void insertUser() throws IOException {
+        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
+
         JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
                 "뱅뱅뱅",
                 "980103-1",
                 "010-7760-6393",
-                "image1");
+                file);
         userService.insertUser(joinUserRequest);
     }
 
