@@ -6,14 +6,18 @@ import com.hada.pins_backend.domain.user.UserRepository;
 import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.dto.user.response.JoinUserResponse;
-import com.hada.pins_backend.service.user.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by bangjinhyuk on 2021/08/27.
@@ -26,23 +30,29 @@ class UserServiceImplTest {
     private UserRepository userRepository;
 
     @BeforeEach
-    void insertOne(){
+    void insertOne() throws IOException {
+
+        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
+
         JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
                 "뱅뱅뱅",
                 "980103-1",
                 "010-7760-6393",
-                "image1");
+                file);
         userService.insertUser(joinUserRequest);
     }
 
     @Test
     @DisplayName("회원가입 테스트")
-    void Test1(){
+    void Test1() throws IOException {
+
+        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
+
         JoinUserRequest joinUserRequest = new JoinUserRequest("아무개",
                 "아아무무개개",
                 "001212-2",
                 "010-1234-5678",
-                "image2");
+                file );
 
         ResponseEntity<JoinUserResponse> responseEntity = userService.insertUser(joinUserRequest);
         System.out.println(responseEntity);

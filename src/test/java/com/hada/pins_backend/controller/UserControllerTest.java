@@ -12,8 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -36,12 +41,14 @@ class UserControllerTest {
     UserService userService;
 
     @BeforeEach
-    void insertOne(){
+    void insertOne() throws IOException {
+        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
+
         JoinUserRequest joinUserRequest = new JoinUserRequest("아무개",
                 "아아무무개",
                 "011212-2",
                 "010-1234-5678",
-                "image2");
+                file);
         userService.insertUser(joinUserRequest);
     }
 
@@ -52,7 +59,7 @@ class UserControllerTest {
                 "뱅뱅뱅",
                 "980103-1",
                 "010-7760-6393",
-                "image1");
+                null);
         mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
                         .content(objectMapper.writeValueAsString(joinUserRequest))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -68,7 +75,7 @@ class UserControllerTest {
                 "뱅",
                 "9801031",
                 "010-7760-6393",
-                "image1");
+                null);
         mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
                         .content(objectMapper.writeValueAsString(joinUserRequest))
                         .contentType(MediaType.APPLICATION_JSON)

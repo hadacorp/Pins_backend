@@ -9,6 +9,7 @@ import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.dto.user.response.JoinUserResponse;
 import com.hada.pins_backend.dto.user.response.LoginUserResponse;
 import com.hada.pins_backend.exception.user.NotExistException;
+import com.hada.pins_backend.service.aws.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -28,6 +30,7 @@ import java.util.*;
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final S3Uploader s3Uploader;
 
     @Override
     @Transactional
@@ -51,6 +54,15 @@ public class UserServiceImpl implements UserService{
         }
         else gender = Gender.Female;
 
+        //이미지 넣어주는 부분 test:: null일때 허용해둠
+        String uploadImageURL;
+
+        try {
+            if (joinUserRequest.getImage()==null) uploadImageURL= "없음";
+            else uploadImageURL = s3Uploader.upload(joinUserRequest.getImage(), "images");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
+        }
 
         log.info("insertUser age ={}, gender = {}",age,gender);
 
@@ -64,7 +76,7 @@ public class UserServiceImpl implements UserService{
                     .phoneNum(joinUserRequest.getPhoneNum())
                     .age(age)
                     .gender(gender)
-                    .image(joinUserRequest.getImage())
+                    .image(uploadImageURL)
                     .roles(Collections.singletonList("ROLE_USER"))
                     .build();
             userRepository.save(user);

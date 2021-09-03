@@ -140,7 +140,7 @@ class HomeControllerTest {
                 "뱅뱅뱅",
                 "980103-1",
                 "010-7760-6393",
-                "image1");
+                null);
         userService.insertUser(joinUserRequest);
     }
 
