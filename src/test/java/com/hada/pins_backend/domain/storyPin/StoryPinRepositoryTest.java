@@ -2,14 +2,20 @@ package com.hada.pins_backend.domain.storyPin;
 
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
+import com.hada.pins_backend.dto.user.request.JoinUserRequest;
+import com.hada.pins_backend.service.user.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.RequestAttribute;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+
+import java.io.IOException;
+import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,6 +38,14 @@ class StoryPinRepositoryTest {
 
     @Autowired
     private EntityManager entityManager;
+
+    @Autowired
+    private UserServiceImpl userService;
+
+    @BeforeEach
+    public void insertPin() throws IOException {
+        insertUser();
+    }
 
     @Test
     @Transactional
@@ -85,6 +99,31 @@ class StoryPinRepositoryTest {
 
 
 
+    }
+
+    private void insertUser() throws IOException {
+        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
+
+        JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
+                "뱅뱅뱅",
+                "980103-1",
+                "010-7760-6393",
+                file);
+        userService.insertUser(joinUserRequest);
+
+        JoinUserRequest joinUserRequest2 = new JoinUserRequest("강선호",
+                "강강강",
+                "981214-1",
+                "010-9176-0466",
+                file);
+        userService.insertUser(joinUserRequest2);
+
+        JoinUserRequest joinUserRequest3 = new JoinUserRequest("주동석",
+                "주주주",
+                "980101-1",
+                "010-8541-3962",
+                file);
+        userService.insertUser(joinUserRequest3);
     }
 
 }

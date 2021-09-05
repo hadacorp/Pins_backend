@@ -25,7 +25,7 @@ class UserRepositoryTest {
         User user = User.builder()
                 .name("bang")
                 .nickName("닉네임12")
-                .resRedNumber("980103-")
+                .resRedNumber("980103-1")
                 .phoneNum("010-7760-6393")
                 .age(21)
                 .gender(Gender.Male)
