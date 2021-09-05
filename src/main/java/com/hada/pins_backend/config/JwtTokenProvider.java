@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +44,7 @@ public class JwtTokenProvider {
     /**
      * JWT 토큰에서 인증 정보 조회
      */
-    public Authentication getAuthentication(String token) {
+    public Authentication getAuthentication(String token) throws UsernameNotFoundException {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
