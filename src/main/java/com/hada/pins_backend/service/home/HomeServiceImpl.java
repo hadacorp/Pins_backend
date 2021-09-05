@@ -235,32 +235,13 @@ public class HomeServiceImpl implements HomeService{
         Gender gender =  userRepository.findByPhoneNum(phoneNum).get().getGender();
 
         //만남핀 가져오기
-        List<MeetingPin> meetingPins =meetingPinRepository.findByLatitudeLessThanEqualAndLatitudeGreaterThanEqualAndLongitudeLessThanEqualAndLongitudeGreaterThanEqualAndMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(
-                maxLatitude,
-                minLatitude,
-                maxLongitude,
-                minLongitude,
-                age,
-                age
-        );
+        List<MeetingPin> meetingPins =meetingPinRepository.findByMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(age,age);
 
         //커뮤니티핀 가져오기
-        List<CommunityPin> communityPins =communityPinRepository.findByLatitudeLessThanEqualAndLatitudeGreaterThanEqualAndLongitudeLessThanEqualAndLongitudeGreaterThanEqualAndMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(
-                maxLatitude,
-                minLatitude,
-                maxLongitude,
-                minLongitude,
-                age,
-                age
-        );
+        List<CommunityPin> communityPins =communityPinRepository.findAll();
 
         //이야기핀 가져오기
-        List<StoryPin> storyPins = storyPinRepository.findByLatitudeLessThanEqualAndLatitudeGreaterThanEqualAndLongitudeLessThanEqualAndLongitudeGreaterThanEqual(
-                maxLatitude,
-                minLatitude,
-                maxLongitude,
-                minLongitude
-        );
+        List<StoryPin> storyPins = storyPinRepository.findAll();
 
         // 필터 정보를 구별하기 쉽게 변수 선언
         String renameGender, renameDate  ,renameMeetingCategory, renameCommunityCategory, renameStoryCategory;
@@ -409,8 +390,11 @@ public class HomeServiceImpl implements HomeService{
         });
 
         Collections.sort(homePinResponses);
-
-        return ResponseEntity.status(HttpStatus.OK).body(homePinResponses);
+        List<HomePinResponse> subHomePinResponses;
+        if(homePinResponses.size()>100) {
+            subHomePinResponses = homePinResponses.subList(0, 100);
+            return ResponseEntity.status(HttpStatus.OK).body(subHomePinResponses);
+        }else return ResponseEntity.status(HttpStatus.OK).body(homePinResponses);
     }
 
 
