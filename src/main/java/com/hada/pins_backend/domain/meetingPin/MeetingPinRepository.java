@@ -13,5 +13,10 @@ public interface MeetingPinRepository extends JpaRepository<MeetingPin,Long> {
                                                                                                                                  double minLatitude,
                                                                                                                                  double maxLongitude,
                                                                                                                                  double minLongitude, int userAge_1, int userAge_2);
+    /**
+     * 키워드용 핀 가져오기 + 나이 고려
+     */
+    List<MeetingPin> findByMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(int userAge_1, int userAge_2);
+
 
 }

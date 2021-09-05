@@ -77,7 +77,13 @@ class HomeServiceImplTest {
     @Test
     @DisplayName("홈화면 핀 키워드 검색 기능 + 필터")
     void Test4(){
-        System.out.println(homeService.searchPin("010-7760-6393","아주대",37.282083,127.043850,"산책/반려동물", "0-1-2-3", "1-23", "Male", "20-30", "all", "#분실/실종"));
+        System.out.println(homeService.searchPin("010-7760-6393","아주대",37.282083,127.043850,"산책/반려동물", "all", "1-23", "Male", "20-30", "all", "#분실/실종"));
+    }
+
+    @Test
+    @DisplayName("홈화면 장소 키워드 검색 기능 + 필터")
+    void Test5(){
+        System.out.println(homeService.searchLocation("피자헛"));
     }
 
     private void insertUser() throws IOException {
@@ -101,7 +107,7 @@ class HomeServiceImplTest {
                 .setLimit(2)
                 .setGender(Gender.Both)
                 .category("맛집탐방")
-                .latitude(37.278132)
+                .latitude(37.278131)
                 .longitude(127.043496)
                 .date(LocalDateTime.now().plusDays(2))
                 .build();
@@ -115,7 +121,7 @@ class HomeServiceImplTest {
                 .setGender(Gender.Both)
                 .setLimit(2)
                 .category("산책/반려동물")
-                .latitude(37.280019)
+                .latitude(37.280020)
                 .longitude(127.043544)
                 .date(LocalDateTime.now().plusDays(3))
                 .build();
@@ -148,8 +154,8 @@ class HomeServiceImplTest {
                 .minAge(20)
                 .maxAge(40)
                 .setLimit(10)
-                .latitude(37.287281)
-                .longitude(127.046374)
+                .latitude(37.287280)
+                .longitude(127.046373)
                 .build();
 
         CommunityPin communityPin2 = CommunityPin.builder()

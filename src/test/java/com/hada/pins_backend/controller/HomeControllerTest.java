@@ -133,6 +133,18 @@ class HomeControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    @DisplayName("홈화면 키워드 장소 검색 mvc 테스트 ")
+    void searchLocation() throws Exception{
+        LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
+        mockMvc.perform(MockMvcRequestBuilders.get("/home/search/location")
+                        .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
+                        .param("keyword","아주대")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
 
 
     private void insertUser(){
