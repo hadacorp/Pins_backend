@@ -15,13 +15,13 @@ public class JoinUserResponse {
     private String phoneNum;
     private String nickName;
     private String data;
-    private String image;
+    private String profileImage;
 
     @Builder
-    public JoinUserResponse(String phoneNum, String nickName, String data, String image) {
+    public JoinUserResponse(String phoneNum, String nickName, String data, String profileImage) {
         this.phoneNum = phoneNum;
         this.nickName = nickName;
         this.data = data;
-        this.image = image;
+        this.profileImage = profileImage;
     }
 }

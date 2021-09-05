@@ -37,22 +37,25 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         log.info("Auth Filter: token {}",token);
         log.info("Auth Filter: vali {}",jwtTokenProvider.validateToken(token));
 
+        HttpServletRequest req =(HttpServletRequest) request;
         HttpServletResponse res =(HttpServletResponse) response;
+        log.info("HttpServletRequest:  {}", req.getRequestURL());
 
         // 유효한 토큰인지 확인합니다.
         if (token != null && jwtTokenProvider.validateToken(token)) {
 
-            try{// 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
-                log.info("Auth Filter: after {}",jwtTokenProvider.getAuthentication(token).toString());
+            try {// 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
+                log.info("Auth Filter: after {}", jwtTokenProvider.getAuthentication(token).toString());
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
                 // SecurityContext 에 Authentication 객체를 저장합니다.
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 chain.doFilter(request, response);
-            }catch (UsernameNotFoundException e){
+            } catch (UsernameNotFoundException e) {
                 res.setStatus(HttpServletResponse.SC_FORBIDDEN);
             }
 
-        }
+        }else if (req.getRequestURL().toString().contains("/users/")) chain.doFilter(request, response);
+        else res.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
     }
 }

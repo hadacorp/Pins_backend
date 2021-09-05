@@ -58,8 +58,8 @@ public class UserServiceImpl implements UserService{
         String uploadImageURL;
 
         try {
-            if (joinUserRequest.getImage()==null) uploadImageURL= "없음";
-            else uploadImageURL = s3Uploader.upload(joinUserRequest.getImage(), "images");
+            if (joinUserRequest.getProfileImage()==null) uploadImageURL= "없음";
+            else uploadImageURL = s3Uploader.upload(joinUserRequest.getProfileImage(), "images");
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
         }
@@ -76,14 +76,14 @@ public class UserServiceImpl implements UserService{
                     .phoneNum(joinUserRequest.getPhoneNum())
                     .age(age)
                     .gender(gender)
-                    .image(uploadImageURL)
+                    .profileImage(uploadImageURL)
                     .roles(Collections.singletonList("ROLE_USER"))
                     .build();
             userRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(JoinUserResponse.builder()
                     .phoneNum(user.getPhoneNum())
                     .nickName(user.getNickName())
-                    .image(user.getImage())
+                    .profileImage(user.getProfileImage())
                     .data(age+"세 "+genderKor)
                     .build());
         }else {
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService{
         return LoginUserResponse.builder()
                 .phoneNum(member.getPhoneNum())
                 .nickName(member.getNickName())
-                .image(member.getImage())
+                .image(member.getProfileImage())
                 .data(member.getAge()+"세 "+genderKor)
                 .jwtToken(jwtToken)
                 .build();

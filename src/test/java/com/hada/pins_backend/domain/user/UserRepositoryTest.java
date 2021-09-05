@@ -29,7 +29,7 @@ class UserRepositoryTest {
                 .phoneNum("010-7760-6393")
                 .age(21)
                 .gender(Gender.Male)
-                .image("http;//...")
+                .profileImage("http;//...")
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build();
         userRepository.save(user);

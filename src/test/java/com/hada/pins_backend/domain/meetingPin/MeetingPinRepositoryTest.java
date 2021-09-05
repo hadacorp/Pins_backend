@@ -40,7 +40,7 @@ class MeetingPinRepositoryTest {
                 .phoneNum("010-7760-6393")
                 .age(24)
                 .gender(Gender.Male)
-                .image("http;//...")
+                .profileImage("http;//...")
                 .build();
         userRepository.save(user);
 

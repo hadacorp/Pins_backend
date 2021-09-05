@@ -29,6 +29,6 @@ public class JoinUserRequest {
     @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
     private String phoneNum;
     @NotNull
-    private MultipartFile image;
+    private MultipartFile profileImage;
 
 }

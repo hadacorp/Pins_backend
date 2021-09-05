@@ -180,7 +180,7 @@ public class HomeServiceImpl implements HomeService{
                             .pinDBId(pin.getId())
                             .category(pin.getCategory())
                             .title(pin.getTitle())
-                            .image(pin.getCreateUser().getImage())
+                            .image(pin.getCreateUser().getProfileImage())
                             .date(getdate.format(DateTimeFormatter.ofPattern("M월 dd일 ("))+dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)+") "+ amPm + renameHour+"시")
                             .build()
                     );
@@ -353,7 +353,7 @@ public class HomeServiceImpl implements HomeService{
                             .pinDBId(pin.getId())
                             .category(pin.getCategory())
                             .title(pin.getTitle())
-                            .image(pin.getCreateUser().getImage())
+                            .image(pin.getCreateUser().getProfileImage())
                             .date(getdate.format(DateTimeFormatter.ofPattern("MM월 dd일 ("))+dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)+") "+ amPm + renameHour+"시")
                             .build()
                     );

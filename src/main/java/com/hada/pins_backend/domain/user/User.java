@@ -54,13 +54,21 @@ public class User extends BaseTimeEntity implements UserDetails {
     private String phoneNum;
 
     @DecimalMin(value="20")
-    @DecimalMax(value="50")
     private int age;
 
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
-    private String image;
+    @NotBlank
+    private String profileImage;
+
+    private String backgroundImage;
+    private String introduce;
+    private double score;
+    private String job;
+    private String hobby;
+    @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$")
+    private String email;
 
     @OneToMany(mappedBy = "createUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
@@ -139,7 +147,7 @@ public class User extends BaseTimeEntity implements UserDetails {
                 String phoneNum,
                 int age,
                 Gender gender,
-                String image,
+                String profileImage,
                 List<String> roles){
         this.name = name;
         this.nickName = nickName;
@@ -147,15 +155,31 @@ public class User extends BaseTimeEntity implements UserDetails {
         this.phoneNum = phoneNum;
         this.age = age;
         this.gender = gender;
-        this.image = image;
+        this.profileImage = profileImage;
         this.roles = roles;
     }
 
+    public void setBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
 
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
 
+    public void setScore(double score) {
+        this.score = score;
+    }
 
+    public void setJob(String job) {
+        this.job = job;
+    }
 
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
 
-
-
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
