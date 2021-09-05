@@ -80,6 +80,12 @@ class HomeServiceImplTest {
         System.out.println(homeService.searchPin("010-7760-6393","아주대",37.282083,127.043850,"산책/반려동물", "all", "1-23", "Male", "20-30", "all", "#분실/실종"));
     }
 
+    @Test
+    @DisplayName("홈화면 장소 키워드 검색 기능 + 필터")
+    void Test5(){
+        System.out.println(homeService.searchLocation("피자헛"));
+    }
+
     private void insertUser() throws IOException {
         MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
 
