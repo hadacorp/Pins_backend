@@ -1,6 +1,7 @@
 package com.hada.pins_backend.controller;
 
 import com.hada.pins_backend.domain.user.User;
+import com.hada.pins_backend.dto.home.response.HomeLocationResponse;
 import com.hada.pins_backend.dto.home.response.HomePinResponse;
 import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.service.home.HomeService;
@@ -60,5 +61,12 @@ public class HomeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         return homeService.searchPin(user.getPhoneNum(),keyword,latitude,longitude,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+    }
+    /**
+     * 키워드 장소 검색
+     */
+    @GetMapping("/search/location")
+    public ResponseEntity<List<HomeLocationResponse>> searchLocation(@RequestParam String keyword){
+        return homeService.searchLocation(keyword);
     }
 }

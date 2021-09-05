@@ -40,6 +40,9 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-security:2.5.4'
 
+    // https://mvnrepository.com/artifact/org.json/json
+    implementation group: 'org.json', name: 'json', version: '20210307'
+
 //    // https://mvnrepository.com/artifact/org.springframework/spring-mock
 //    testImplementation group: 'org.springframework', name: 'spring-mock', version: '2.0.8'
 

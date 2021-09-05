@@ -8,13 +8,24 @@ import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
 import com.hada.pins_backend.domain.storyPin.StoryPin;
 import com.hada.pins_backend.domain.storyPin.StoryPinRepository;
 import com.hada.pins_backend.domain.user.UserRepository;
+import com.hada.pins_backend.dto.home.response.HomeLocationResponse;
 import com.hada.pins_backend.dto.home.response.HomePinResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,7 +44,8 @@ public class HomeServiceImpl implements HomeService{
     private final CommunityPinRepository communityPinRepository;
     private final StoryPinRepository storyPinRepository;
     private final UserRepository userRepository;
-
+    @Value("${kakao.key}")
+    private String kakaoKey;
     /**
      * 홈화면 핀 로딩
      */
@@ -395,6 +407,48 @@ public class HomeServiceImpl implements HomeService{
             subHomePinResponses = homePinResponses.subList(0, 100);
             return ResponseEntity.status(HttpStatus.OK).body(subHomePinResponses);
         }else return ResponseEntity.status(HttpStatus.OK).body(homePinResponses);
+    }
+
+    /**
+     * 키워드 장소 검색
+     */
+    @Override
+    public ResponseEntity<List<HomeLocationResponse>> searchLocation(String keyword) {
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://dapi.kakao.com")
+                .path("/v2/local/search/keyword.json")
+                .queryParam("query", keyword)
+                .encode()
+                .build()
+                .toUri();
+        RestTemplate restTemplate = new RestTemplate();
+
+        RequestEntity<Void> req = RequestEntity
+                .get(uri)
+                .header("Authorization",kakaoKey)
+                .build();
+
+        ResponseEntity<String> result = restTemplate.exchange(req,String.class);
+        JSONObject responseJson = new JSONObject(result.getBody());
+        List<HomeLocationResponse> homeLocationResponses = new ArrayList<>();
+        try {
+            JSONArray locations = responseJson.getJSONArray("documents");
+            for (int i = 0; i < locations.length(); i++) {
+                JSONObject data = locations.getJSONObject(i);
+
+                HomeLocationResponse homeLocationResponse = HomeLocationResponse.builder()
+                        .placeName(data.getString("place_name"))
+                        .x(data.getDouble("x"))
+                        .y(data.getDouble("y"))
+                        .build();
+                homeLocationResponses.add(homeLocationResponse);
+            }
+        }catch (JSONException e){
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(homeLocationResponses);
+
     }
 
 
