@@ -50,11 +50,11 @@ public class HomeServiceImpl implements HomeService{
      * 홈화면 핀 로딩
      */
     @Override
-    public ResponseEntity<List<HomePinResponse>> loadPin(String phoneNum, double latitude, double longitude, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
+    public ResponseEntity<List<HomePinResponse>> loadPin(String phoneNum, double latitude, double longitude, double range, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
         //최대 최소 위도 경도 계산
-        double latitudeRange = 0.0075;
+        double latitudeRange = range + 0.003;
         double maxLatitude = latitude+ latitudeRange, minLatitude = latitude- latitudeRange;
-        double longitudeRange = 0.004;
+        double longitudeRange = range+ 0.003;
         double maxLongitude = longitude+ longitudeRange, minLongitude = longitude- longitudeRange;
 
         // 혹시 모르게 생길 토큰 오류 체크
