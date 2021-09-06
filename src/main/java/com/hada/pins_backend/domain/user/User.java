@@ -90,6 +90,10 @@ public class User extends BaseTimeEntity implements UserDetails {
     @ToString.Exclude
     private List<CommunityPin> communityPins;
 
+    @OneToMany(mappedBy = "createUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<CommunityPin> communityPinList;
+
     @OneToMany(mappedBy = "middleManager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<MiddleMgmtAndCommunityPin> middleMgmtAndCommunityPins;

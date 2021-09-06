@@ -26,6 +26,10 @@ public class CommunityPin extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "create_user_id")
+    private User createUser;
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User superUser;
 
@@ -71,7 +75,8 @@ public class CommunityPin extends BaseTimeEntity {
     private List<CommunityPost> communityPosts;
 
     @Builder
-    public CommunityPin(User superUser,
+    public CommunityPin(User createUser,
+                        User superUser,
                         String title,
                         String content,
                         String category,
@@ -82,6 +87,7 @@ public class CommunityPin extends BaseTimeEntity {
                         double longitude,
                         double latitude,
                         String image){
+        this.createUser = createUser;
         this.superUser = superUser;
         this.title = title;
         this.content = content;

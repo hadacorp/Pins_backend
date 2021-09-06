@@ -44,9 +44,11 @@ public class S3Uploader {
 
     // S3로 업로드
     private String putS3(File uploadFile, String fileName) {
-        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        log.info("File putS3 success");
-        return amazonS3Client.getUrl(bucket, fileName).toString();
+//        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+//        log.info("File putS3 success");
+//        return amazonS3Client.getUrl(bucket, fileName).toString();
+        //테스트 서버용
+        return "https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/328266fd-8f20-4db7-9501-ebfbff7fa76auserimage1.png";
     }
 
     // 로컬에 저장된 이미지 지우기

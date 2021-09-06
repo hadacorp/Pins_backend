@@ -13,13 +13,13 @@ import lombok.ToString;
 @NoArgsConstructor
 public class HomeLocationResponse {
     private String placeName;
-    private double x;
-    private double y;
+    private double latitude;
+    private double longitude;
 
     @Builder
-    public HomeLocationResponse(String placeName, double x, double y) {
+    public HomeLocationResponse(String placeName, double latitude, double longitude) {
         this.placeName = placeName;
-        this.x = x;
-        this.y = y;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }

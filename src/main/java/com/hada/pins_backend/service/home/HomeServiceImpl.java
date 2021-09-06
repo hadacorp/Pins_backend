@@ -439,8 +439,8 @@ public class HomeServiceImpl implements HomeService{
 
                 HomeLocationResponse homeLocationResponse = HomeLocationResponse.builder()
                         .placeName(data.getString("place_name"))
-                        .x(data.getDouble("x"))
-                        .y(data.getDouble("y"))
+                        .longitude(data.getDouble("x"))
+                        .latitude(data.getDouble("y"))
                         .build();
                 homeLocationResponses.add(homeLocationResponse);
             }

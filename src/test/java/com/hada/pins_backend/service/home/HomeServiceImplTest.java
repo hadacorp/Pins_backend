@@ -147,6 +147,7 @@ class HomeServiceImplTest {
     private void insertCommunityPin(User user){
         CommunityPin communityPin1 = CommunityPin.builder()
                 .superUser(user)
+                .createUser(user)
                 .title("아주대학교 ** 소학회 모임")
                 .content("** 소학회 모임입니다.")
                 .category("대화/친목")
@@ -160,6 +161,7 @@ class HomeServiceImplTest {
 
         CommunityPin communityPin2 = CommunityPin.builder()
                 .superUser(user)
+                .createUser(user)
                 .title("아주대학교 ## 소학회 모임")
                 .content("## 소학회 모임입니다.")
                 .category("스터디/독서")
