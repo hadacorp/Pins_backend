@@ -28,6 +28,7 @@ class CommunityPinRepositoryTest {
     void Test1(){
         CommunityPin communityPin = CommunityPin.builder()
                 .superUser(userRepository.findAll().get(0))
+                .createUser(userRepository.findAll().get(0))
                 .title("커뮤니티 핀 제목")
                 .content("content area")
                 .category("아파트")

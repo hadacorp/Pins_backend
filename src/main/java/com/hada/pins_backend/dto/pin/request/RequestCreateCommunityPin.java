@@ -3,14 +3,9 @@ package com.hada.pins_backend.dto.pin.request;
 import com.hada.pins_backend.domain.Gender;
 import com.hada.pins_backend.domain.communityPin.CommunityPin;
 import com.hada.pins_backend.domain.user.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,7 +15,8 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @ToString
-@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class RequestCreateCommunityPin {
     @NotBlank
     private String title;
@@ -51,31 +47,9 @@ public class RequestCreateCommunityPin {
 
     private MultipartFile image;
 
-    @Builder
-    public RequestCreateCommunityPin(String title,
-                                     String content,
-                                     String category,
-                                     String setGender,
-                                     int minAge,
-                                     int maxAge,
-                                     int setLimit,
-                                     double longitude,
-                                     double latitude,
-                                     MultipartFile image) {
-        this.title = title;
-        this.content = content;
-        this.category = category;
-        this.setGender = setGender;
-        this.minAge = minAge;
-        this.maxAge = maxAge;
-        this.setLimit = setLimit;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.image = image;
-    }
-
     public CommunityPin toCommunityPin(User createUser,String imageurl){
         Gender renamGender;
+        System.out.println("Gender =========> "+this.setGender);
         if (this.setGender.equals("Both")) renamGender = Gender.Both;
         else if (this.setGender.equals("Male")) renamGender = Gender.Male;
         else renamGender = Gender.Female;
