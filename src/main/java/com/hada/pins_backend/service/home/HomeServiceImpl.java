@@ -7,6 +7,7 @@ import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
 import com.hada.pins_backend.domain.storyPin.StoryPin;
 import com.hada.pins_backend.domain.storyPin.StoryPinRepository;
+import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
 import com.hada.pins_backend.dto.home.response.HomeLocationResponse;
 import com.hada.pins_backend.dto.home.response.HomePinResponse;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -50,7 +52,8 @@ public class HomeServiceImpl implements HomeService{
      * 홈화면 핀 로딩
      */
     @Override
-    public ResponseEntity<List<HomePinResponse>> loadPin(String phoneNum, double latitude, double longitude, double range, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
+    @Transactional
+    public ResponseEntity<List<HomePinResponse>> loadPin(User user, double latitude, double longitude, double range, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
         //최대 최소 위도 경도 계산
         double latitudeRange = range + 0.003;
         double maxLatitude = latitude+ latitudeRange, minLatitude = latitude- latitudeRange;
@@ -58,11 +61,11 @@ public class HomeServiceImpl implements HomeService{
         double maxLongitude = longitude+ longitudeRange, minLongitude = longitude- longitudeRange;
 
         // 혹시 모르게 생길 토큰 오류 체크
-        if(userRepository.findByPhoneNum(phoneNum).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        if(user.getPhoneNum()==null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 
         // 토큰에서 가져온 전화번호로 사용자 나이와 성별 가져오기
-        int age = userRepository.findByPhoneNum(phoneNum).get().getAge();
-        Gender gender =  userRepository.findByPhoneNum(phoneNum).get().getGender();
+        int age = user.getAge();
+        Gender gender =  user.getGender();
 
         //만남핀 가져오기
         List<MeetingPin> meetingPins =meetingPinRepository.findByLatitudeLessThanEqualAndLatitudeGreaterThanEqualAndLongitudeLessThanEqualAndLongitudeGreaterThanEqualAndMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(
@@ -233,18 +236,19 @@ public class HomeServiceImpl implements HomeService{
      * 키워드 핀 검색
      */
     @Override
-    public ResponseEntity<List<HomePinResponse>> searchPin(String phoneNum, String keyword, double latitude, double longitude, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
+    @Transactional
+    public ResponseEntity<List<HomePinResponse>> searchPin(User user, String keyword, double latitude, double longitude, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
         double latitudeRange = 0.0075;
         double maxLatitude = latitude+ latitudeRange, minLatitude = latitude- latitudeRange;
         double longitudeRange = 0.004;
         double maxLongitude = longitude+ longitudeRange, minLongitude = longitude- longitudeRange;
 
         // 혹시 모르게 생길 토큰 오류 체크
-        if(userRepository.findByPhoneNum(phoneNum).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        if(user.getPhoneNum()==null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 
         // 토큰에서 가져온 전화번호로 사용자 나이와 성별 가져오기
-        int age = userRepository.findByPhoneNum(phoneNum).get().getAge();
-        Gender gender =  userRepository.findByPhoneNum(phoneNum).get().getGender();
+        int age = user.getAge();
+        Gender gender =  user.getGender();
 
         //만남핀 가져오기
         List<MeetingPin> meetingPins =meetingPinRepository.findByMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(age,age);

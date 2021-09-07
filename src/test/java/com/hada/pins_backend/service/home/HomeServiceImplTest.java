@@ -58,26 +58,26 @@ class HomeServiceImplTest {
     @Disabled
     @DisplayName("홈화면 핀 로딩 기능")
     void Test1(){
-        System.out.println(homeService.loadPin("010-7760-6393",37.282083,127.043850, 0.0075, "all", "all", "all", "all", "all", "all", "all"));
+        System.out.println(homeService.loadPin(userRepository.findAll().get(0),37.282083,127.043850, 0.0075, "all", "all", "all", "all", "all", "all", "all"));
     }
 
     @Test
     @Disabled
     @DisplayName("홈화면 핀 키워드 검색 기능")
     void Test2(){
-        System.out.println(homeService.searchPin("010-7760-6393","아주대",37.282083,127.043850,"all", "all", "all", "all", "all", "all", "all"));
+        System.out.println(homeService.searchPin(userRepository.findAll().get(0),"아주대",37.282083,127.043850,"all", "all", "all", "all", "all", "all", "all"));
     }
 
     @Test
     @DisplayName("홈화면 핀 로딩 기능 + 필터")
     void Test3(){
-        System.out.println(homeService.loadPin("010-7760-6393",37.282083,127.043850,0.0075,"산책/반려동물", "0-1-2-3", "1-23", "Male", "20-30", "all", "#분실/실종"));
+        System.out.println(homeService.loadPin(userRepository.findAll().get(0),37.282083,127.043850,0.0075,"산책/반려동물", "0-1-2-3", "1-23", "Male", "20-30", "all", "#분실/실종"));
     }
 
     @Test
     @DisplayName("홈화면 핀 키워드 검색 기능 + 필터")
     void Test4(){
-        System.out.println(homeService.searchPin("010-7760-6393","아주대",37.282083,127.043850,"산책/반려동물", "all", "1-23", "Male", "20-30", "all", "#분실/실종"));
+        System.out.println(homeService.searchPin(userRepository.findAll().get(0),"아주대",37.282083,127.043850,"산책/반려동물", "all", "1-23", "Male", "20-30", "all", "#분실/실종"));
     }
 
     @Test
