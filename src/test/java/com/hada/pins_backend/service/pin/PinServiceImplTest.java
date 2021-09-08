@@ -2,9 +2,11 @@ package com.hada.pins_backend.service.pin;
 
 import com.hada.pins_backend.domain.Gender;
 import com.hada.pins_backend.domain.communityPin.CommunityPinRepository;
+import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
 import com.hada.pins_backend.dto.pin.request.RequestCreateCommunityPin;
+import com.hada.pins_backend.dto.pin.request.RequestMeetingPin;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.service.home.HomeServiceImpl;
 import com.hada.pins_backend.service.user.UserServiceImpl;
@@ -34,6 +36,8 @@ class PinServiceImplTest {
     private UserRepository userRepository;
     @Autowired
     private CommunityPinRepository communityPinRepository;
+    @Autowired
+    private MeetingPinRepository meetingPinRepository;
     @BeforeEach
     public void insertPin() throws IOException {
         insertUser();
@@ -51,13 +55,35 @@ class PinServiceImplTest {
                 .minAge(20)
                 .maxAge(30)
                 .setLimit(10)
-                .longitude(37.2761066)
-                .latitude(127.0424131)
+                .latitude(37.2761066)
+                .longitude(127.0424131)
                 .image(file).build();
 
         pinService.createCommunityPin(userRepository.findAll().get(0),requestCreateCommunityPin);
         communityPinRepository.findAll().forEach(System.out::println);
 
+    }
+
+    @Test
+    @DisplayName("만남 핀 생성")
+    void Test2(){
+        RequestMeetingPin requestMeetingPin = RequestMeetingPin.builder()
+                .title("아주대 앞 카공")
+                .content("유메야에서 닥공")
+                .category("스터디/독서")
+                .setGender("Both")
+                .minAge(20)
+                .maxAge(24)
+                .setLimit(3)
+                .longitude(127.0446612)
+                .latitude(37.5519156)
+                .date(3L)
+                .hour(13)
+                .minute(30)
+                .build();
+
+        pinService.createMeetingPin(userRepository.findAll().get(0),requestMeetingPin);
+        meetingPinRepository.findAll().forEach(System.out::println);
     }
 
     private void insertUser() throws IOException {
