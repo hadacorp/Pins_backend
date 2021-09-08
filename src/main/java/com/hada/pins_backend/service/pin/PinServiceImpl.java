@@ -5,9 +5,12 @@ import com.hada.pins_backend.domain.communityPin.CommunityPin;
 import com.hada.pins_backend.domain.communityPin.CommunityPinRepository;
 import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
+import com.hada.pins_backend.domain.storyPin.StoryPin;
+import com.hada.pins_backend.domain.storyPin.StoryPinRepository;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.dto.pin.request.RequestCreateCommunityPin;
 import com.hada.pins_backend.dto.pin.request.RequestMeetingPin;
+import com.hada.pins_backend.dto.pin.request.RequestStoryPin;
 import com.hada.pins_backend.service.aws.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +31,7 @@ public class PinServiceImpl implements PinService{
     private final S3Uploader s3Uploader;
     private final CommunityPinRepository communityPinRepository;
     private final MeetingPinRepository meetingPinRepository;
+    private final StoryPinRepository storyPinRepository;
 
     /**
      * 커뮤니티핀 저장
@@ -67,5 +71,17 @@ public class PinServiceImpl implements PinService{
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("저장 실패");
         }
 
+    }
+
+    @Override
+    public ResponseEntity<String> createStoryPin(User user, RequestStoryPin requestStoryPin) {
+        try{
+            StoryPin storyPin = requestStoryPin.toStoryPin(user);
+            storyPinRepository.save(storyPin);
+            return ResponseEntity.status(HttpStatus.CREATED).body(storyPin.getId().toString());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("저장 실패");
+
+        }
     }
 }

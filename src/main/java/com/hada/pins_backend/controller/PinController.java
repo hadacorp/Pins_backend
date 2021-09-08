@@ -3,6 +3,7 @@ package com.hada.pins_backend.controller;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.dto.pin.request.RequestCreateCommunityPin;
 import com.hada.pins_backend.dto.pin.request.RequestMeetingPin;
+import com.hada.pins_backend.dto.pin.request.RequestStoryPin;
 import com.hada.pins_backend.service.pin.PinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,15 @@ public class PinController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         return pinService.createMeetingPin(user,requestMeetingPin);
+    }
+    /**
+     * 이야기핀 생
+     */
+    @PostMapping("/storypin")
+    public ResponseEntity<String> createStoryPin(@RequestBody @Valid RequestStoryPin requestStoryPin){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return pinService.createStoryPin(user,requestStoryPin);
     }
 
 
