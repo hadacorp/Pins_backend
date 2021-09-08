@@ -3,6 +3,7 @@ package com.hada.pins_backend.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hada.pins_backend.dto.pin.request.RequestCreateCommunityPin;
 import com.hada.pins_backend.dto.pin.request.RequestMeetingPin;
+import com.hada.pins_backend.dto.pin.request.RequestStoryPin;
 import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.dto.user.response.LoginUserResponse;
@@ -91,6 +92,27 @@ class PinControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/pin/meetingpin")
                         .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
                         .content(objectMapper.writeValueAsString(requestMeetingPin))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("이야기 핀 생성 컨트롤러 mvc 테스트")
+    void createStoryPin() throws Exception{
+        RequestStoryPin requestStoryPin = RequestStoryPin.builder()
+                .title("에어팟 케이스 분실")
+                .content("정문에서 에어팟 케이스 분실 했는데 보신분?")
+                .category("#분실/실종")
+                .longitude(127.0465105)
+                .latitude(37.2795816)
+                .build();
+
+        LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
+        mockMvc.perform(MockMvcRequestBuilders.post("/pin/storypin")
+                        .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
+                        .content(objectMapper.writeValueAsString(requestStoryPin))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())

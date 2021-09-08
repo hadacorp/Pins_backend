@@ -3,10 +3,13 @@ package com.hada.pins_backend.service.pin;
 import com.hada.pins_backend.domain.Gender;
 import com.hada.pins_backend.domain.communityPin.CommunityPinRepository;
 import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
+import com.hada.pins_backend.domain.storyPin.StoryPin;
+import com.hada.pins_backend.domain.storyPin.StoryPinRepository;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
 import com.hada.pins_backend.dto.pin.request.RequestCreateCommunityPin;
 import com.hada.pins_backend.dto.pin.request.RequestMeetingPin;
+import com.hada.pins_backend.dto.pin.request.RequestStoryPin;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.service.home.HomeServiceImpl;
 import com.hada.pins_backend.service.user.UserServiceImpl;
@@ -38,6 +41,8 @@ class PinServiceImplTest {
     private CommunityPinRepository communityPinRepository;
     @Autowired
     private MeetingPinRepository meetingPinRepository;
+    @Autowired
+    private StoryPinRepository storyPinRepository;
     @BeforeEach
     public void insertPin() throws IOException {
         insertUser();
@@ -85,6 +90,22 @@ class PinServiceImplTest {
         pinService.createMeetingPin(userRepository.findAll().get(0),requestMeetingPin);
         meetingPinRepository.findAll().forEach(System.out::println);
     }
+
+    @Test
+    @DisplayName("이야기 핀 생성")
+    void Test3(){
+        RequestStoryPin requestStoryPin = RequestStoryPin.builder()
+                .title("에어팟 케이스 분실")
+                .content("정문에서 에어팟 케이스 분실 했는데 보신분?")
+                .category("#분실/실종")
+                .longitude(127.0465105)
+                .latitude(37.2795816)
+                .build();
+
+        pinService.createStoryPin(userRepository.findAll().get(0),requestStoryPin);
+        storyPinRepository.findAll().forEach(System.out::println);
+    }
+
 
     private void insertUser() throws IOException {
         MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
