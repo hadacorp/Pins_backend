@@ -46,7 +46,7 @@ public class PinController {
      * 이야기핀 생
      */
     @PostMapping("/storypin")
-    public ResponseEntity<String> createStoryPin(@RequestBody @Valid RequestStoryPin requestStoryPin){
+    public ResponseEntity<String> createStoryPin(@Valid RequestStoryPin requestStoryPin){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         return pinService.createStoryPin(user,requestStoryPin);

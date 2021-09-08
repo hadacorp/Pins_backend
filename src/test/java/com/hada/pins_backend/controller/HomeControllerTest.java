@@ -245,6 +245,7 @@ class HomeControllerTest {
                 .category("#분실/실종")
                 .latitude(37.280019)
                 .longitude(127.043544)
+                .image("123")
                 .build();
         StoryPin storyPin2 = StoryPin.builder()
                 .createUser(user)
@@ -253,6 +254,7 @@ class HomeControllerTest {
                 .category("#사건사고")
                 .latitude(37.278130)
                 .longitude(127.043497)
+                .image("123")
                 .build();
 
         storyPinRepository.saveAll(Lists.newArrayList(storyPin1,storyPin2));

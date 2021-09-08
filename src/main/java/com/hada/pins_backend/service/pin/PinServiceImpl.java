@@ -39,9 +39,9 @@ public class PinServiceImpl implements PinService{
     @Override
     @Transactional
     public ResponseEntity<String> createCommunityPin(User user, RequestCreateCommunityPin requestCreateCommunityPin) {
-        //이미지 넣어주는 부분 test:: null일때 허용해둠
-        String uploadImageURL;
         try {
+            //이미지 넣어주는 부분 test:: null일때 허용해둠
+            String uploadImageURL;
             if (requestCreateCommunityPin.getImage()==null) uploadImageURL= "없음";
             else uploadImageURL = s3Uploader.upload(requestCreateCommunityPin.getImage(), "images");
             log.info("requestCreateCommunityPin = {}",requestCreateCommunityPin);
@@ -73,10 +73,17 @@ public class PinServiceImpl implements PinService{
 
     }
 
+    /**
+     * 이야기핀 저장
+     */
     @Override
     public ResponseEntity<String> createStoryPin(User user, RequestStoryPin requestStoryPin) {
         try{
-            StoryPin storyPin = requestStoryPin.toStoryPin(user);
+            //이미지 넣어주는 부분 test:: null일때 허용해둠
+            String uploadImageURL;
+            if (requestStoryPin.getImage()==null) uploadImageURL= "없음";
+            else uploadImageURL = s3Uploader.upload(requestStoryPin.getImage(), "images");
+            StoryPin storyPin = requestStoryPin.toStoryPin(user,uploadImageURL);
             storyPinRepository.save(storyPin);
             return ResponseEntity.status(HttpStatus.CREATED).body(storyPin.getId().toString());
         }catch (Exception e){

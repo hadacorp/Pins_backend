@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -33,7 +34,9 @@ public class RequestStoryPin {
     @NotNull
     private double latitude;
 
-    public StoryPin toStoryPin(User user){
+    private MultipartFile image;
+
+    public StoryPin toStoryPin(User user,String uploadImageURL){
         return StoryPin.builder()
                 .createUser(user)
                 .title(this.title)
@@ -41,6 +44,7 @@ public class RequestStoryPin {
                 .category(this.category)
                 .latitude(this.latitude)
                 .longitude(this.longitude)
+                .image(uploadImageURL)
                 .build();
     }
 }
