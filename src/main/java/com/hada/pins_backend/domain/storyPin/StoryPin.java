@@ -36,7 +36,6 @@ public class StoryPin extends BaseTimeEntity {
     @NotBlank
     private String category;
 
-    @NotBlank
     private String image;
 
     @NotNull

@@ -78,10 +78,11 @@ public class PinServiceImpl implements PinService{
      */
     @Override
     public ResponseEntity<String> createStoryPin(User user, RequestStoryPin requestStoryPin) {
+        log.info("{}",        requestStoryPin.toString());
         try{
-            //이미지 넣어주는 부분 test:: null일때 허용해둠
+            //이미지 넣어주는 부분
             String uploadImageURL;
-            if (requestStoryPin.getImage()==null) uploadImageURL= "없음";
+            if (requestStoryPin.getImage()==null) uploadImageURL= "none";
             else uploadImageURL = s3Uploader.upload(requestStoryPin.getImage(), "images");
             StoryPin storyPin = requestStoryPin.toStoryPin(user,uploadImageURL);
             storyPinRepository.save(storyPin);
