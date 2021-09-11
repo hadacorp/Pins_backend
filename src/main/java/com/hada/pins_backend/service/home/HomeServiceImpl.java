@@ -5,8 +5,7 @@ import com.hada.pins_backend.domain.communityPin.CommunityPin;
 import com.hada.pins_backend.domain.communityPin.CommunityPinRepository;
 import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
-import com.hada.pins_backend.domain.storyPin.StoryPin;
-import com.hada.pins_backend.domain.storyPin.StoryPinRepository;
+import com.hada.pins_backend.domain.storyPin.*;
 import com.hada.pins_backend.domain.user.UserRepository;
 import com.hada.pins_backend.dto.home.response.HomeLocationResponse;
 import com.hada.pins_backend.dto.home.response.HomePinResponse;
@@ -44,6 +43,8 @@ public class HomeServiceImpl implements HomeService{
     private final CommunityPinRepository communityPinRepository;
     private final StoryPinRepository storyPinRepository;
     private final UserRepository userRepository;
+    private final StoryPinLikeRepository storyPinLikeRepository;
+    private final StoryPinCommentRepository storyPinCommentRepository;
     @Value("${kakao.key}")
     private String kakaoKey;
     /**
@@ -56,6 +57,7 @@ public class HomeServiceImpl implements HomeService{
         double maxLatitude = latitude+ latitudeRange, minLatitude = latitude- latitudeRange;
         double longitudeRange =  0.025;
         double maxLongitude = longitude+ longitudeRange, minLongitude = longitude- longitudeRange;
+
 
         // 혹시 모르게 생길 토큰 오류 체크
         if(userRepository.findByPhoneNum(phoneNum).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -75,14 +77,14 @@ public class HomeServiceImpl implements HomeService{
         );
 
         //커뮤니티핀 가져오기
-        List<CommunityPin> communityPins =communityPinRepository.findByLatitudeLessThanEqualAndLatitudeGreaterThanEqualAndLongitudeLessThanEqualAndLongitudeGreaterThanEqualAndMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(
-                maxLatitude,
-                minLatitude,
-                maxLongitude,
-                minLongitude,
-                age,
-                age
-        );
+//        List<CommunityPin> communityPins =communityPinRepository.findByLatitudeLessThanEqualAndLatitudeGreaterThanEqualAndLongitudeLessThanEqualAndLongitudeGreaterThanEqualAndMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(
+//                maxLatitude,
+//                minLatitude,
+//                maxLongitude,
+//                minLongitude,
+//                age,
+//                age
+//        );
 
         //이야기핀 가져오기
         List<StoryPin> storyPins = storyPinRepository.findByLatitudeLessThanEqualAndLatitudeGreaterThanEqualAndLongitudeLessThanEqualAndLongitudeGreaterThanEqual(
@@ -143,9 +145,9 @@ public class HomeServiceImpl implements HomeService{
         if(meetingPinCategory.equals("all")) renameMeetingCategory = allMeetingPinCategory;
         else renameMeetingCategory = meetingPinCategory;
 
-        String allCommunityPinCategory = "학교/동창-아파트/이웃-대화/친목-산책/반려동물-맛집탐방-영화/문화생활-게임/오락-스포츠/운동-등산/캠핑-스터디/독서-여행/드라이브-기타";
-        if(communityPinCategory.equals("all")) renameCommunityCategory = allCommunityPinCategory;
-        else renameCommunityCategory = communityPinCategory;
+//        String allCommunityPinCategory = "학교/동창-아파트/이웃-대화/친목-산책/반려동물-맛집탐방-영화/문화생활-게임/오락-스포츠/운동-등산/캠핑-스터디/독서-여행/드라이브-기타";
+//        if(communityPinCategory.equals("all")) renameCommunityCategory = allCommunityPinCategory;
+//        else renameCommunityCategory = communityPinCategory;
 
         String allStoryPinCategory = "#궁금해요#장소리뷰#동네꿀팁#반려동물#취미생횔#도와줘요#사건시고#분실/실종#잡담";
         if(storyPinCategory.equals("all")) renameStoryCategory = allStoryPinCategory;
@@ -189,27 +191,29 @@ public class HomeServiceImpl implements HomeService{
         });
 
         //커뮤니티 핀에서 성별조건 확인후 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
-        communityPins.forEach((pin)->{
-            if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
-                if(renameCommunityCategory.contains(pin.getCategory())){
-                    homePinResponses.add(HomePinResponse.builder()
-                            .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
-                            .pinType("communityPin")
-                            .latitude(pin.getLatitude())
-                            .longitude(pin.getLongitude())
-                            .pinDBId(pin.getId())
-                            .category(pin.getCategory())
-                            .title(pin.getTitle())
-                            .image(pin.getImage())
-                            .build()
-                    );
-                }
-            }
-        });
+//        communityPins.forEach((pin)->{
+//            if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
+//                if(renameCommunityCategory.contains(pin.getCategory())){
+//                    homePinResponses.add(HomePinResponse.builder()
+//                            .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
+//                            .pinType("communityPin")
+//                            .latitude(pin.getLatitude())
+//                            .longitude(pin.getLongitude())
+//                            .pinDBId(pin.getId())
+//                            .category(pin.getCategory())
+//                            .title(pin.getTitle())
+//                            .image(pin.getImage())
+//                            .build()
+//                    );
+//                }
+//            }
+//        });
 
         //이야기 핀에서 homePinResponses에 거리를 계산하여 넣어준다.
         storyPins.forEach((pin)-> {
             if(renameStoryCategory.contains(pin.getCategory())){
+                int likes = storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(pin.getId()).size();
+                int comments = storyPinCommentRepository.findStoryPinCommentsByStoryPin_Id(pin.getId()).size();
                 homePinResponses.add(HomePinResponse.builder()
                         .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
                         .pinType("storyPin")
@@ -218,6 +222,8 @@ public class HomeServiceImpl implements HomeService{
                         .pinDBId(pin.getId())
                         .category(pin.getCategory())
                         .title(pin.getTitle())
+                        .comment(comments)
+                        .like(likes)
                         .build()
                 );
             }
@@ -234,11 +240,6 @@ public class HomeServiceImpl implements HomeService{
      */
     @Override
     public ResponseEntity<List<HomePinResponse>> searchPin(String phoneNum, String keyword, double latitude, double longitude, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
-        double latitudeRange = 0.0075;
-        double maxLatitude = latitude+ latitudeRange, minLatitude = latitude- latitudeRange;
-        double longitudeRange = 0.004;
-        double maxLongitude = longitude+ longitudeRange, minLongitude = longitude- longitudeRange;
-
         // 혹시 모르게 생길 토큰 오류 체크
         if(userRepository.findByPhoneNum(phoneNum).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 
@@ -250,10 +251,10 @@ public class HomeServiceImpl implements HomeService{
         List<MeetingPin> meetingPins =meetingPinRepository.findByMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(age,age);
 
         //커뮤니티핀 가져오기
-        List<CommunityPin> communityPins =communityPinRepository.findAll();
+//        List<CommunityPin> communityPins =communityPinRepository.findAll();
 
         //이야기핀 가져오기
-        List<StoryPin> storyPins = storyPinRepository.findAll();
+        List<StoryPin> storyPins = storyPinRepository.findByTitleContainingOrContentContaining(keyword,keyword);
 
         // 필터 정보를 구별하기 쉽게 변수 선언
         String renameGender, renameDate  ,renameMeetingCategory, renameCommunityCategory, renameStoryCategory;
@@ -307,11 +308,11 @@ public class HomeServiceImpl implements HomeService{
         if(meetingPinCategory.equals("all")) renameMeetingCategory = allMeetingPinCategory;
         else renameMeetingCategory = meetingPinCategory;
 
-        String allCommunityPinCategory = "학교/동창-아파트/이웃-대화/친목-산책/반려동물-맛집탐방-영화/문화생활-게임/오락-스포츠/운동-등산/캠핑-스터디/독서-여행/드라이브-기타";
-        if(communityPinCategory.equals("all")) renameCommunityCategory = allCommunityPinCategory;
-        else renameCommunityCategory = communityPinCategory;
+//        String allCommunityPinCategory = "학교/동창-아파트/이웃-대화/친목-산책/반려동물-맛집탐방-영화/문화생활-게임/오락-스포츠/운동-등산/캠핑-스터디/독서-여행/드라이브-기타";
+//        if(communityPinCategory.equals("all")) renameCommunityCategory = allCommunityPinCategory;
+//        else renameCommunityCategory = communityPinCategory;
 
-        String allStoryPinCategory = "#궁금해요#장소리뷰#동네꿀팁#반려동물#취미생횔#도와줘요#사건시고#분실/실종#잡담";
+        String allStoryPinCategory = "#궁금해요#장소리뷰#동네꿀팁#반려동물#취미생횔#도와줘요#사건사고#분실/실종#잡담";
         if(storyPinCategory.equals("all")) renameStoryCategory = allStoryPinCategory;
         else renameStoryCategory = storyPinCategory;
 
@@ -363,42 +364,45 @@ public class HomeServiceImpl implements HomeService{
         });
 
         //커뮤니티 핀에서 성별조건 확인후 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
-        communityPins.forEach((pin)->{if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
-            if (pin.getTitle().contains(keyword) || pin.getContent().contains(keyword)) {
-                if(renameCommunityCategory.contains(pin.getCategory())){
-                    homePinResponses.add(HomePinResponse.builder()
-                            .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
-                            .pinType("communityPin")
-                            .latitude(pin.getLatitude())
-                            .longitude(pin.getLongitude())
-                            .pinDBId(pin.getId())
-                            .category(pin.getCategory())
-                            .title(pin.getTitle())
-                            .image(pin.getImage())
-                            .build()
-                    );
-                }
-            }
-        }
-        });
+//        communityPins.forEach((pin)->{if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
+//            if (pin.getTitle().contains(keyword) || pin.getContent().contains(keyword)) {
+//                if(renameCommunityCategory.contains(pin.getCategory())){
+//                    homePinResponses.add(HomePinResponse.builder()
+//                            .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
+//                            .pinType("communityPin")
+//                            .latitude(pin.getLatitude())
+//                            .longitude(pin.getLongitude())
+//                            .pinDBId(pin.getId())
+//                            .category(pin.getCategory())
+//                            .title(pin.getTitle())
+//                            .image(pin.getImage())
+//                            .build()
+//                    );
+//                }
+//            }
+//        }
+//        });
 
         //이야기 핀에서 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
         storyPins.forEach((pin)-> {
-            if (pin.getTitle().contains(keyword) || pin.getContent().contains(keyword)) {
-                if(renameStoryCategory.contains(pin.getCategory())){
-                    homePinResponses.add(HomePinResponse.builder()
-                            .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
-                            .pinType("storyPin")
-                            .latitude(pin.getLatitude())
-                            .longitude(pin.getLongitude())
-                            .pinDBId(pin.getId())
-                            .category(pin.getCategory())
-                            .title(pin.getTitle())
-                            .build()
-                    );
-                }
-            }
+            log.info("{}",pin);
+            if(renameStoryCategory.contains(pin.getCategory())){
+                int likes = storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(pin.getId()).size();
+                int comments = storyPinCommentRepository.findStoryPinCommentsByStoryPin_Id(pin.getId()).size();
+                homePinResponses.add(HomePinResponse.builder()
+                        .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
+                        .pinType("storyPin")
+                        .latitude(pin.getLatitude())
+                        .longitude(pin.getLongitude())
+                        .pinDBId(pin.getId())
+                        .category(pin.getCategory())
+                        .title(pin.getTitle())
+                        .comment(comments)
+                        .like(likes)
+                        .build()
+                );
 
+            }
         });
 
         Collections.sort(homePinResponses);

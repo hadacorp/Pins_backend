@@ -5,8 +5,7 @@ import com.hada.pins_backend.domain.communityPin.CommunityPin;
 import com.hada.pins_backend.domain.communityPin.CommunityPinRepository;
 import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
-import com.hada.pins_backend.domain.storyPin.StoryPin;
-import com.hada.pins_backend.domain.storyPin.StoryPinRepository;
+import com.hada.pins_backend.domain.storyPin.*;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
@@ -19,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -37,6 +37,10 @@ class HomeServiceImplTest {
     @Autowired
     private StoryPinRepository storyPinRepository;
     @Autowired
+    private StoryPinCommentRepository storyPinCommentRepository;
+    @Autowired
+    private StoryPinLikeRepository storyPinLikeRepository;
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private UserServiceImpl userService;
@@ -50,7 +54,7 @@ class HomeServiceImplTest {
         insertUser();
         User user1 = userRepository.findAll().get(0);
         insertMeetingPin(user1);
-        insertCommunityPin(user1);
+//        insertCommunityPin(user1);
         insertStoryPin(user1);
     }
 
@@ -58,7 +62,7 @@ class HomeServiceImplTest {
     @Disabled
     @DisplayName("홈화면 핀 로딩 기능")
     void Test1(){
-        System.out.println(homeService.loadPin("010-7760-6393",37.282083,127.043850, 0.0075, "all", "all", "all", "all", "all", "all", "all"));
+        System.out.println(homeService.loadPin("010-7760-6393",37.282083,127.043850, "all", "all", "all", "all", "all", "all", "all"));
     }
 
     @Test
@@ -71,13 +75,13 @@ class HomeServiceImplTest {
     @Test
     @DisplayName("홈화면 핀 로딩 기능 + 필터")
     void Test3(){
-        System.out.println(homeService.loadPin("010-7760-6393",37.282083,127.043850,0.0075,"산책/반려동물", "0-1-2-3", "1-23", "Male", "20-30", "all", "#분실/실종"));
+        System.out.println(homeService.loadPin("010-7760-6393",37.282083,127.043850,"산책/반려동물", "0-1-2-3", "1-23", "Male", "20-30", "all", "#분실/실종"));
     }
 
     @Test
     @DisplayName("홈화면 핀 키워드 검색 기능 + 필터")
     void Test4(){
-        System.out.println(homeService.searchPin("010-7760-6393","아주대",37.282083,127.043850,"산책/반려동물", "all", "1-23", "Male", "20-30", "all", "#분실/실종"));
+        System.out.println(homeService.searchPin("010-7760-6393","교통사고",37.282083,127.043850,"산책/반려동물", "all", "1-23", "Male", "20-30", "all", "all"));
     }
 
     @Test
@@ -108,7 +112,7 @@ class HomeServiceImplTest {
                 .setGender(Gender.Both)
                 .category("맛집탐방")
                 .latitude(37.278131)
-                .longitude(127.043496)
+                .longitude(127.043490)
                 .date(LocalDateTime.now().plusDays(2))
                 .build();
 
@@ -121,8 +125,8 @@ class HomeServiceImplTest {
                 .setGender(Gender.Both)
                 .setLimit(2)
                 .category("산책/반려동물")
-                .latitude(37.280020)
-                .longitude(127.043544)
+                .latitude(37.280029)
+                .longitude(127.043534)
                 .date(LocalDateTime.now().plusDays(3))
                 .build();
 
@@ -169,14 +173,13 @@ class HomeServiceImplTest {
                 .minAge(20)
                 .maxAge(40)
                 .setLimit(10)
-                .latitude(37.287287)
+                .latitude(37.287277)
                 .longitude(127.046378)
                 .build();
 
         communityPinRepository.saveAll(Lists.newArrayList(communityPin1,communityPin2));
     }
-
-    private void insertStoryPin(User user){
+     void insertStoryPin(User user){
 
         StoryPin storyPin1 = StoryPin.builder()
                 .createUser(user)
@@ -196,7 +199,18 @@ class HomeServiceImplTest {
                 .longitude(127.043497)
                 .image("123")
                 .build();
-
         storyPinRepository.saveAll(Lists.newArrayList(storyPin1,storyPin2));
+
+        StoryPinLike storyPinLike1 = StoryPinLike.builder().storyPin(storyPin1).user(user).build();
+        StoryPinLike storyPinLike2 = StoryPinLike.builder().storyPin(storyPin1).user(user).build();
+        StoryPinLike storyPinLike3 = StoryPinLike.builder().storyPin(storyPin1).user(user).build();
+        StoryPinLike storyPinLike4 = StoryPinLike.builder().storyPin(storyPin2).user(user).build();
+        StoryPinLike storyPinLike5 = StoryPinLike.builder().storyPin(storyPin2).user(user).build();
+        storyPinLikeRepository.saveAll(Lists.newArrayList(storyPinLike1,storyPinLike2,storyPinLike3,storyPinLike4,storyPinLike5));
+
+        StoryPinComment storyPinComment1 = StoryPinComment.builder().storyPin(storyPin1).content("에어팟 저 봤어요").writeUser(user).build();
+        StoryPinComment storyPinComment2 = StoryPinComment.builder().storyPin(storyPin2).content("교통사고 봤어요").writeUser(user).build();
+        storyPinCommentRepository.saveAll(Lists.newArrayList(storyPinComment1,storyPinComment2));
+
     }
 }

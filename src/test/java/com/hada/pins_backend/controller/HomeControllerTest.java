@@ -100,7 +100,6 @@ class HomeControllerTest {
                         .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
                         .param("latitude", "37.282083")
                         .param("longitude", "127.043850")
-                        .param("range", "0.0075")
                         .param("meetingPinCategory", "산책/반려동물")
                         .param("meetDate", "0-1-2-3")
                         .param("meetTime", "1-23")
