@@ -199,14 +199,37 @@ class HomeServiceImplTest {
                 .longitude(127.043497)
                 .image("123")
                 .build();
-        storyPinRepository.saveAll(Lists.newArrayList(storyPin1,storyPin2));
+
+         StoryPin storyPin3 = StoryPin.builder()
+                 .createUser(user)
+                 .title("알바 대타 구합니다.")
+                 .content("알바 대타 구하여")
+                 .category("#도와줘요")
+                 .latitude(37.287277)
+                 .longitude(127.046328)
+                 .image("123")
+                 .build();
+
+         StoryPin storyPin4 = StoryPin.builder()
+                 .createUser(user)
+                 .title("강선호 보신분")
+                 .content("우리 애가 없어졌어요")
+                 .category("#분실/실종")
+                 .latitude(37.287280)
+                 .longitude(127.046373)
+                 .image("123")
+                 .build();
+
+        storyPinRepository.saveAll(Lists.newArrayList(storyPin1,storyPin2,storyPin3,storyPin4));
 
         StoryPinLike storyPinLike1 = StoryPinLike.builder().storyPin(storyPin1).user(user).build();
         StoryPinLike storyPinLike2 = StoryPinLike.builder().storyPin(storyPin1).user(user).build();
         StoryPinLike storyPinLike3 = StoryPinLike.builder().storyPin(storyPin1).user(user).build();
         StoryPinLike storyPinLike4 = StoryPinLike.builder().storyPin(storyPin2).user(user).build();
         StoryPinLike storyPinLike5 = StoryPinLike.builder().storyPin(storyPin2).user(user).build();
-        storyPinLikeRepository.saveAll(Lists.newArrayList(storyPinLike1,storyPinLike2,storyPinLike3,storyPinLike4,storyPinLike5));
+        StoryPinLike storyPinLike6 = StoryPinLike.builder().storyPin(storyPin3).user(user).build();
+        StoryPinLike storyPinLike7 = StoryPinLike.builder().storyPin(storyPin4).user(user).build();
+        storyPinLikeRepository.saveAll(Lists.newArrayList(storyPinLike1,storyPinLike2,storyPinLike3,storyPinLike4,storyPinLike5,storyPinLike6,storyPinLike7));
 
         StoryPinComment storyPinComment1 = StoryPinComment.builder().storyPin(storyPin1).content("에어팟 저 봤어요").writeUser(user).build();
         StoryPinComment storyPinComment2 = StoryPinComment.builder().storyPin(storyPin2).content("교통사고 봤어요").writeUser(user).build();

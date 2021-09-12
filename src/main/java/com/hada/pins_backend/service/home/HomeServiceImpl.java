@@ -312,7 +312,7 @@ public class HomeServiceImpl implements HomeService{
 //        if(communityPinCategory.equals("all")) renameCommunityCategory = allCommunityPinCategory;
 //        else renameCommunityCategory = communityPinCategory;
 
-        String allStoryPinCategory = "#궁금해요#장소리뷰#동네꿀팁#반려동물#취미생횔#도와줘요#사건사고#분실/실종#잡담";
+        String allStoryPinCategory = "#궁금해요#장소리뷰#동네꿀팁#반려동물#취미생활#도와줘요#사건사고#분실/실종#잡담";
         if(storyPinCategory.equals("all")) renameStoryCategory = allStoryPinCategory;
         else renameStoryCategory = storyPinCategory;
 

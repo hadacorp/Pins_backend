@@ -54,15 +54,21 @@ public class UserServiceImpl implements UserService{
         }
         else gender = Gender.Female;
 
-        //이미지 넣어주는 부분 test:: null일때 허용해둠
+        //이미지 넣어주는 부분 test:: 고정값 추가
         String uploadImageURL;
 
         try {
-            if (joinUserRequest.getProfileImage()==null) uploadImageURL= "없음";
+            if (joinUserRequest.getName().equals("방진혁")) uploadImageURL = "https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+5.22.27.png";
+            else if (joinUserRequest.getName().equals("강선호")) uploadImageURL = "https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+5.22.46.png";
+            else if (joinUserRequest.getName().equals("주동석")) uploadImageURL = "https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+5.22.15.png";
+            else if (joinUserRequest.getName().equals("이범수")) uploadImageURL = "https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+5.22.37.png";
+            else if (joinUserRequest.getName().equals("이승현")) uploadImageURL = "https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+5.22.56.png";
+            else if (joinUserRequest.getProfileImage()==null) uploadImageURL= "없음";
             else uploadImageURL = s3Uploader.upload(joinUserRequest.getProfileImage(), "images");
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
         }
+
 
         log.info("insertUser age ={}, gender = {}",age,gender);
 
