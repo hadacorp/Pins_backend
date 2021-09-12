@@ -33,7 +33,6 @@ public class HomeController {
     @GetMapping("/pin")
     public ResponseEntity<List<HomePinResponse>> loadPin(@RequestParam double latitude,
                                                          @RequestParam double longitude,
-                                                         @RequestParam double range,
                                                          @RequestParam String meetingPinCategory,
                                                          @RequestParam String meetDate,
                                                          @RequestParam String meetTime,
@@ -43,7 +42,8 @@ public class HomeController {
                                                          @RequestParam String storyPinCategory){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        return homeService.loadPin(user,latitude,longitude,range,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+
+        return homeService.loadPin(user.getPhoneNum(),latitude,longitude,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
     }
     /**
      * 키워드 핀 검색
@@ -61,7 +61,7 @@ public class HomeController {
                                                            @RequestParam String storyPinCategory){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        return homeService.searchPin(user,keyword,latitude,longitude,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+        return homeService.searchPin(user.getPhoneNum(),keyword,latitude,longitude,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
     }
     /**
      * 키워드 장소 검색

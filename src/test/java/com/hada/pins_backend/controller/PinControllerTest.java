@@ -2,6 +2,8 @@ package com.hada.pins_backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hada.pins_backend.dto.pin.request.RequestCreateCommunityPin;
+import com.hada.pins_backend.dto.pin.request.RequestMeetingPin;
+import com.hada.pins_backend.dto.pin.request.RequestStoryPin;
 import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.dto.user.response.LoginUserResponse;
@@ -47,7 +49,7 @@ class PinControllerTest {
 
     @Test
     @DisplayName("커뮤니티 핀 생성 컨트롤러 mvc 테스트")
-    void join() throws Exception{
+    void createCommunityPin() throws Exception{
         RequestCreateCommunityPin requestCreateCommunityPin = RequestCreateCommunityPin.builder()
                 .title("아주대학교 태권도 커뮤니티")
                 .content("태권도 하실분")
@@ -63,6 +65,55 @@ class PinControllerTest {
         LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
         mockMvc.perform(MockMvcRequestBuilderUtils
                         .postForm("/pin/communitypin",requestCreateCommunityPin)
+                        .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken()))
+                .andExpect(status().isCreated())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("만남 핀 생성 컨트롤러 mvc 테스트")
+    void createMeetingPin() throws Exception{
+        RequestMeetingPin requestMeetingPin = RequestMeetingPin.builder()
+                .title("아주대 앞 카공")
+                .content("유메야에서 닥공")
+                .category("스터디/독서")
+                .setGender("Both")
+                .minAge(20)
+                .maxAge(24)
+                .setLimit(3)
+                .longitude(127.0446612)
+                .latitude(37.5519156)
+                .date(3L)
+                .hour(13)
+                .minute(30)
+                .build();
+
+        LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
+        mockMvc.perform(MockMvcRequestBuilders.post("/pin/meetingpin")
+                        .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
+                        .content(objectMapper.writeValueAsString(requestMeetingPin))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("이야기 핀 생성 컨트롤러 mvc 테스트")
+    void createStoryPin() throws Exception{
+        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
+        RequestStoryPin requestStoryPin = RequestStoryPin.builder()
+                .title("에어팟 케이스 분실")
+                .content("정문에서 에어팟 케이스 분실 했는데 보신분?")
+                .category("#분실/실종")
+                .longitude(127.0465105)
+                .latitude(37.2795816)
+                .image(null)
+                .build();
+
+        LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
+        mockMvc.perform(MockMvcRequestBuilderUtils
+                        .postForm("/pin/storypin",requestStoryPin)
                         .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken()))
                 .andExpect(status().isCreated())
                 .andDo(print());

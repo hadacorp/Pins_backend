@@ -49,7 +49,6 @@ public class RequestCreateCommunityPin {
 
     public CommunityPin toCommunityPin(User createUser,String imageurl){
         Gender renamGender;
-        System.out.println("Gender =========> "+this.setGender);
         if (this.setGender.equals("Both")) renamGender = Gender.Both;
         else if (this.setGender.equals("Male")) renamGender = Gender.Male;
         else renamGender = Gender.Female;

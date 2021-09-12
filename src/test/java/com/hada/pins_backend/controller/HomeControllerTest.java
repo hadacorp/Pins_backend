@@ -100,7 +100,6 @@ class HomeControllerTest {
                         .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
                         .param("latitude", "37.282083")
                         .param("longitude", "127.043850")
-                        .param("range", "0.0075")
                         .param("meetingPinCategory", "산책/반려동물")
                         .param("meetDate", "0-1-2-3")
                         .param("meetTime", "1-23")
@@ -245,6 +244,7 @@ class HomeControllerTest {
                 .category("#분실/실종")
                 .latitude(37.280019)
                 .longitude(127.043544)
+                .image("123")
                 .build();
         StoryPin storyPin2 = StoryPin.builder()
                 .createUser(user)
@@ -253,6 +253,7 @@ class HomeControllerTest {
                 .category("#사건사고")
                 .latitude(37.278130)
                 .longitude(127.043497)
+                .image("123")
                 .build();
 
         storyPinRepository.saveAll(Lists.newArrayList(storyPin1,storyPin2));

@@ -15,4 +15,5 @@ public interface StoryPinRepository extends JpaRepository<StoryPin,Long> {
                                                                                                                                   double maxLongitude,
                                                                                                                                   double minLongitude);
 
+    List<StoryPin> findByTitleContainingOrContentContaining(String keyword1,String keyword2);
 }

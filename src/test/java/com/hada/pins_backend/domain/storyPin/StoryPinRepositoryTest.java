@@ -61,6 +61,7 @@ class StoryPinRepositoryTest {
                 .latitude(12.1111)
                 .longitude(12.1212)
                 .title("제목")
+                .image("123")
                 .build();
         storyPinRepository.save(storyPin);
 
