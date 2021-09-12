@@ -51,11 +51,11 @@ class HomeServiceImplTest {
      */
     @BeforeEach
     public void insertPin() throws IOException {
-        insertUser();
-        User user1 = userRepository.findAll().get(0);
-        insertMeetingPin(user1);
-//        insertCommunityPin(user1);
-        insertStoryPin(user1);
+//        insertUser();
+//        User user1 = userRepository.findAll().get(0);
+//        insertMeetingPin(user1);
+////        insertCommunityPin(user1);
+//        insertStoryPin(user1);
     }
 
     @Test
@@ -88,6 +88,18 @@ class HomeServiceImplTest {
     @DisplayName("홈화면 장소 키워드 검색 기능 + 필터")
     void Test5(){
         System.out.println(homeService.searchLocation("피자헛"));
+    }
+
+    @Test
+    @DisplayName("홈화면 카드뷰 로딩 기능")
+    void Test6(){
+        System.out.println(homeService.loadCardView("010-7760-6393","meetingPin",12L,"all", "all", "all", "all", "all", "all", "all"));
+    }
+
+    @Test
+    @DisplayName("홈화면 키워드 카드뷰 로딩 기능")
+    void Test7(){
+        System.out.println(homeService.searchCardView("010-7760-6393","storyPin",50L,"TEST","all", "all", "all", "all", "all", "all", "all"));
     }
 
     private void insertUser() throws IOException {

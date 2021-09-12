@@ -21,3 +21,5 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+kakao:
+  key: KakaoAK 52865c26202299f576d664e3a01ead69
