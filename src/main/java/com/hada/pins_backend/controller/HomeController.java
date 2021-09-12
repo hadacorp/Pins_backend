@@ -1,6 +1,7 @@
 package com.hada.pins_backend.controller;
 
 import com.hada.pins_backend.domain.user.User;
+import com.hada.pins_backend.dto.home.response.HomeCardViewResponse;
 import com.hada.pins_backend.dto.home.response.HomeLocationResponse;
 import com.hada.pins_backend.dto.home.response.HomePinResponse;
 import com.hada.pins_backend.dto.user.UserLoginForm;
@@ -45,6 +46,46 @@ public class HomeController {
 
         return homeService.loadPin(user.getPhoneNum(),latitude,longitude,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
     }
+    /**
+     * 홈화면 카드뷰 로딩
+     */
+    @GetMapping("/cardview")
+    public ResponseEntity<List<HomeCardViewResponse>> loadCardView(@RequestParam String pinType,
+                                                                   @RequestParam Long pinDBId,
+                                                                   @RequestParam String meetingPinCategory,
+                                                                   @RequestParam String meetDate,
+                                                                   @RequestParam String meetTime,
+                                                                   @RequestParam String meetGender,
+                                                                   @RequestParam String meetAge,
+                                                                   @RequestParam String communityPinCategory,
+                                                                   @RequestParam String storyPinCategory){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
+        return homeService.loadCardView(user.getPhoneNum(),pinType,pinDBId,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+    }
+
+    /**
+     * 홈화면 키워드 카드뷰 로딩
+     */
+    @GetMapping("/search/cardview")
+    public ResponseEntity<List<HomeCardViewResponse>> searchCardView(@RequestParam String pinType,
+                                                                   @RequestParam Long pinDBId,
+                                                                   @RequestParam String keyword,
+                                                                   @RequestParam String meetingPinCategory,
+                                                                   @RequestParam String meetDate,
+                                                                   @RequestParam String meetTime,
+                                                                   @RequestParam String meetGender,
+                                                                   @RequestParam String meetAge,
+                                                                   @RequestParam String communityPinCategory,
+                                                                   @RequestParam String storyPinCategory){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
+        return homeService.searchCardView(user.getPhoneNum(),pinType,pinDBId,keyword,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+    }
+
+
     /**
      * 키워드 핀 검색
      */
