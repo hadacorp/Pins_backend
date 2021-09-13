@@ -28,6 +28,8 @@ import java.util.StringTokenizer;
 public class InsertTestDataSet {
     public static double latitude = 37.222958;
     public static double longitude = 126.974663;
+    public static double latitude2 = 37.484085;
+    public static double longitude2 = 126.782803;
     @Autowired
     private MeetingPinRepository meetingPinRepository;
     @Autowired
@@ -112,6 +114,29 @@ public class InsertTestDataSet {
                     .category(meetingPinCategory[categoryNum])
                     .latitude(latitude + latitudeValue)
                     .longitude(longitude + longitudeValue)
+                    .date(LocalDateTime.now().plusDays(dayNum))
+                    .build());
+
+        }
+        for(int i=0;i<10;i++){
+            int userNum = (int)((Math.random()*10000)%5);
+            int categoryNum = (int)((Math.random()*10000)%11);
+            int dayNum = (int)((Math.random()*10000)%8);
+            double latitudeValue = Math.random()/1000;
+            double longitudeValue = Math.random()/1000;
+            User user = userRepository.findAll().get(userNum);
+
+            meetingPinRepository.save(MeetingPin.builder()
+                    .createUser(user)
+                    .title(meetingPinCategory[categoryNum]+"<= 카테고리 :만남핀 TEST: 생성 유저=>"+user.getName())
+                    .content(user.getNickName()+" === "+user.getPhoneNum())
+                    .minAge(userNum+categoryNum+dayNum+10)
+                    .maxAge(userNum+categoryNum+dayNum+20)
+                    .setLimit(categoryNum+1)
+                    .setGender(Gender.Both)
+                    .category(meetingPinCategory[categoryNum])
+                    .latitude(latitude2 + latitudeValue)
+                    .longitude(longitude2 + longitudeValue)
                     .date(LocalDateTime.now().plusDays(dayNum))
                     .build());
 

@@ -44,6 +44,20 @@ public class HomeServiceImpl implements HomeService{
     private final StoryPinCommentRepository storyPinCommentRepository;
     @Value("${kakao.key}")
     private String kakaoKey;
+
+    /*
+
+      핀, 카드뷰 로딩 시나리오
+      1. 검색 좌표, 클릭핀 위도, 경도 계산
+      2. 토큰으로 유저 정보 get
+      3. JPA로 핀들을 할 수 있는데로 걸러서 가져오기
+      4. params로 받아온 필터 정보들을 if문에 넣어 사용하기 좋도록 rename 하기
+      5. 필터 조건에 맞는 핀들을 걸러 response 형식에 맞게 넣기
+      6. 정렬이 필요하면 정렬
+      7. Return ResponseEntity
+
+     */
+
     /**
      * 홈화면 핀 로딩
      */
@@ -292,18 +306,18 @@ public class HomeServiceImpl implements HomeService{
         else renameStoryCategory = storyPinCategory;
 
         List<HomePinResponse> homePinResponses = new ArrayList<>();
-        log.info("meetingPins {}",meetingPins);
+//        log.info("meetingPins {}",meetingPins);
         // 만남핀에서 성별조건 확인후 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
         meetingPins.forEach((pin)->{if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
-            log.info("keyword {} {}", pin.getTitle().contains(keyword), pin.getContent().contains(keyword));
+//            log.info("keyword {} {}", pin.getTitle().contains(keyword), pin.getContent().contains(keyword));
             if (pin.getTitle().contains(keyword) || pin.getContent().contains(keyword)) {
 
                 //필터링 테스트 로그 코드
-                log.info("renameMeetingCategory {}",renameMeetingCategory.contains(pin.getCategory()));
-                log.info("renameGender {}",renameGender.contains(pin.getCreateUser().getGender().toString()));
-                log.info("getAge {} {}",pin.getCreateUser().getAge() >=minAge,pin.getCreateUser().getAge() <= maxAge);
-                log.info("getDate {} {}", pin.getDate().getHour()>=minTime,pin.getDate().getHour()<=maxTime);
-                log.info("renameDate {}",renameDate.contains(pin.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
+//                log.info("renameMeetingCategory {}",renameMeetingCategory.contains(pin.getCategory()));
+//                log.info("renameGender {}",renameGender.contains(pin.getCreateUser().getGender().toString()));
+//                log.info("getAge {} {}",pin.getCreateUser().getAge() >=minAge,pin.getCreateUser().getAge() <= maxAge);
+//                log.info("getDate {} {}", pin.getDate().getHour()>=minTime,pin.getDate().getHour()<=maxTime);
+//                log.info("renameDate {}",renameDate.contains(pin.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
 
                 if (renameMeetingCategory.contains(pin.getCategory())&&
                         renameGender.contains(pin.getCreateUser().getGender().toString())&&
@@ -312,12 +326,12 @@ public class HomeServiceImpl implements HomeService{
                         renameDate.contains(pin.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))){
 
                     homePinResponses.add(HomePinResponse.builder()
+                            .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
                             .pinType("meetingPin")
                             .latitude(pin.getLatitude())
                             .longitude(pin.getLongitude())
                             .pinDBId(pin.getId())
                             .category(pin.getCategory())
-
                             .build()
                     );
                 }
@@ -347,9 +361,10 @@ public class HomeServiceImpl implements HomeService{
 
         //이야기 핀에서 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
         storyPins.forEach((pin)-> {
-            log.info("{}",pin);
+//            log.info("{}",pin);
             if(renameStoryCategory.contains(pin.getCategory())){
                 homePinResponses.add(HomePinResponse.builder()
+                        .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
                         .pinType("storyPin")
                         .latitude(pin.getLatitude())
                         .longitude(pin.getLongitude())
@@ -361,7 +376,7 @@ public class HomeServiceImpl implements HomeService{
             }
         });
 
-//        Collections.sort(homePinResponses);
+        Collections.sort(homePinResponses);
         List<HomePinResponse> subHomePinResponses;
         if(homePinResponses.size()>100) {
             subHomePinResponses = homePinResponses.subList(0, 100);
