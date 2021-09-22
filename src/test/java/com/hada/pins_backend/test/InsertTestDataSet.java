@@ -84,7 +84,7 @@ public class InsertTestDataSet {
     public void insertMeetingPin(){
         String [] meetingPinCategory = new String[11];
         String [] storyPinCategory = new String[9];
-        String [] storypinImage = new String[8];
+        String [] storypinImage = new String[9];
         String allMeetingPinCategory = "대화/친목-산책/반려동물-맛집탐방-영화/문화생활-게임/오락-스포츠/운동-등산/캠핑-스터디/독서-여행/드라이브-거래/나눔-기타";
         String allStoryPinCategory = "#궁금해요-#장소리뷰-#동네꿀팁-#반려동물-#취미생횔-#도와줘요-#사건사고-#분실/실종-#잡담";
         StringTokenizer stringTokenizer = new StringTokenizer(allMeetingPinCategory,"-");
@@ -95,12 +95,12 @@ public class InsertTestDataSet {
         for (int i=0;i<9;i++){
             storyPinCategory[i] = stringTokenizer2.nextToken();
         }
-        for(int i=0;i<700;i++){
+        for(int i=0;i<1000;i++){
             int userNum = (int)((Math.random()*10000)%5);
             int categoryNum = (int)((Math.random()*10000)%11);
             int dayNum = (int)((Math.random()*10000)%8);
-            double latitudeValue = Math.random()/10;
-            double longitudeValue = Math.random()/10;
+            double latitudeValue = Math.random()/8;
+            double longitudeValue = Math.random()/8;
             User user = userRepository.findAll().get(userNum);
 
             meetingPinRepository.save(MeetingPin.builder()
@@ -149,12 +149,14 @@ public class InsertTestDataSet {
         storypinImage[5]="https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+6.06.08.png";
         storypinImage[6]="https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+6.06.17.png";
         storypinImage[7]="https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+6.06.21.png";
-        for(int i=0;i<300;i++){
+        storypinImage[8]=null;
+
+        for(int i=0;i<500;i++){
             int userNum = (int)((Math.random()*10000)%5);
             int categoryNum = (int)((Math.random()*10000)%9);
-            int imageNum = (int)((Math.random()*10000)%8);
-            double latitudeValue = Math.random()/10;
-            double longitudeValue = Math.random()/10;
+            int imageNum = (int)((Math.random()*10000)%9);
+            double latitudeValue = Math.random()/8;
+            double longitudeValue = Math.random()/8;
             User user = userRepository.findAll().get(userNum);
 
             storyPinRepository.save(StoryPin.builder()
@@ -168,7 +170,7 @@ public class InsertTestDataSet {
                     .build());
 
         }
-        for(int i=0;i<400;i++){
+        for(int i=0;i<600;i++){
             int userNum1 = (int)((Math.random()*10000)%5);
             int userNum2 = (int)((Math.random()*10000)%5);
             int storypinNum1 = (int)((Math.random()*10000)%200);

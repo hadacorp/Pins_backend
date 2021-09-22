@@ -229,6 +229,7 @@ public class HomeServiceImpl implements HomeService{
      */
     @Override
     public ResponseEntity<List<HomePinResponse>> searchPin(String phoneNum, String keyword, double latitude, double longitude, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
+        log.info("keyword serach ::=> {}, {}, {} ",latitude,longitude,keyword);
         // 혹시 모르게 생길 토큰 오류 체크
         if(userRepository.findByPhoneNum(phoneNum).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 
@@ -510,6 +511,7 @@ public class HomeServiceImpl implements HomeService{
                     .category(storyPin.getCategory())
                     .title(storyPin.getTitle())
                     .comment(comments)
+                    .image(storyPin.getImage())
                     .like(likes)
                     .build()
             );
@@ -591,6 +593,7 @@ public class HomeServiceImpl implements HomeService{
                             .title(pin.getTitle())
                             .comment(comments)
                             .like(likes)
+                            .image(pin.getImage())
                             .build()
                     );
                 }
@@ -711,6 +714,7 @@ public class HomeServiceImpl implements HomeService{
                     .category(storyPin.getCategory())
                     .title(storyPin.getTitle())
                     .comment(comments)
+                    .image(storyPin.getImage())
                     .like(likes)
                     .build()
             );
@@ -738,7 +742,7 @@ public class HomeServiceImpl implements HomeService{
                     .build()
             );
         }
-        log.info("meetingPins {}",meetingPins);
+//        log.info("meetingPins {}",meetingPins);
         // 만남핀에서 성별조건 확인후 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
         meetingPins.forEach((pin)->{if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
             if (pin.getTitle().contains(keyword) || pin.getContent().contains(keyword)) {
@@ -791,6 +795,7 @@ public class HomeServiceImpl implements HomeService{
                             .category(pin.getCategory())
                             .title(pin.getTitle())
                             .comment(comments)
+                            .image(pin.getImage())
                             .like(likes)
                             .build()
                     );

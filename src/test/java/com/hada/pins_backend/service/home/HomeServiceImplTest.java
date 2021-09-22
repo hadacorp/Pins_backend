@@ -81,7 +81,7 @@ class HomeServiceImplTest {
     @Test
     @DisplayName("홈화면 핀 키워드 검색 기능 + 필터")
     void Test4(){
-        System.out.println(homeService.searchPin("010-7760-6393","TEST",37.282083,127.043850,"산책/반려동물", "all", "1-23", "Male", "20-30", "all", "all"));
+        System.out.println(homeService.searchPin("010-7760-6393","TEST",37.282083,127.053850,"산책/반려동물", "all", "1-23", "Male", "20-30", "all", "all"));
     }
 
     @Test
