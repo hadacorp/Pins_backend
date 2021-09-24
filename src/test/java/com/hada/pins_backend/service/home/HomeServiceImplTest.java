@@ -8,6 +8,7 @@ import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
 import com.hada.pins_backend.domain.storyPin.*;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
+import com.hada.pins_backend.dto.home.FilterData;
 import com.hada.pins_backend.dto.home.LongitudeAndLatitude;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.service.user.UserServiceImpl;
@@ -63,7 +64,7 @@ class HomeServiceImplTest {
     @Disabled
     @DisplayName("홈화면 핀 로딩 기능")
     void Test1(){
-        System.out.println(homeService.loadPin("010-7760-6393",new LongitudeAndLatitude(37.282083,127.043850), "all", "all", "all", "all", "all", "all", "all"));
+        System.out.println(homeService.loadPin("010-7760-6393",new LongitudeAndLatitude(37.282083,127.043850), new FilterData("all", "all", "all", "all", "all", "all", "all")));
     }
 
     @Test
@@ -76,7 +77,7 @@ class HomeServiceImplTest {
     @Test
     @DisplayName("홈화면 핀 로딩 기능 + 필터")
     void Test3(){
-        System.out.println(homeService.loadPin("010-7760-6393",new LongitudeAndLatitude(37.282083,127.043850),"산책/반려동물", "0-1-2-3", "1-23", "Male", "20-30", "all", "#분실/실종"));
+        System.out.println(homeService.loadPin("010-7760-6393",new LongitudeAndLatitude(37.282083,127.043850),new FilterData("산책/반려동물", "0-1-2-3", "1-23", "Male", "20-30", "all", "#분실/실종")));
     }
 
     @Test

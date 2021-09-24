@@ -1,6 +1,7 @@
 package com.hada.pins_backend.controller;
 
 import com.hada.pins_backend.domain.user.User;
+import com.hada.pins_backend.dto.home.FilterData;
 import com.hada.pins_backend.dto.home.LongitudeAndLatitude;
 import com.hada.pins_backend.dto.home.response.HomeCardViewResponse;
 import com.hada.pins_backend.dto.home.response.HomeLocationResponse;
@@ -44,8 +45,8 @@ public class HomeController {
                                                          @RequestParam String storyPinCategory){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-
-        return homeService.loadPin(user.getPhoneNum(),new LongitudeAndLatitude(latitude,longitude),meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+        FilterData filterData = new FilterData(meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+        return homeService.loadPin(user.getPhoneNum(),new LongitudeAndLatitude(latitude,longitude),filterData);
     }
     /**
      * 홈화면 카드뷰 로딩
