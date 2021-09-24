@@ -1,6 +1,7 @@
 package com.hada.pins_backend.controller;
 
 import com.hada.pins_backend.domain.user.User;
+import com.hada.pins_backend.dto.home.LongitudeAndLatitude;
 import com.hada.pins_backend.dto.home.response.HomeCardViewResponse;
 import com.hada.pins_backend.dto.home.response.HomeLocationResponse;
 import com.hada.pins_backend.dto.home.response.HomePinResponse;
@@ -44,7 +45,7 @@ public class HomeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
 
-        return homeService.loadPin(user.getPhoneNum(),latitude,longitude,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+        return homeService.loadPin(user.getPhoneNum(),new LongitudeAndLatitude(latitude,longitude),meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
     }
     /**
      * 홈화면 카드뷰 로딩
@@ -102,7 +103,7 @@ public class HomeController {
                                                            @RequestParam String storyPinCategory){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        return homeService.searchPin(user.getPhoneNum(),keyword,latitude,longitude,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+        return homeService.searchPin(user.getPhoneNum(),keyword,new LongitudeAndLatitude(latitude,longitude),meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
     }
     /**
      * 키워드 장소 검색

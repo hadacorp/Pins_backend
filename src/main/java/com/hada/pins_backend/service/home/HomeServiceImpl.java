@@ -6,6 +6,7 @@ import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
 import com.hada.pins_backend.domain.storyPin.*;
 import com.hada.pins_backend.domain.user.UserRepository;
+import com.hada.pins_backend.dto.home.LongitudeAndLatitude;
 import com.hada.pins_backend.dto.home.response.HomeCardViewResponse;
 import com.hada.pins_backend.dto.home.response.HomeLocationResponse;
 import com.hada.pins_backend.dto.home.response.HomePinResponse;
@@ -62,12 +63,10 @@ public class HomeServiceImpl implements HomeService{
      * 홈화면 핀 로딩
      */
     @Override
-    public ResponseEntity<List<HomePinResponse>> loadPin(String phoneNum, double latitude, double longitude, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
+    public ResponseEntity<List<HomePinResponse>> loadPin(String phoneNum, LongitudeAndLatitude longitudeAndLatitude, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
         //최대 최소 위도 경도 계산
-        double latitudeRange =  0.025;
-        double maxLatitude = latitude+ latitudeRange, minLatitude = latitude- latitudeRange;
-        double longitudeRange =  0.025;
-        double maxLongitude = longitude+ longitudeRange, minLongitude = longitude- longitudeRange;
+        double maxLatitude = longitudeAndLatitude.getMaxLatitude(), minLatitude = longitudeAndLatitude.getMinLatitude();
+        double maxLongitude = longitudeAndLatitude.getMaxLongitude(), minLongitude = longitudeAndLatitude.getMinLongitude();
 
 
         // 혹시 모르게 생길 토큰 오류 체크
@@ -228,8 +227,8 @@ public class HomeServiceImpl implements HomeService{
      * 키워드 핀 검색
      */
     @Override
-    public ResponseEntity<List<HomePinResponse>> searchPin(String phoneNum, String keyword, double latitude, double longitude, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
-        log.info("keyword serach ::=> {}, {}, {} ",latitude,longitude,keyword);
+    public ResponseEntity<List<HomePinResponse>> searchPin(String phoneNum, String keyword, LongitudeAndLatitude longitudeAndLatitude, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
+        log.info("keyword serach ::=> {}, {}, {} ",longitudeAndLatitude.getLatitude(),longitudeAndLatitude.getLongitude(),keyword);
         // 혹시 모르게 생길 토큰 오류 체크
         if(userRepository.findByPhoneNum(phoneNum).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 
@@ -327,7 +326,7 @@ public class HomeServiceImpl implements HomeService{
                         renameDate.contains(pin.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))){
 
                     homePinResponses.add(HomePinResponse.builder()
-                            .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
+                            .distance(distance(pin.getLatitude(), pin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(),"meter"))
                             .pinType("meetingPin")
                             .latitude(pin.getLatitude())
                             .longitude(pin.getLongitude())
@@ -365,7 +364,7 @@ public class HomeServiceImpl implements HomeService{
 //            log.info("{}",pin);
             if(renameStoryCategory.contains(pin.getCategory())){
                 homePinResponses.add(HomePinResponse.builder()
-                        .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
+                        .distance(distance(pin.getLatitude(), pin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(),"meter"))
                         .pinType("storyPin")
                         .latitude(pin.getLatitude())
                         .longitude(pin.getLongitude())
