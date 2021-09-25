@@ -71,7 +71,7 @@ class HomeServiceImplTest {
     @Disabled
     @DisplayName("홈화면 핀 키워드 검색 기능")
     void Test2(){
-        System.out.println(homeService.searchPin("010-7760-6393","아주대",new LongitudeAndLatitude(37.282083,127.043850),"all", "all", "all", "all", "all", "all", "all"));
+        System.out.println(homeService.searchPin("010-7760-6393","아주대",new LongitudeAndLatitude(37.282083,127.043850),new FilterData("all", "all", "all", "all", "all", "all", "all")));
     }
 
     @Test
@@ -83,7 +83,7 @@ class HomeServiceImplTest {
     @Test
     @DisplayName("홈화면 핀 키워드 검색 기능 + 필터")
     void Test4(){
-        System.out.println(homeService.searchPin("010-7760-6393","TEST",new LongitudeAndLatitude(37.282083,127.053850),"산책/반려동물", "all", "1-23", "Male", "20-30", "all", "all"));
+        System.out.println(homeService.searchPin("010-7760-6393","TEST",new LongitudeAndLatitude(37.282083,127.053850),new FilterData("산책/반려동물", "all", "1-23", "Male", "20-30", "all", "all")));
     }
 
     @Test
@@ -95,13 +95,13 @@ class HomeServiceImplTest {
     @Test
     @DisplayName("홈화면 카드뷰 로딩 기능")
     void Test6(){
-        System.out.println(homeService.loadCardView("010-7760-6393","meetingPin",12L,"all", "all", "all", "all", "all", "all", "all"));
+        System.out.println(homeService.loadCardView("010-7760-6393","meetingPin",12L,new FilterData("all", "all", "all", "all", "all", "all", "all")));
     }
 
     @Test
     @DisplayName("홈화면 키워드 카드뷰 로딩 기능")
     void Test7(){
-        System.out.println(homeService.searchCardView("010-7760-6393","storyPin",50L,"TEST","all", "all", "all", "all", "all", "all", "all"));
+        System.out.println(homeService.searchCardView("010-7760-6393","storyPin",50L,"TEST",new FilterData("all", "all", "all", "all", "all", "all", "all")));
     }
 
     private void insertUser() throws IOException {

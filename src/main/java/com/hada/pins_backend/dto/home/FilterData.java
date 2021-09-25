@@ -1,5 +1,7 @@
 package com.hada.pins_backend.dto.home;
 
+import com.hada.pins_backend.domain.meetingPin.MeetingPin;
+import com.hada.pins_backend.domain.storyPin.StoryPin;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -14,13 +16,13 @@ import java.util.StringTokenizer;
 @Getter
 @ToString
 public class FilterData {
-    private String meetingPinCategory;
-    private String meetDate;
-    private String meetTime;
-    private String meetGender;
-    private String meetAge;
-    private String communityPinCategory;
-    private String storyPinCategory;
+    private final String meetingPinCategory;
+    private final String meetDate;
+    private final String meetTime;
+    private final String meetGender;
+    private final String meetAge;
+    private final String communityPinCategory;
+    private final String storyPinCategory;
 
     @Builder
     public FilterData(String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
@@ -111,6 +113,18 @@ public class FilterData {
             return "#궁금해요#장소리뷰#동네꿀팁#반려동물#취미생활#도와줘요#사건시고#분실/실종#잡담";
         }
         else return this.storyPinCategory;
+    }
+
+    public boolean meetingPinFilter(MeetingPin pin){
+        return getRenameMeetingPinCategory().contains(pin.getCategory()) &&
+                getRenameGender().contains(pin.getCreateUser().getGender().toString()) &&
+                pin.getCreateUser().getAge() >= getRenameMinAge() && pin.getCreateUser().getAge() <= getRenameMaxAge() &&
+                pin.getDate().getHour() >= getRenameMinTime() && pin.getDate().getHour() <= getRenameMaxTime() &&
+                getRenameDate().contains(pin.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+    }
+
+    public boolean storyPinFilter(StoryPin pin){
+        return getRenameStoryPinCategory().contains(pin.getCategory());
     }
 
 }

@@ -96,31 +96,13 @@ public class HomeServiceImpl implements HomeService{
                 minLongitude
         );
 
-        // 필터 정보를 구별하기 쉽게 변수 선언
-        String renameGender, renameDate  ,renameMeetingCategory, renameCommunityCategory, renameStoryCategory;
-        int minAge, maxAge, minTime,maxTime;
-
-        renameGender = filterData.getRenameGender();
-        renameDate = filterData.getRenameDate();
-        renameMeetingCategory = filterData.getRenameMeetingPinCategory();
-        renameCommunityCategory = filterData.getRenameCommunityPinCategory();
-        renameStoryCategory = filterData.getRenameStoryPinCategory();
-        minAge = filterData.getRenameMinAge();
-        maxAge = filterData.getRenameMaxAge();
-        minTime = filterData.getRenameMinTime();
-        maxTime = filterData.getRenameMaxTime();
 
         List<HomePinResponse> homePinResponses = new ArrayList<>();
 
         //만남핀에서 성별조건 확인후 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
         meetingPins.forEach((pin)->{
             if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
-                if (renameMeetingCategory.contains(pin.getCategory())&&
-                        renameGender.contains(pin.getCreateUser().getGender().toString())&&
-                        pin.getCreateUser().getAge() >=minAge && pin.getCreateUser().getAge() <= maxAge &&
-                        pin.getDate().getHour()>=minTime && pin.getDate().getHour()<=maxTime &&
-                        renameDate.contains(pin.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))){
-
+                if (filterData.meetingPinFilter(pin)){
                     homePinResponses.add(HomePinResponse.builder()
                             .pinType("meetingPin")
                             .latitude(pin.getLatitude())
@@ -133,28 +115,9 @@ public class HomeServiceImpl implements HomeService{
             }
         });
 
-        //커뮤니티 핀에서 성별조건 확인후 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
-//        communityPins.forEach((pin)->{
-//            if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
-//                if(renameCommunityCategory.contains(pin.getCategory())){
-//                    homePinResponses.add(HomePinResponse.builder()
-//                            .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
-//                            .pinType("communityPin")
-//                            .latitude(pin.getLatitude())
-//                            .longitude(pin.getLongitude())
-//                            .pinDBId(pin.getId())
-//                            .category(pin.getCategory())
-//                            .title(pin.getTitle())
-//                            .image(pin.getImage())
-//                            .build()
-//                    );
-//                }
-//            }
-//        });
-
         //이야기 핀에서 homePinResponses에 거리를 계산하여 넣어준다.
         storyPins.forEach((pin)-> {
-            if(renameStoryCategory.contains(pin.getCategory())){
+            if(filterData.storyPinFilter(pin)){
                 homePinResponses.add(HomePinResponse.builder()
                         .pinType("storyPin")
                         .latitude(pin.getLatitude())
@@ -174,7 +137,7 @@ public class HomeServiceImpl implements HomeService{
      * 키워드 핀 검색
      */
     @Override
-    public ResponseEntity<List<HomePinResponse>> searchPin(String phoneNum, String keyword, LongitudeAndLatitude longitudeAndLatitude, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
+    public ResponseEntity<List<HomePinResponse>> searchPin(String phoneNum, String keyword, LongitudeAndLatitude longitudeAndLatitude,FilterData filterData) {
         log.info("keyword serach ::=> {}, {}, {} ",longitudeAndLatitude.getLatitude(),longitudeAndLatitude.getLongitude(),keyword);
         // 혹시 모르게 생길 토큰 오류 체크
         if(userRepository.findByPhoneNum(phoneNum).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -186,92 +149,17 @@ public class HomeServiceImpl implements HomeService{
         //만남핀 가져오기
         List<MeetingPin> meetingPins =meetingPinRepository.findByMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(age,age);
 
-        //커뮤니티핀 가져오기
-//        List<CommunityPin> communityPins =communityPinRepository.findAll();
-
         //이야기핀 가져오기
         List<StoryPin> storyPins = storyPinRepository.findByTitleContainingOrContentContaining(keyword,keyword);
 
-        // 필터 정보를 구별하기 쉽게 변수 선언
-        String renameGender, renameDate  ,renameMeetingCategory, renameCommunityCategory, renameStoryCategory;
-        int minAge, maxAge, minTime,maxTime;
-
-        //상대방 성별 필터 rename
-        if(meetGender.equals("all")) renameGender = "Male-Female";
-        else renameGender = meetGender;
-
-        //날짜 필터 rename
-        LocalDate now = LocalDate.now();
-        StringBuilder date = new StringBuilder();
-        if(meetDate.equals("all")){
-            for(int i =0;i<8;i++){
-                date.append(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))).append("-");
-                now = now.plusDays(1);
-            }
-            renameDate = date.toString();
-        }else{
-            for(int i =0;i<8;i++){
-                if(meetDate.contains(String.valueOf(i))){
-                    date.append(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))).append("-");
-                }
-                now = now.plusDays(1);
-            }
-            renameDate = date.toString();
-        }
-
-        // 상대방 나이 필터 rename
-        if(meetAge.equals("all")){
-            minAge = 20;
-            maxAge = 100;
-        }else{
-            StringTokenizer st = new StringTokenizer(meetAge,"-");
-            minAge = Integer.parseInt(st.nextToken());
-            maxAge = Integer.parseInt(st.nextToken());
-        }
-
-        // 시간 필터 rename
-        if(meetTime.equals("all")){
-            minTime = 0;
-            maxTime = 24;
-        }else{
-            StringTokenizer st = new StringTokenizer(meetTime,"-");
-            minTime = Integer.parseInt(st.nextToken());
-            maxTime = Integer.parseInt(st.nextToken());
-        }
-
-        //각 핀별 카테고리 rename
-        String allMeetingPinCategory = "대화/친목-산책/반려동물-맛집탐방-영화/문화생활-게임/오락-스포츠/운동-등산/캠핑-스터디/독서-여행/드라이브-거래/나눔-기타";
-        if(meetingPinCategory.equals("all")) renameMeetingCategory = allMeetingPinCategory;
-        else renameMeetingCategory = meetingPinCategory;
-
-//        String allCommunityPinCategory = "학교/동창-아파트/이웃-대화/친목-산책/반려동물-맛집탐방-영화/문화생활-게임/오락-스포츠/운동-등산/캠핑-스터디/독서-여행/드라이브-기타";
-//        if(communityPinCategory.equals("all")) renameCommunityCategory = allCommunityPinCategory;
-//        else renameCommunityCategory = communityPinCategory;
-
-        String allStoryPinCategory = "#궁금해요#장소리뷰#동네꿀팁#반려동물#취미생활#도와줘요#사건사고#분실/실종#잡담";
-        if(storyPinCategory.equals("all")) renameStoryCategory = allStoryPinCategory;
-        else renameStoryCategory = storyPinCategory;
 
         List<HomePinResponse> homePinResponses = new ArrayList<>();
-//        log.info("meetingPins {}",meetingPins);
+
         // 만남핀에서 성별조건 확인후 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
         meetingPins.forEach((pin)->{if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
 //            log.info("keyword {} {}", pin.getTitle().contains(keyword), pin.getContent().contains(keyword));
             if (pin.getTitle().contains(keyword) || pin.getContent().contains(keyword)) {
-
-                //필터링 테스트 로그 코드
-//                log.info("renameMeetingCategory {}",renameMeetingCategory.contains(pin.getCategory()));
-//                log.info("renameGender {}",renameGender.contains(pin.getCreateUser().getGender().toString()));
-//                log.info("getAge {} {}",pin.getCreateUser().getAge() >=minAge,pin.getCreateUser().getAge() <= maxAge);
-//                log.info("getDate {} {}", pin.getDate().getHour()>=minTime,pin.getDate().getHour()<=maxTime);
-//                log.info("renameDate {}",renameDate.contains(pin.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
-
-                if (renameMeetingCategory.contains(pin.getCategory())&&
-                        renameGender.contains(pin.getCreateUser().getGender().toString())&&
-                        pin.getCreateUser().getAge() >=minAge && pin.getCreateUser().getAge() <= maxAge &&
-                        pin.getDate().getHour()>=minTime && pin.getDate().getHour()<=maxTime &&
-                        renameDate.contains(pin.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))){
-
+                if (filterData.meetingPinFilter(pin)){
                     homePinResponses.add(HomePinResponse.builder()
                             .distance(distance(pin.getLatitude(), pin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(),"meter"))
                             .pinType("meetingPin")
@@ -286,30 +174,10 @@ public class HomeServiceImpl implements HomeService{
         }
         });
 
-        //커뮤니티 핀에서 성별조건 확인후 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
-//        communityPins.forEach((pin)->{if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
-//            if (pin.getTitle().contains(keyword) || pin.getContent().contains(keyword)) {
-//                if(renameCommunityCategory.contains(pin.getCategory())){
-//                    homePinResponses.add(HomePinResponse.builder()
-//                            .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
-//                            .pinType("communityPin")
-//                            .latitude(pin.getLatitude())
-//                            .longitude(pin.getLongitude())
-//                            .pinDBId(pin.getId())
-//                            .category(pin.getCategory())
-//                            .title(pin.getTitle())
-//                            .image(pin.getImage())
-//                            .build()
-//                    );
-//                }
-//            }
-//        }
-//        });
-
         //이야기 핀에서 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
         storyPins.forEach((pin)-> {
 //            log.info("{}",pin);
-            if(renameStoryCategory.contains(pin.getCategory())){
+            if(filterData.storyPinFilter(pin)){
                 homePinResponses.add(HomePinResponse.builder()
                         .distance(distance(pin.getLatitude(), pin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(),"meter"))
                         .pinType("storyPin")
@@ -335,7 +203,7 @@ public class HomeServiceImpl implements HomeService{
      * 카드뷰 로딩
      */
     @Override
-    public ResponseEntity<List<HomeCardViewResponse>> loadCardView(String phoneNum, String pinType, Long pinDBId, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
+    public ResponseEntity<List<HomeCardViewResponse>> loadCardView(String phoneNum, String pinType, Long pinDBId, FilterData filterData) {
 
         double latitude, longitude;
         if (pinType.equals("storyPin")) {
@@ -385,61 +253,7 @@ public class HomeServiceImpl implements HomeService{
                 minLongitude
         );
 
-        // 필터 정보를 구별하기 쉽게 변수 선언
-        String renameGender, renameDate  ,renameMeetingCategory, renameStoryCategory;
-        int minAge, maxAge, minTime,maxTime;
 
-        //상대방 성별 필터 rename
-        if(meetGender.equals("all")) renameGender = "Male-Female";
-        else renameGender = meetGender;
-
-        //날짜 필터 rename
-        LocalDate now = LocalDate.now();
-        StringBuilder date = new StringBuilder();
-        if(meetDate.equals("all")){
-            for(int i =0;i<8;i++){
-                date.append(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))).append("-");
-                now = now.plusDays(1);
-            }
-            renameDate = date.toString();
-        }else{
-            for(int i =0;i<8;i++){
-                if(meetDate.contains(String.valueOf(i))){
-                    date.append(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))).append("-");
-                }
-                now = now.plusDays(1);
-            }
-            renameDate = date.toString();
-        }
-
-        // 상대방 나이 필터 rename
-        if(meetAge.equals("all")){
-            minAge = 20;
-            maxAge = 100;
-        }else{
-            StringTokenizer st = new StringTokenizer(meetAge,"-");
-            minAge = Integer.parseInt(st.nextToken());
-            maxAge = Integer.parseInt(st.nextToken());
-        }
-
-        // 시간 필터 rename
-        if(meetTime.equals("all")){
-            minTime = 0;
-            maxTime = 24;
-        }else{
-            StringTokenizer st = new StringTokenizer(meetTime,"-");
-            minTime = Integer.parseInt(st.nextToken());
-            maxTime = Integer.parseInt(st.nextToken());
-        }
-        //각 핀별 카테고리 rename
-        String allMeetingPinCategory = "대화/친목-산책/반려동물-맛집탐방-영화/문화생활-게임/오락-스포츠/운동-등산/캠핑-스터디/독서-여행/드라이브-거래/나눔-기타";
-        if(meetingPinCategory.equals("all")) renameMeetingCategory = allMeetingPinCategory;
-        else renameMeetingCategory = meetingPinCategory;
-
-
-        String allStoryPinCategory = "#궁금해요#장소리뷰#동네꿀팁#반려동물#취미생활#도와줘요#사건시고#분실/실종#잡담";
-        if(storyPinCategory.equals("all")) renameStoryCategory = allStoryPinCategory;
-        else renameStoryCategory = storyPinCategory;
 
         List<HomeCardViewResponse> homeCardViewResponses = new ArrayList<>();
 
@@ -489,11 +303,7 @@ public class HomeServiceImpl implements HomeService{
         //만남핀에서 성별조건 확인후 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
         meetingPins.forEach((pin)->{
             if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
-                if (renameMeetingCategory.contains(pin.getCategory())&&
-                        renameGender.contains(pin.getCreateUser().getGender().toString())&&
-                        pin.getCreateUser().getAge() >=minAge && pin.getCreateUser().getAge() <= maxAge &&
-                        pin.getDate().getHour()>=minTime && pin.getDate().getHour()<=maxTime &&
-                        renameDate.contains(pin.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))){
+                if (filterData.meetingPinFilter(pin)){
                     if(!(pinType.equals("meetingPin") && pinDBId.equals(pin.getId()))) {
 
                         // 날짜 핀카드 형식대로 받아오기
@@ -525,7 +335,7 @@ public class HomeServiceImpl implements HomeService{
 
         //이야기 핀에서 homePinResponses에 거리를 계산하여 넣어준다.
         storyPins.forEach((pin)-> {
-            if(renameStoryCategory.contains(pin.getCategory())){
+            if(filterData.storyPinFilter(pin)){
                 if(!(pinType.equals("storyPin") && pinDBId.equals(pin.getId()))) {
                     int likes = storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(pin.getId()).size();
                     int comments = storyPinCommentRepository.findStoryPinCommentsByStoryPin_Id(pin.getId()).size();
@@ -558,7 +368,7 @@ public class HomeServiceImpl implements HomeService{
      * 홈화면 키워드 카드뷰 로딩
      */
     @Override
-    public ResponseEntity<List<HomeCardViewResponse>> searchCardView(String phoneNum, String pinType, Long pinDBId, String keyword, String meetingPinCategory, String meetDate, String meetTime, String meetGender, String meetAge, String communityPinCategory, String storyPinCategory) {
+    public ResponseEntity<List<HomeCardViewResponse>> searchCardView(String phoneNum, String pinType, Long pinDBId, String keyword, FilterData filterData) {
         double latitude, longitude;
         if (pinType.equals("storyPin")) {
             if (storyPinRepository.findById(pinDBId).isPresent()) {
@@ -586,63 +396,6 @@ public class HomeServiceImpl implements HomeService{
 
         //이야기핀 가져오기
         List<StoryPin> storyPins = storyPinRepository.findByTitleContainingOrContentContaining(keyword,keyword);
-
-        // 필터 정보를 구별하기 쉽게 변수 선언
-        String renameGender, renameDate  ,renameMeetingCategory, renameStoryCategory;
-        int minAge, maxAge, minTime,maxTime;
-
-        //상대방 성별 필터 rename
-        if(meetGender.equals("all")) renameGender = "Male-Female";
-        else renameGender = meetGender;
-
-        //날짜 필터 rename
-        LocalDate now = LocalDate.now();
-        StringBuilder date = new StringBuilder();
-        if(meetDate.equals("all")){
-            for(int i =0;i<8;i++){
-                date.append(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))).append("-");
-                now = now.plusDays(1);
-            }
-            renameDate = date.toString();
-        }else{
-            for(int i =0;i<8;i++){
-                if(meetDate.contains(String.valueOf(i))){
-                    date.append(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))).append("-");
-                }
-                now = now.plusDays(1);
-            }
-            renameDate = date.toString();
-        }
-
-        // 상대방 나이 필터 rename
-        if(meetAge.equals("all")){
-            minAge = 20;
-            maxAge = 100;
-        }else{
-            StringTokenizer st = new StringTokenizer(meetAge,"-");
-            minAge = Integer.parseInt(st.nextToken());
-            maxAge = Integer.parseInt(st.nextToken());
-        }
-
-        // 시간 필터 rename
-        if(meetTime.equals("all")){
-            minTime = 0;
-            maxTime = 24;
-        }else{
-            StringTokenizer st = new StringTokenizer(meetTime,"-");
-            minTime = Integer.parseInt(st.nextToken());
-            maxTime = Integer.parseInt(st.nextToken());
-        }
-
-        //각 핀별 카테고리 rename
-        String allMeetingPinCategory = "대화/친목-산책/반려동물-맛집탐방-영화/문화생활-게임/오락-스포츠/운동-등산/캠핑-스터디/독서-여행/드라이브-거래/나눔-기타";
-        if(meetingPinCategory.equals("all")) renameMeetingCategory = allMeetingPinCategory;
-        else renameMeetingCategory = meetingPinCategory;
-
-
-        String allStoryPinCategory = "#궁금해요#장소리뷰#동네꿀팁#반려동물#취미생활#도와줘요#사건사고#분실/실종#잡담";
-        if(storyPinCategory.equals("all")) renameStoryCategory = allStoryPinCategory;
-        else renameStoryCategory = storyPinCategory;
 
         List<HomeCardViewResponse> homeCardViewResponses = new ArrayList<>();
 
@@ -692,11 +445,7 @@ public class HomeServiceImpl implements HomeService{
         // 만남핀에서 성별조건 확인후 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
         meetingPins.forEach((pin)->{if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
             if (pin.getTitle().contains(keyword) || pin.getContent().contains(keyword)) {
-                if (renameMeetingCategory.contains(pin.getCategory())&&
-                        renameGender.contains(pin.getCreateUser().getGender().toString())&&
-                        pin.getCreateUser().getAge() >=minAge && pin.getCreateUser().getAge() <= maxAge &&
-                        pin.getDate().getHour()>=minTime && pin.getDate().getHour()<=maxTime &&
-                        renameDate.contains(pin.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))){
+                if (filterData.meetingPinFilter(pin)){
                     if(!(pinType.equals("meetingPin") && pinDBId.equals(pin.getId()))) {
                         // 날짜 핀카드 형식대로 받아오기
                         LocalDateTime getdate = pin.getDate();
@@ -728,7 +477,7 @@ public class HomeServiceImpl implements HomeService{
 
         //이야기 핀에서 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
         storyPins.forEach((pin)-> {
-            if(renameStoryCategory.contains(pin.getCategory())){
+            if(filterData.storyPinFilter(pin)){
                 if(!(pinType.equals("storyPin") && pinDBId.equals(pin.getId()))) {
                     int likes = storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(pin.getId()).size();
                     int comments = storyPinCommentRepository.findStoryPinCommentsByStoryPin_Id(pin.getId()).size();

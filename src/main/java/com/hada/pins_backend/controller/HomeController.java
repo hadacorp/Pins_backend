@@ -63,8 +63,9 @@ public class HomeController {
                                                                    @RequestParam String storyPinCategory){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
+        FilterData filterData = new FilterData(meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
 
-        return homeService.loadCardView(user.getPhoneNum(),pinType,pinDBId,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+        return homeService.loadCardView(user.getPhoneNum(),pinType,pinDBId,filterData);
     }
 
     /**
@@ -83,8 +84,8 @@ public class HomeController {
                                                                    @RequestParam String storyPinCategory){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-
-        return homeService.searchCardView(user.getPhoneNum(),pinType,pinDBId,keyword,meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+        FilterData filterData = new FilterData(meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+        return homeService.searchCardView(user.getPhoneNum(),pinType,pinDBId,keyword,filterData);
     }
 
 
@@ -104,7 +105,8 @@ public class HomeController {
                                                            @RequestParam String storyPinCategory){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        return homeService.searchPin(user.getPhoneNum(),keyword,new LongitudeAndLatitude(latitude,longitude),meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+        FilterData filterData = new FilterData(meetingPinCategory,meetDate,meetTime,meetGender,meetAge,communityPinCategory,storyPinCategory);
+        return homeService.searchPin(user.getPhoneNum(),keyword,new LongitudeAndLatitude(latitude,longitude),filterData);
     }
     /**
      * 키워드 장소 검색
