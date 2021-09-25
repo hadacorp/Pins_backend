@@ -11,6 +11,7 @@ import com.hada.pins_backend.dto.home.LongitudeAndLatitude;
 import com.hada.pins_backend.dto.home.response.HomeCardViewResponse;
 import com.hada.pins_backend.dto.home.response.HomeLocationResponse;
 import com.hada.pins_backend.dto.home.response.HomePinResponse;
+import com.hada.pins_backend.exception.home.PintypeDBIdException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -200,32 +201,33 @@ public class HomeServiceImpl implements HomeService{
     }
 
     /**
-     * 카드뷰 로딩
+     * 클릭핀 검증 및 위도,경도 가져오기
      */
-    @Override
-    public ResponseEntity<List<HomeCardViewResponse>> loadCardView(String phoneNum, String pinType, Long pinDBId, FilterData filterData) {
-
-        double latitude, longitude;
+    public LongitudeAndLatitude getLongitudeAndLatitude (String pinType, Long pinDBId) throws PintypeDBIdException{
         if (pinType.equals("storyPin")) {
             if (storyPinRepository.findById(pinDBId).isPresent()) {
                 StoryPin storyPin = storyPinRepository.findById(pinDBId).get();
-                latitude = storyPin.getLatitude();
-                longitude = storyPin.getLongitude();
-            }else return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
+                return new LongitudeAndLatitude(storyPin.getLatitude(),storyPin.getLongitude());
+            }else throw new PintypeDBIdException();
         }else{
             if (meetingPinRepository.findById(pinDBId).isPresent()) {
                 MeetingPin meetingPin = meetingPinRepository.findById(pinDBId).get();
-                latitude = meetingPin.getLatitude();
-                longitude = meetingPin.getLongitude();
-            }else return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
-
+                return new LongitudeAndLatitude(meetingPin.getLatitude(),meetingPin.getLongitude());
+            }else throw new PintypeDBIdException();
         }
-        //최대 최소 위도 경도 계산
-        double latitudeRange =  0.025;
-        double maxLatitude = latitude+ latitudeRange, minLatitude = latitude- latitudeRange;
-        double longitudeRange =  0.025;
-        double maxLongitude = longitude+ longitudeRange, minLongitude = longitude- longitudeRange;
+    }
 
+    /**
+     * 카드뷰 로딩
+     */
+    @Override
+    public ResponseEntity<List<HomeCardViewResponse>> loadCardView(String phoneNum, String pinType, Long pinDBId, FilterData filterData) throws RuntimeException{
+
+        LongitudeAndLatitude longitudeAndLatitude = getLongitudeAndLatitude(pinType,pinDBId);
+
+        //최대 최소 위도 경도 계산
+        double maxLatitude = longitudeAndLatitude.getMaxLatitude(), minLatitude = longitudeAndLatitude.getMinLatitude();
+        double maxLongitude = longitudeAndLatitude.getMaxLongitude(), minLongitude = longitudeAndLatitude.getMinLongitude();
 
         // 혹시 모르게 생길 토큰 오류 체크
         if(userRepository.findByPhoneNum(phoneNum).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -263,7 +265,7 @@ public class HomeServiceImpl implements HomeService{
             int likes = storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(storyPin.getId()).size();
             int comments = storyPinCommentRepository.findStoryPinCommentsByStoryPin_Id(storyPin.getId()).size();
             homeCardViewResponses.add(HomeCardViewResponse.builder()
-                    .distance(distance(storyPin.getLatitude(), storyPin.getLongitude(), latitude, longitude,"meter"))
+                    .distance(distance(storyPin.getLatitude(), storyPin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(),"meter"))
                     .pinType("storyPin")
                     .latitude(storyPin.getLatitude())
                     .longitude(storyPin.getLongitude())
@@ -287,7 +289,7 @@ public class HomeServiceImpl implements HomeService{
             }
             DayOfWeek dayOfWeek = getdate.getDayOfWeek();
             homeCardViewResponses.add(HomeCardViewResponse.builder()
-                    .distance(distance(meetingPin.getLatitude(), meetingPin.getLongitude(), latitude, longitude,"meter"))
+                    .distance(distance(meetingPin.getLatitude(), meetingPin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(),"meter"))
                     .pinType("meetingPin")
                     .latitude(meetingPin.getLatitude())
                     .longitude(meetingPin.getLongitude())
@@ -317,7 +319,7 @@ public class HomeServiceImpl implements HomeService{
                         DayOfWeek dayOfWeek = getdate.getDayOfWeek();
 
                         homeCardViewResponses.add(HomeCardViewResponse.builder()
-                                .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude, "meter"))
+                                .distance(distance(pin.getLatitude(), pin.getLongitude(),longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(), "meter"))
                                 .pinType("meetingPin")
                                 .latitude(pin.getLatitude())
                                 .longitude(pin.getLongitude())
@@ -340,7 +342,7 @@ public class HomeServiceImpl implements HomeService{
                     int likes = storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(pin.getId()).size();
                     int comments = storyPinCommentRepository.findStoryPinCommentsByStoryPin_Id(pin.getId()).size();
                     homeCardViewResponses.add(HomeCardViewResponse.builder()
-                            .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude, "meter"))
+                            .distance(distance(pin.getLatitude(), pin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(), "meter"))
                             .pinType("storyPin")
                             .latitude(pin.getLatitude())
                             .longitude(pin.getLongitude())
@@ -369,21 +371,8 @@ public class HomeServiceImpl implements HomeService{
      */
     @Override
     public ResponseEntity<List<HomeCardViewResponse>> searchCardView(String phoneNum, String pinType, Long pinDBId, String keyword, FilterData filterData) {
-        double latitude, longitude;
-        if (pinType.equals("storyPin")) {
-            if (storyPinRepository.findById(pinDBId).isPresent()) {
-                StoryPin storyPin = storyPinRepository.findById(pinDBId).get();
-                latitude = storyPin.getLatitude();
-                longitude = storyPin.getLongitude();
-            }else return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
-        }else{
-            if (meetingPinRepository.findById(pinDBId).isPresent()) {
-                MeetingPin meetingPin = meetingPinRepository.findById(pinDBId).get();
-                latitude = meetingPin.getLatitude();
-                longitude = meetingPin.getLongitude();
-            }else return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
+        LongitudeAndLatitude longitudeAndLatitude = getLongitudeAndLatitude(pinType,pinDBId);
 
-        }
         // 혹시 모르게 생길 토큰 오류 체크
         if(userRepository.findByPhoneNum(phoneNum).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 
@@ -405,7 +394,7 @@ public class HomeServiceImpl implements HomeService{
             int likes = storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(storyPin.getId()).size();
             int comments = storyPinCommentRepository.findStoryPinCommentsByStoryPin_Id(storyPin.getId()).size();
             homeCardViewResponses.add(HomeCardViewResponse.builder()
-                    .distance(distance(storyPin.getLatitude(), storyPin.getLongitude(), latitude, longitude,"meter"))
+                    .distance(distance(storyPin.getLatitude(), storyPin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(),"meter"))
                     .pinType("storyPin")
                     .latitude(storyPin.getLatitude())
                     .longitude(storyPin.getLongitude())
@@ -429,7 +418,7 @@ public class HomeServiceImpl implements HomeService{
             }
             DayOfWeek dayOfWeek = getdate.getDayOfWeek();
             homeCardViewResponses.add(HomeCardViewResponse.builder()
-                    .distance(distance(meetingPin.getLatitude(), meetingPin.getLongitude(), latitude, longitude,"meter"))
+                    .distance(distance(meetingPin.getLatitude(), meetingPin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(),"meter"))
                     .pinType("meetingPin")
                     .latitude(meetingPin.getLatitude())
                     .longitude(meetingPin.getLongitude())
@@ -458,7 +447,7 @@ public class HomeServiceImpl implements HomeService{
                         DayOfWeek dayOfWeek = getdate.getDayOfWeek();
 
                         homeCardViewResponses.add(HomeCardViewResponse.builder()
-                                .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude,"meter"))
+                                .distance(distance(pin.getLatitude(), pin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(),"meter"))
                                 .pinType("meetingPin")
                                 .latitude(pin.getLatitude())
                                 .longitude(pin.getLongitude())
@@ -482,7 +471,7 @@ public class HomeServiceImpl implements HomeService{
                     int likes = storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(pin.getId()).size();
                     int comments = storyPinCommentRepository.findStoryPinCommentsByStoryPin_Id(pin.getId()).size();
                     homeCardViewResponses.add(HomeCardViewResponse.builder()
-                            .distance(distance(pin.getLatitude(), pin.getLongitude(), latitude, longitude, "meter"))
+                            .distance(distance(pin.getLatitude(), pin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(), "meter"))
                             .pinType("storyPin")
                             .latitude(pin.getLatitude())
                             .longitude(pin.getLongitude())
