@@ -95,7 +95,7 @@ class HomeServiceImplTest {
     @Test
     @DisplayName("홈화면 카드뷰 로딩 기능")
     void Test6(){
-        System.out.println(homeService.loadCardView("010-7760-6393","meetingPin",12L,new FilterData("all", "all", "all", "all", "all", "all", "all")));
+        System.out.println(homeService.loadCardView("010-7760-6393","meetingPin",721L,new FilterData("all", "all", "all", "all", "all", "all", "all")));
     }
 
     @Test

@@ -243,7 +243,7 @@ public class HomeServiceImpl implements HomeService{
         List<HomeCardViewResponse> homeCardViewResponses = new ArrayList<>();
 
         // 클릭한 핀을 맨 앞으로 이동
-        homeCardViewResponses.add(getFirstPinData(pinType,pinDBId,longitudeAndLatitude.getLatitude(),longitudeAndLatitude.getLongitude()));
+        homeCardViewResponses.add(getFirstPinData(pinType,pinDBId));
 
         //만남핀에서 성별조건 확인후 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
         meetingPins.forEach((pin)->{
@@ -328,7 +328,7 @@ public class HomeServiceImpl implements HomeService{
         List<HomeCardViewResponse> homeCardViewResponses = new ArrayList<>();
 
         // 클릭한 핀을 맨 앞으로 이동
-        homeCardViewResponses.add(getFirstPinData(pinType,pinDBId,longitudeAndLatitude.getLatitude(),longitudeAndLatitude.getLongitude()));
+        homeCardViewResponses.add(getFirstPinData(pinType,pinDBId));
 
         // 만남핀에서 성별조건 확인후 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
         meetingPins.forEach((pin)->{if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
@@ -451,14 +451,18 @@ public class HomeServiceImpl implements HomeService{
     /**
      * 클릭핀 첫번째에 넣기 위해 정보 가져오기
      */
-    public HomeCardViewResponse getFirstPinData (String pinType, Long pinDBId, double latitude, double longitude) throws PintypeDBIdException {
+    public HomeCardViewResponse getFirstPinData (String pinType, Long pinDBId) throws PintypeDBIdException {
+        log.info("pintype: {},pinDBId: {}",pinType,pinDBId);
         if (pinType.equals("storyPin")) {
+            log.info("{}","storyPin");
+
             if (storyPinRepository.findById(pinDBId).isPresent()) {
+                log.info("{}",storyPinRepository.findById(pinDBId).isPresent());
                 StoryPin storyPin = storyPinRepository.findById(pinDBId).get();
                 int likes = storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(storyPin.getId()).size();
                 int comments = storyPinCommentRepository.findStoryPinCommentsByStoryPin_Id(storyPin.getId()).size();
                 return HomeCardViewResponse.builder()
-                        .distance(distance(storyPin.getLatitude(), storyPin.getLongitude(), latitude, longitude, "meter"))
+                        .distance(0.0)
                         .pinType("storyPin")
                         .latitude(storyPin.getLatitude())
                         .longitude(storyPin.getLongitude())
@@ -471,7 +475,9 @@ public class HomeServiceImpl implements HomeService{
                         .build();
             }else throw new PintypeDBIdException();
 
-        }else{
+        }else if (pinType.equals("meetingPin")){
+            log.info("{}","meetingPin");
+
             if (meetingPinRepository.findById(pinDBId).isPresent()) {
                 MeetingPin meetingPin = meetingPinRepository.findById(pinDBId).get();
                 // 날짜 핀카드 형식대로 받아오기
@@ -480,7 +486,7 @@ public class HomeServiceImpl implements HomeService{
                 String amPm = getAmPm(getdate);
                 DayOfWeek dayOfWeek = getdate.getDayOfWeek();
                 return HomeCardViewResponse.builder()
-                        .distance(distance(meetingPin.getLatitude(), meetingPin.getLongitude(), latitude, longitude, "meter"))
+                        .distance(0.0)
                         .pinType("meetingPin")
                         .latitude(meetingPin.getLatitude())
                         .longitude(meetingPin.getLongitude())
@@ -491,7 +497,7 @@ public class HomeServiceImpl implements HomeService{
                         .date(getdate.format(DateTimeFormatter.ofPattern("M월 dd일 (")) + dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN) + ") " + amPm + renameHour + "시")
                         .build();
             }else throw new PintypeDBIdException();
-        }
+        }else throw new PintypeDBIdException();
     }
 
     /**
