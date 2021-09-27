@@ -107,10 +107,15 @@ class PinServiceImplTest {
 
     @Test
     @DisplayName("만남핀 가져오기")
-    void Test(){
+    void Test4(){
         System.out.println(pinService.getMeetingPin(12L));
     }
 
+    @Test
+    @DisplayName("이야기핀 가져오기")
+    void Test5(){
+        System.out.println(pinService.getStoryPin(12L));
+    }
 
     private void insertUser() throws IOException {
         MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
