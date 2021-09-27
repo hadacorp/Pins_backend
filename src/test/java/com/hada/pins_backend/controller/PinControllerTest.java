@@ -40,12 +40,6 @@ class PinControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @BeforeEach
-    public void insertPin() throws IOException {
-        insertUser();
-    }
-
-
 
     @Test
     @DisplayName("커뮤니티 핀 생성 컨트롤러 mvc 테스트")
@@ -119,6 +113,40 @@ class PinControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    @DisplayName("만남핀 가져오기 MVC 테스트")
+    void getMeetingPin() throws Exception {
+        LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
+        //존재하는 핀일때
+        mockMvc.perform(MockMvcRequestBuilders.get("/pin/meetingpin/20")
+                        .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+        //존재하지 않는 핀 일때
+        mockMvc.perform(MockMvcRequestBuilders.get("/pin/meetingpin/102000000")
+                        .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+    @Test
+    @DisplayName("이야기핀 가져오기 MVC 테스트")
+    void getStoryPin() throws Exception {
+        LoginUserResponse loginUserResponse = userService.login(UserLoginForm.builder().userphonenum("010-7760-6393").build());
+        //존재하는 핀일때
+        mockMvc.perform(MockMvcRequestBuilders.get("/pin/storypin/20")
+                        .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+        //존재하지 않는 핀 일때
+        mockMvc.perform(MockMvcRequestBuilders.get("/pin/storypin/102000000")
+                        .header("X-AUTH-TOKEN",loginUserResponse.getJwtToken())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
 
 
     private void insertUser() throws IOException {

@@ -1,7 +1,6 @@
 package com.hada.pins_backend.exception.pin;
 
 import com.hada.pins_backend.controller.PinController;
-import com.hada.pins_backend.controller.UserController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,5 +21,9 @@ public class PinControllerAdvice {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<String> MethodArgumentNotValidException(MethodArgumentNotValidException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Request body 형식 오류");
+    }
+    @ExceptionHandler(value = NotExistException.class)
+    public ResponseEntity<String> NotExistException(NotExistException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("존재하지 않는 핀 id 입니다.");
     }
 }

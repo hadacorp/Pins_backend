@@ -1,6 +1,5 @@
 package com.hada.pins_backend.service.pin;
 
-import com.hada.pins_backend.domain.Gender;
 import com.hada.pins_backend.domain.communityPin.CommunityPin;
 import com.hada.pins_backend.domain.communityPin.CommunityPinRepository;
 import com.hada.pins_backend.domain.meetingPin.MeetingPin;
@@ -11,6 +10,9 @@ import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.dto.pin.request.RequestCreateCommunityPin;
 import com.hada.pins_backend.dto.pin.request.RequestMeetingPin;
 import com.hada.pins_backend.dto.pin.request.RequestStoryPin;
+import com.hada.pins_backend.dto.pin.response.MeetingPinResponse;
+import com.hada.pins_backend.dto.pin.response.StoryPinResponse;
+import com.hada.pins_backend.exception.pin.NotExistException;
 import com.hada.pins_backend.service.aws.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -91,5 +93,25 @@ public class PinServiceImpl implements PinService{
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("저장 실패");
 
         }
+    }
+    /**
+     * 만남핀 가져오기
+     */
+    @Override
+    public ResponseEntity<MeetingPinResponse> getMeetingPin(Long id) {
+        if(meetingPinRepository.findById(id).isPresent()) {
+            MeetingPin meetingPin = meetingPinRepository.findById(id).get();
+            return ResponseEntity.ok(new MeetingPinResponse().meetingPintoResponse(meetingPin));
+        }else throw new NotExistException();
+    }
+    /**
+     * 이야기핀 가져오기
+     */
+    @Override
+    public ResponseEntity<StoryPinResponse> getStoryPin(Long id) {
+        if(storyPinRepository.findById(id).isPresent()) {
+            StoryPin storyPin = storyPinRepository.findById(id).get();
+            return ResponseEntity.ok(new StoryPinResponse().storyPintoResponse(storyPin));
+        }else throw new NotExistException();
     }
 }
