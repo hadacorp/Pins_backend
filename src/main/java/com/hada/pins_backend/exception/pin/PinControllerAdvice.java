@@ -24,6 +24,6 @@ public class PinControllerAdvice {
     }
     @ExceptionHandler(value = NotExistException.class)
     public ResponseEntity<String> NotExistException(NotExistException e){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("존재하지 않는 핀 입니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("존재하지 않는 핀 id 입니다.");
     }
 }

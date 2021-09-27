@@ -5,6 +5,7 @@ import com.hada.pins_backend.dto.pin.request.RequestCreateCommunityPin;
 import com.hada.pins_backend.dto.pin.request.RequestMeetingPin;
 import com.hada.pins_backend.dto.pin.request.RequestStoryPin;
 import com.hada.pins_backend.dto.pin.response.MeetingPinResponse;
+import com.hada.pins_backend.dto.pin.response.StoryPinResponse;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -18,4 +19,6 @@ public interface PinService {
     ResponseEntity<String> createStoryPin(User user, RequestStoryPin requestStoryPin);
 
     ResponseEntity<MeetingPinResponse> getMeetingPin(Long id);
+
+    ResponseEntity<StoryPinResponse> getStoryPin(Long id);
 }
