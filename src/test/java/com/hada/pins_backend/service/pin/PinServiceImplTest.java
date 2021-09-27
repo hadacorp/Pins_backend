@@ -43,10 +43,6 @@ class PinServiceImplTest {
     private MeetingPinRepository meetingPinRepository;
     @Autowired
     private StoryPinRepository storyPinRepository;
-    @BeforeEach
-    public void insertPin() throws IOException {
-        insertUser();
-    }
 
     @Test
     @DisplayName("커뮤니티 핀 생성")
@@ -107,6 +103,12 @@ class PinServiceImplTest {
 
         pinService.createStoryPin(userRepository.findAll().get(0),requestStoryPin);
         storyPinRepository.findAll().forEach(System.out::println);
+    }
+
+    @Test
+    @DisplayName("만남핀 가져오기")
+    void Test(){
+        System.out.println(pinService.getMeetingPin(12L));
     }
 
 
