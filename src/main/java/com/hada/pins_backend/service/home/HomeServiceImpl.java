@@ -62,7 +62,7 @@ public class HomeServiceImpl implements HomeService{
      */
 
     /**
-     * 홈화면 핀 로딩
+     * 홈화면 핀 로딩 deprecated
      */
     @Override
     public ResponseEntity<List<HomePinResponse>> loadPin(String phoneNum, LongitudeAndLatitude longitudeAndLatitude, FilterData filterData) {
@@ -135,7 +135,7 @@ public class HomeServiceImpl implements HomeService{
 
 
     /**
-     * 키워드 핀 검색
+     * 키워드 핀 검색 deprecated
      */
     @Override
     public ResponseEntity<List<HomePinResponse>> searchPin(String phoneNum, String keyword, LongitudeAndLatitude longitudeAndLatitude,FilterData filterData) {
@@ -201,7 +201,7 @@ public class HomeServiceImpl implements HomeService{
     }
 
     /**
-     * 카드뷰 로딩
+     * 카드뷰 로딩 deprecated
      */
     @Override
     @Transactional
@@ -306,7 +306,7 @@ public class HomeServiceImpl implements HomeService{
 
     }
     /**
-     * 홈화면 키워드 카드뷰 로딩
+     * 홈화면 키워드 카드뷰 로딩 deprecated
      */
     @Override
     public ResponseEntity<List<HomeCardViewResponse>> searchCardView(String phoneNum, String pinType, Long pinDBId, String keyword, FilterData filterData) {
@@ -379,6 +379,181 @@ public class HomeServiceImpl implements HomeService{
                             .build()
                     );
                 }
+            }
+        });
+
+        Collections.sort(homeCardViewResponses);
+        List<HomeCardViewResponse> subHomeCardViewResponse;
+        if(homeCardViewResponses.size()>50) {
+            subHomeCardViewResponse = homeCardViewResponses.subList(0, 50);
+            return ResponseEntity.status(HttpStatus.OK).body(subHomeCardViewResponse);
+        }else return ResponseEntity.status(HttpStatus.OK).body(homeCardViewResponses);
+    }
+
+    /**
+     * 핀, 카드뷰 로딩
+     */
+    @Override
+    public ResponseEntity<List<HomeCardViewResponse>> loadPinAndCardview(String phoneNum, LongitudeAndLatitude longitudeAndLatitude, FilterData filterData) {
+        //최대 최소 위도 경도 계산
+        double maxLatitude = longitudeAndLatitude.getMaxLatitude(), minLatitude = longitudeAndLatitude.getMinLatitude();
+        double maxLongitude = longitudeAndLatitude.getMaxLongitude(), minLongitude = longitudeAndLatitude.getMinLongitude();
+
+
+        // 혹시 모르게 생길 토큰 오류 체크
+        if(userRepository.findByPhoneNum(phoneNum).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+
+        // 토큰에서 가져온 전화번호로 사용자 나이와 성별 가져오기
+        int age = userRepository.findByPhoneNum(phoneNum).get().getAge();
+        Gender gender =  userRepository.findByPhoneNum(phoneNum).get().getGender();
+
+        //만남핀 가져오기
+        List<MeetingPin> meetingPins = meetingPinRepository.findByLatitudeLessThanEqualAndLatitudeGreaterThanEqualAndLongitudeLessThanEqualAndLongitudeGreaterThanEqualAndMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(
+                maxLatitude,
+                minLatitude,
+                maxLongitude,
+                minLongitude,
+                age,
+                age
+        );
+
+
+        //이야기핀 가져오기
+        List<StoryPin> storyPins = storyPinRepository.findByLatitudeLessThanEqualAndLatitudeGreaterThanEqualAndLongitudeLessThanEqualAndLongitudeGreaterThanEqual(
+                maxLatitude,
+                minLatitude,
+                maxLongitude,
+                minLongitude
+        );
+
+        List<HomeCardViewResponse> homeCardViewResponses = new ArrayList<>();
+
+
+
+        //만남핀에서 성별조건 확인후 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
+        meetingPins.forEach((pin)->{
+            if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
+                if (filterData.meetingPinFilter(pin)){
+                    // 날짜 핀카드 형식대로 받아오기
+                    LocalDateTime getdate = pin.getDate();
+                    int renameHour = getRenameHour(getdate);
+                    String amPm = getAmPm(getdate);
+                    DayOfWeek dayOfWeek = getdate.getDayOfWeek();
+
+                    homeCardViewResponses.add(HomeCardViewResponse.builder()
+                            .distance(distance(pin.getLatitude(), pin.getLongitude(),longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(), "meter"))
+                            .pinType("meetingPin")
+                            .latitude(pin.getLatitude())
+                            .longitude(pin.getLongitude())
+                            .pinDBId(pin.getId())
+                            .category(pin.getCategory())
+                            .title(pin.getTitle())
+                            .image(pin.getCreateUser().getProfileImage())
+                            .date(getdate.format(DateTimeFormatter.ofPattern("M월 dd일 (")) + dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN) + ") " + amPm + renameHour + "시")
+                            .build()
+                    );
+
+                }
+            }
+        });
+
+        //이야기 핀에서 homePinResponses에 거리를 계산하여 넣어준다.
+        storyPins.forEach((pin)-> {
+            if(filterData.storyPinFilter(pin)){
+                int likes = storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(pin.getId()).size();
+                int comments = storyPinCommentRepository.findStoryPinCommentsByStoryPin_Id(pin.getId()).size();
+                homeCardViewResponses.add(HomeCardViewResponse.builder()
+                        .distance(distance(pin.getLatitude(), pin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(), "meter"))
+                        .pinType("storyPin")
+                        .latitude(pin.getLatitude())
+                        .longitude(pin.getLongitude())
+                        .pinDBId(pin.getId())
+                        .category(pin.getCategory())
+                        .title(pin.getTitle())
+                        .comment(comments)
+                        .like(likes)
+                        .image(pin.getImage())
+                        .build()
+                );
+
+            }
+        });
+        Collections.sort(homeCardViewResponses);
+
+        if(homeCardViewResponses.size()>50) {
+            List<HomeCardViewResponse> subhomeCardViewResponses;
+            subhomeCardViewResponses = homeCardViewResponses.subList(0, 50);
+            return ResponseEntity.status(HttpStatus.OK).body(subhomeCardViewResponses);
+        }else return ResponseEntity.status(HttpStatus.OK).body(homeCardViewResponses);
+    }
+
+    /**
+     * 키워드 핀, 카드뷰 로딩
+     */
+    @Override
+    public ResponseEntity<List<HomeCardViewResponse>> searchPinAndCardview(String phoneNum, LongitudeAndLatitude longitudeAndLatitude, String keyword, FilterData filterData) {
+        // 혹시 모르게 생길 토큰 오류 체크
+        if(userRepository.findByPhoneNum(phoneNum).isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+
+        // 토큰에서 가져온 전화번호로 사용자 나이와 성별 가져오기
+        int age = userRepository.findByPhoneNum(phoneNum).get().getAge();
+        Gender gender =  userRepository.findByPhoneNum(phoneNum).get().getGender();
+
+        //만남핀 가져오기
+        List<MeetingPin> meetingPins =meetingPinRepository.findByMaxAgeGreaterThanEqualAndMinAgeLessThanEqual(age,age);
+
+        //이야기핀 가져오기
+        List<StoryPin> storyPins = storyPinRepository.findByTitleContainingOrContentContaining(keyword,keyword);
+
+        List<HomeCardViewResponse> homeCardViewResponses = new ArrayList<>();
+
+        // 만남핀에서 성별조건 확인후 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
+        meetingPins.forEach((pin)->{if (pin.getSetGender() == gender || pin.getSetGender() ==Gender.Both) {
+            if (pin.getTitle().contains(keyword) || pin.getContent().contains(keyword)) {
+                if (filterData.meetingPinFilter(pin)){
+
+                    // 날짜 핀카드 형식대로 받아오기
+                    LocalDateTime getdate = pin.getDate();
+                    int renameHour = getRenameHour(getdate);
+                    String amPm = getAmPm(getdate);
+                    DayOfWeek dayOfWeek = getdate.getDayOfWeek();
+
+                    homeCardViewResponses.add(HomeCardViewResponse.builder()
+                            .distance(distance(pin.getLatitude(), pin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(),"meter"))
+                            .pinType("meetingPin")
+                            .latitude(pin.getLatitude())
+                            .longitude(pin.getLongitude())
+                            .pinDBId(pin.getId())
+                            .category(pin.getCategory())
+                            .title(pin.getTitle())
+                            .image(pin.getCreateUser().getProfileImage())
+                            .date(getdate.format(DateTimeFormatter.ofPattern("MM월 dd일 ("))+dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)+") "+ amPm + renameHour+"시")
+                            .build()
+                    );
+
+                }
+            }
+        }
+        });
+
+        //이야기 핀에서 키워드가 포함된 핀만 homePinResponses에 거리를 계산하여 넣어준다. + 필터 적용
+        storyPins.forEach((pin)-> {
+            if(filterData.storyPinFilter(pin)){
+                int likes = storyPinLikeRepository.findStoryPinLikesByStoryPin_Id(pin.getId()).size();
+                int comments = storyPinCommentRepository.findStoryPinCommentsByStoryPin_Id(pin.getId()).size();
+                homeCardViewResponses.add(HomeCardViewResponse.builder()
+                        .distance(distance(pin.getLatitude(), pin.getLongitude(), longitudeAndLatitude.getLatitude(), longitudeAndLatitude.getLongitude(), "meter"))
+                        .pinType("storyPin")
+                        .latitude(pin.getLatitude())
+                        .longitude(pin.getLongitude())
+                        .pinDBId(pin.getId())
+                        .category(pin.getCategory())
+                        .title(pin.getTitle())
+                        .comment(comments)
+                        .image(pin.getImage())
+                        .like(likes)
+                        .build()
+                );
             }
         });
 

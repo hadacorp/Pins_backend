@@ -19,4 +19,8 @@ public interface HomeService {
     ResponseEntity<List<HomeLocationResponse>> searchLocation(String keyword);
     ResponseEntity<List<HomeCardViewResponse>> loadCardView(String phoneNum, String pinType, Long pinDBId, FilterData filterData);
     ResponseEntity<List<HomeCardViewResponse>> searchCardView(String phoneNum, String pinType, Long pinDBId, String keyword, FilterData filterData);
+
+    ResponseEntity<List<HomeCardViewResponse>> loadPinAndCardview(String phoneNum, LongitudeAndLatitude longitudeAndLatitude, FilterData filterData);
+
+    ResponseEntity<List<HomeCardViewResponse>> searchPinAndCardview(String phoneNum, LongitudeAndLatitude longitudeAndLatitude, String keyword, FilterData filterData);
 }

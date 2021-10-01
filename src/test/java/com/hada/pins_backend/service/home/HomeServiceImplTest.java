@@ -62,47 +62,61 @@ class HomeServiceImplTest {
 
     @Test
     @Disabled
-    @DisplayName("홈화면 핀 로딩 기능")
+    @DisplayName("홈화면 핀 로딩 기능 deprecated")
     void Test1(){
         System.out.println(homeService.loadPin("010-7760-6393",new LongitudeAndLatitude(37.282083,127.043850), new FilterData("all", "all", "all", "all", "all", "all", "all")));
     }
 
     @Test
     @Disabled
-    @DisplayName("홈화면 핀 키워드 검색 기능")
+    @DisplayName("홈화면 핀 키워드 검색 기능 deprecated")
     void Test2(){
         System.out.println(homeService.searchPin("010-7760-6393","아주대",new LongitudeAndLatitude(37.282083,127.043850),new FilterData("all", "all", "all", "all", "all", "all", "all")));
     }
 
     @Test
-    @DisplayName("홈화면 핀 로딩 기능 + 필터")
+    @DisplayName("홈화면 핀 로딩 기능 + 필터 deprecated")
     void Test3(){
         System.out.println(homeService.loadPin("010-7760-6393",new LongitudeAndLatitude(37.282083,127.043850),new FilterData("산책/반려동물", "0-1-2-3", "1-23", "Male", "20-30", "all", "#분실/실종")));
     }
 
     @Test
-    @DisplayName("홈화면 핀 키워드 검색 기능 + 필터")
+    @DisplayName("홈화면 핀 키워드 검색 기능 + 필터 deprecated")
     void Test4(){
         System.out.println(homeService.searchPin("010-7760-6393","TEST",new LongitudeAndLatitude(37.282083,127.053850),new FilterData("산책/반려동물", "all", "1-23", "Male", "20-30", "all", "all")));
     }
 
     @Test
-    @DisplayName("홈화면 장소 키워드 검색 기능 + 필터")
+    @DisplayName("홈화면 장소 키워드 검색 기능")
     void Test5(){
         System.out.println(homeService.searchLocation("피자헛"));
     }
 
     @Test
-    @DisplayName("홈화면 카드뷰 로딩 기능")
+    @DisplayName("홈화면 카드뷰 로딩 기능 deprecated")
     void Test6(){
         System.out.println(homeService.loadCardView("010-7760-6393","meetingPin",721L,new FilterData("all", "all", "all", "all", "all", "all", "all")));
     }
 
     @Test
-    @DisplayName("홈화면 키워드 카드뷰 로딩 기능")
+    @DisplayName("홈화면 키워드 카드뷰 로딩 기능 deprecated")
     void Test7(){
         System.out.println(homeService.searchCardView("010-7760-6393","storyPin",50L,"TEST",new FilterData("all", "all", "all", "all", "all", "all", "all")));
     }
+
+    @Test
+    @DisplayName("홈화면 핀, 카드뷰 로딩 기능")
+    void Test8(){
+        System.out.println(homeService.loadPinAndCardview("010-7760-6393",new LongitudeAndLatitude(37.282083,127.043850),new FilterData("산책/반려동물", "0-1-2-3", "1-23", "Male", "20-30", "all", "#분실/실종")));
+    }
+
+    @Test
+    @DisplayName("홈화면 키워드 핀, 카드뷰 로딩 기능")
+    void Test9(){
+        System.out.println(homeService.searchPinAndCardview("010-7760-6393",new LongitudeAndLatitude(37.282083,127.043850),"방진혁",new FilterData("all", "all", "all", "all", "all", "all", "all")));
+    }
+
+
 
     private void insertUser() throws IOException {
         MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
