@@ -40,7 +40,18 @@ public class CommunityPin extends BaseTimeEntity {
     private String content;
 
     @NotBlank
+    private String detail;
+
+    @NotBlank
     private String category;
+
+    @NotNull
+    // 0 자유 참가 방식, 1 참가 신청 방식
+    private int participationType;
+
+    @NotNull
+    // 0 개인 프로필 참가, 1 익명 프로필 참가
+    private int profileType;
 
     @Enumerated(value = EnumType.STRING)
     private Gender setGender;
@@ -79,19 +90,25 @@ public class CommunityPin extends BaseTimeEntity {
                         User superUser,
                         String title,
                         String content,
+                        String detail,
                         String category,
+                        int participationType,
+                        int profileType,
                         Gender setGender,
                         int minAge,
                         int maxAge,
                         int setLimit,
                         double longitude,
                         double latitude,
-                        String image){
+                        String image) {
         this.createUser = createUser;
         this.superUser = superUser;
         this.title = title;
         this.content = content;
+        this.detail = detail;
         this.category = category;
+        this.participationType = participationType;
+        this.profileType = profileType;
         this.setGender = setGender;
         this.minAge = minAge;
         this.maxAge = maxAge;
