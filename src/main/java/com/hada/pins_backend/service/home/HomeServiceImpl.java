@@ -480,11 +480,7 @@ public class HomeServiceImpl implements HomeService{
         });
         Collections.sort(homeCardViewResponses);
 
-        if(homeCardViewResponses.size()>50) {
-            List<HomeCardViewResponse> subhomeCardViewResponses;
-            subhomeCardViewResponses = homeCardViewResponses.subList(0, 50);
-            return ResponseEntity.status(HttpStatus.OK).body(subhomeCardViewResponses);
-        }else return ResponseEntity.status(HttpStatus.OK).body(homeCardViewResponses);
+        return ResponseEntity.status(HttpStatus.OK).body(homeCardViewResponses);
     }
 
     /**
@@ -559,8 +555,8 @@ public class HomeServiceImpl implements HomeService{
 
         Collections.sort(homeCardViewResponses);
         List<HomeCardViewResponse> subHomeCardViewResponse;
-        if(homeCardViewResponses.size()>50) {
-            subHomeCardViewResponse = homeCardViewResponses.subList(0, 50);
+        if(homeCardViewResponses.size()>300) {
+            subHomeCardViewResponse = homeCardViewResponses.subList(0, 300);
             return ResponseEntity.status(HttpStatus.OK).body(subHomeCardViewResponse);
         }else return ResponseEntity.status(HttpStatus.OK).body(homeCardViewResponses);
     }
