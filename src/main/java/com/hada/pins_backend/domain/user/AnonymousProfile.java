@@ -50,8 +50,7 @@ public class AnonymousProfile extends BaseTimeEntity {
     private String profileImage;
 
     @Builder
-    public AnonymousProfile(Long id, User createUser, String name, String profileImage) {
-        this.id = id;
+    public AnonymousProfile(User createUser, String name, String profileImage) {
         this.createUser = createUser;
         this.name = name;
         this.profileImage = profileImage;
