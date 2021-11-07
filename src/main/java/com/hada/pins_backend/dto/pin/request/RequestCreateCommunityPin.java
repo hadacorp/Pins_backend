@@ -36,9 +36,6 @@ public class RequestCreateCommunityPin {
     @NotNull
     private int maxAge;
 
-    @DecimalMin(value = "1")
-    private int setLimit;
-
     @NotNull
     private double longitude;
 
@@ -61,7 +58,6 @@ public class RequestCreateCommunityPin {
                 .setGender(renamGender)
                 .minAge(this.minAge)
                 .maxAge(this.maxAge)
-                .setLimit(this.setLimit)
                 .longitude(this.longitude)
                 .latitude(this.latitude)
                 .image(imageurl)
