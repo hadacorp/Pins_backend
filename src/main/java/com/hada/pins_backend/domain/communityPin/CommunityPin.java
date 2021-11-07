@@ -62,8 +62,8 @@ public class CommunityPin extends BaseTimeEntity {
     @NotNull
     private int maxAge;
 
-    @DecimalMin(value = "1")
-    private int setLimit;
+//    @DecimalMin(value = "1")
+//    private int setLimit;
 
     @NotNull
     private double longitude;
@@ -97,7 +97,6 @@ public class CommunityPin extends BaseTimeEntity {
                         Gender setGender,
                         int minAge,
                         int maxAge,
-                        int setLimit,
                         double longitude,
                         double latitude,
                         String image) {
@@ -112,7 +111,6 @@ public class CommunityPin extends BaseTimeEntity {
         this.setGender = setGender;
         this.minAge = minAge;
         this.maxAge = maxAge;
-        this.setLimit = setLimit;
         this.longitude = longitude;
         this.latitude = latitude;
         this.image = image;
