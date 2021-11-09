@@ -47,21 +47,26 @@ class PinServiceImplTest {
     @Test
     @DisplayName("커뮤니티 핀 생성")
     void Test1() throws Exception{
-        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
+        String url = "https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+5.22.27.png";
+        MockMultipartFile file = new MockMultipartFile("file","userimage0.png" , "image/png" ,new URL(url).openStream());
+
         RequestCreateCommunityPin requestCreateCommunityPin = RequestCreateCommunityPin.builder()
                 .title("아주대학교 태권도 커뮤니티")
                 .content("태권도 하실분")
                 .category("스포츠/운동")
                 .setGender("Both")
+                .detail("detaile입니다")
                 .minAge(20)
+                .participationType(0)
+                .profileType(0)
                 .maxAge(30)
-                .setLimit(10)
                 .latitude(37.2761066)
                 .longitude(127.0424131)
                 .image(file).build();
 
-        pinService.createCommunityPin(userRepository.findAll().get(0),requestCreateCommunityPin);
+        pinService.createCommunityPin(userRepository.findAll().get(0), requestCreateCommunityPin);
         communityPinRepository.findAll().forEach(System.out::println);
+
 
     }
 

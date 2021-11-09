@@ -74,7 +74,9 @@ class CommunityPostRepositoryTest {
                 .setGender(Gender.Both)
                 .minAge(20)
                 .maxAge(40)
-                .setLimit(20)
+                .detail("detaile입니다")
+                .participationType(0)
+                .profileType(0)
                 .latitude(12.123)
                 .longitude(14.123)
                 .build();

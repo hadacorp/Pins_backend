@@ -186,7 +186,9 @@ class HomeServiceImplTest {
                 .setGender(Gender.Both)
                 .minAge(20)
                 .maxAge(40)
-                .setLimit(10)
+                .detail("detaile입니다")
+                .participationType(0)
+                .profileType(0)
                 .latitude(37.287280)
                 .longitude(127.046373)
                 .build();
@@ -200,7 +202,9 @@ class HomeServiceImplTest {
                 .setGender(Gender.Female)
                 .minAge(20)
                 .maxAge(40)
-                .setLimit(10)
+                .detail("detaile입니다")
+                .participationType(0)
+                .profileType(0)
                 .latitude(37.287277)
                 .longitude(127.046378)
                 .build();

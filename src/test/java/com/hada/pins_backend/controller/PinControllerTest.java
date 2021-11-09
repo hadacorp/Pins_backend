@@ -51,7 +51,9 @@ class PinControllerTest {
                 .setGender("Both")
                 .minAge(20)
                 .maxAge(30)
-                .setLimit(10)
+                .detail("detaile입니다")
+                .participationType(0)
+                .profileType(0)
                 .longitude(37.2761063)
                 .latitude(127.0424111)
                 .image(null).build();

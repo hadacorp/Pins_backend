@@ -213,7 +213,9 @@ class HomeControllerTest {
                 .setGender(Gender.Both)
                 .minAge(20)
                 .maxAge(40)
-                .setLimit(10)
+                .detail("detaile입니다")
+                .participationType(0)
+                .profileType(0)
                 .latitude(37.287281)
                 .longitude(127.046374)
                 .build();
@@ -227,7 +229,9 @@ class HomeControllerTest {
                 .setGender(Gender.Female)
                 .minAge(20)
                 .maxAge(40)
-                .setLimit(10)
+                .detail("detaile입니다")
+                .participationType(0)
+                .profileType(0)
                 .latitude(37.287287)
                 .longitude(127.046378)
                 .build();
