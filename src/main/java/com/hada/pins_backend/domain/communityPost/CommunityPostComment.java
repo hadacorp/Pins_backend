@@ -2,9 +2,7 @@ package com.hada.pins_backend.domain.communityPost;
 
 import com.hada.pins_backend.domain.BaseTimeEntity;
 import com.hada.pins_backend.domain.user.User;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +10,8 @@ import javax.validation.constraints.NotBlank;
 /**
  * Created by bangjinhyuk on 2021/08/01.
  */
-@Data
+@Getter
+@ToString
 @NoArgsConstructor
 @Entity
 public class CommunityPostComment extends BaseTimeEntity {

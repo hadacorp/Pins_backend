@@ -30,6 +30,17 @@ public class RequestCreateCommunityPin {
     @NotBlank
     private String setGender;
 
+    @NotBlank
+    private String detail;
+
+    @NotNull
+    // 0 자유 참가 방식, 1 참가 신청 방식
+    private int participationType;
+
+    @NotNull
+    // 0 개인 프로필 참가, 1 익명 프로필 참가
+    private int profileType;
+
     @NotNull
     private int minAge;
 
@@ -53,6 +64,9 @@ public class RequestCreateCommunityPin {
                 .createUser(createUser)
                 .superUser(createUser)
                 .title(this.title)
+                .detail(this.detail)
+                .participationType(this.participationType)
+                .profileType(this.profileType)
                 .content(this.content)
                 .category(this.category)
                 .setGender(renamGender)
