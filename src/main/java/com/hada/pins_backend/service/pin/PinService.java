@@ -21,4 +21,10 @@ public interface PinService {
     ResponseEntity<MeetingPinResponse> getMeetingPin(Long id);
 
     ResponseEntity<StoryPinResponse> getStoryPin(Long id);
+
+    ResponseEntity<String> deleteCommunityPin(Long id);
+
+    ResponseEntity<String> deleteMeetingPin(Long id);
+
+    ResponseEntity<String> deleteStoryPin(Long id);
 }
