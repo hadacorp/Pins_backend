@@ -69,5 +69,20 @@ public class PinController {
         return pinService.getStoryPin(id);
     }
 
+    @DeleteMapping ("/communitypin/{id}")
+    public ResponseEntity<String> deleteCommunityPin(@PathVariable("id") Long id){
+        return pinService.deleteCommunityPin(id);
+    }
+
+    @DeleteMapping ("/meetingpin/{id}")
+    public ResponseEntity<String> deleteMeetingPin(@PathVariable("id") Long id){
+        return pinService.deleteMeetingPin(id);
+    }
+
+    @DeleteMapping ("/storypin/{id}")
+    public ResponseEntity<String> deleteStoryPin(@PathVariable("id") Long id){
+        return pinService.deleteStoryPin(id);
+    }
+
 
 }
