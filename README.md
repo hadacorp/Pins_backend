@@ -17,40 +17,6 @@ ERD v2.0
 &nbsp;
 &nbsp;
 
-<details markdown = "1">
-<summary>Tables 1</summary>
-
-</details>
-&nbsp;
-&nbsp;
-<details markdown = "1">
-<summary>Tables 2</summary>
-
-</details>
-
-&nbsp;
-&nbsp;
-&nbsp;
-
-# Technologies
--
--
-
-&nbsp;
-&nbsp;
-&nbsp;
-
-# Features
-
-**User**
--
--
--
-
-
-&nbsp;
-&nbsp;
-&nbsp;
 
 # API Documentiaion
 [API 명세서 제작중 링크](https://documenter.getpostman.com/view/14767155/TzzHksGm)
@@ -60,10 +26,6 @@ ERD v2.0
 &nbsp;
 &nbsp;
 
-# Contact
-- 
-
-&nbsp;
 
 
 # 깃 커밋 유형
