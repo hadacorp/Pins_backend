@@ -114,4 +114,34 @@ public class PinServiceImpl implements PinService{
             return ResponseEntity.ok(new StoryPinResponse().storyPintoResponse(storyPin));
         }else throw new NotExistException();
     }
+    /**
+     * 커뮤니티핀 삭제
+     */
+    @Override
+    public ResponseEntity<String> deleteCommunityPin(Long id) {
+        if(communityPinRepository.findById(id).isPresent()){
+            communityPinRepository.deleteById(id);
+            return ResponseEntity.ok("delete");
+        }else return ResponseEntity.ok("Not exist");
+    }
+    /**
+     * 만남핀 삭제
+     */
+    @Override
+    public ResponseEntity<String> deleteMeetingPin(Long id) {
+        if(meetingPinRepository.findById(id).isPresent()){
+            meetingPinRepository.deleteById(id);
+            return ResponseEntity.ok("delete");
+        }else return ResponseEntity.ok("Not exist");
+    }
+    /**
+     * 이야기핀 삭제
+     */
+    @Override
+    public ResponseEntity<String> deleteStoryPin(Long id) {
+        if(storyPinRepository.findById(id).isPresent()){
+            storyPinRepository.deleteById(id);
+            return ResponseEntity.ok("delete");
+        }else return ResponseEntity.ok("Not exist");
+    }
 }
