@@ -9,14 +9,15 @@ import com.hada.pins_backend.dto.pin.response.MeetingPinResponse;
 import com.hada.pins_backend.dto.pin.response.StoryPinResponse;
 import com.hada.pins_backend.service.pin.PinService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.validation.Valid;
-import java.util.Collection;
 
 /**
  * Created by bangjinhyuk on 2021/09/06.
@@ -26,6 +27,11 @@ import java.util.Collection;
 @RequestMapping("/pin")
 public class PinController {
     private final PinService pinService;
+
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver multipartResolver() {
+        return new CommonsMultipartResolver();
+    }
 
     /**
      * 커뮤니티 핀 생성
