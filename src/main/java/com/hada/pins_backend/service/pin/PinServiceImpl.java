@@ -45,7 +45,7 @@ public class PinServiceImpl implements PinService{
             //이미지 넣어주는 부분 test:: null일때 허용해둠
             String uploadImageURL;
             if (requestCreateCommunityPin.getImage()==null) uploadImageURL= "없음";
-            else uploadImageURL = s3Uploader.upload(requestCreateCommunityPin.getImage(), "images");
+            else uploadImageURL = s3Uploader.upload(requestCreateCommunityPin.getImage(), "images", requestCreateCommunityPin.getTitle());
             log.info("requestCreateCommunityPin = {}",requestCreateCommunityPin);
             CommunityPin communityPin = requestCreateCommunityPin.toCommunityPin(user,uploadImageURL);
             communityPinRepository.save(communityPin);
@@ -85,7 +85,7 @@ public class PinServiceImpl implements PinService{
             //이미지 넣어주는 부분
             String uploadImageURL;
             if (requestStoryPin.getImage()==null) uploadImageURL= "none";
-            else uploadImageURL = s3Uploader.upload(requestStoryPin.getImage(), "images");
+            else uploadImageURL = s3Uploader.upload(requestStoryPin.getImage(), "images", requestStoryPin.getTitle());
             StoryPin storyPin = requestStoryPin.toStoryPin(user,uploadImageURL);
             storyPinRepository.save(storyPin);
             return ResponseEntity.status(HttpStatus.CREATED).body(storyPin.getId().toString());

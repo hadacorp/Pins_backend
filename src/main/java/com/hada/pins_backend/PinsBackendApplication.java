@@ -3,9 +3,11 @@ package com.hada.pins_backend;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
+@ServletComponentScan
 public class PinsBackendApplication {
 
     // 2개 yml 파일을 같이 사용할때
