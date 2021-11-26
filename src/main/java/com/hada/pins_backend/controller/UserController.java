@@ -47,10 +47,17 @@ public class UserController {
         return userService.checkNickname(nickName.getNickName());
     }
 
-    // 로그인
+
     @PostMapping("/login")
-    public ResponseEntity<LoginUserResponse> login(@RequestBody @Valid UserLoginForm userLoginForm) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.login(userLoginForm));
+    public ResponseEntity<String> beforeLogin(@RequestBody @Valid UserLoginForm userLoginForm) {
+        //TODO: 로그인 문자인증 넣기
+        return ResponseEntity.status(HttpStatus.OK).body("123456");
+    }
+
+    // 로그인
+    @GetMapping("/login")
+    public ResponseEntity<LoginUserResponse> login(@RequestParam @Valid UserLoginForm userLoginForm) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.login(userLoginForm));
     }
 //
 //    //유저 정보 반환
