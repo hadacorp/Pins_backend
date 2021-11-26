@@ -29,30 +29,29 @@ class UserServiceImplTest {
     @Autowired
     private UserRepository userRepository;
 
-    @BeforeEach
-    void insertOne() throws IOException {
-
-        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
-
-        JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
-                "뱅뱅뱅",
-                "980103-1",
-                "010-7760-6393",
-                file);
-        userService.insertUser(joinUserRequest);
-    }
+//    @BeforeEach
+//    void insertOne() throws IOException {
+//
+//        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
+//
+//        JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
+//                "뱅뱅뱅",
+//                "980103-1",
+//                "010-7760-6393",
+//                file);
+//        userService.insertUser(joinUserRequest);
+//    }
 
     @Test
     @DisplayName("회원가입 테스트")
     void Test1() throws IOException {
 
-        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
 
         JoinUserRequest joinUserRequest = new JoinUserRequest("아무개",
                 "아아무무개개",
                 "001212-2",
                 "010-1234-5678",
-                file );
+                null );
 
         ResponseEntity<JoinUserResponse> responseEntity = userService.insertUser(joinUserRequest);
         System.out.println(responseEntity);

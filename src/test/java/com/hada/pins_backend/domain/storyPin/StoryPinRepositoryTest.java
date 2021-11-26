@@ -5,6 +5,7 @@ import com.hada.pins_backend.domain.user.UserRepository;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.service.user.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,6 +49,7 @@ class StoryPinRepositoryTest {
     }
 
     @Test
+    @Disabled
     @Transactional
     void Test1(){
         User user1 = userRepository.findAll().get(0);

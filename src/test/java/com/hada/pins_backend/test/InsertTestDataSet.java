@@ -11,6 +11,7 @@ import com.hada.pins_backend.service.user.UserService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -81,6 +82,7 @@ public class InsertTestDataSet {
     }
 
     @Test
+    @Disabled
     public void insertMeetingPin(){
         String [] meetingPinCategory = new String[11];
         String [] storyPinCategory = new String[9];

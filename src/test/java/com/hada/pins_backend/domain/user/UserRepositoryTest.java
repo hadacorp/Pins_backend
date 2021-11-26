@@ -1,6 +1,7 @@
 package com.hada.pins_backend.domain.user;
 
 import com.hada.pins_backend.domain.Gender;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,7 @@ class UserRepositoryTest {
     private EntityManager entityManager;
 
     @Test
+    @Disabled
     void Test1(){
         User user = User.builder()
                 .name("bang")

@@ -6,6 +6,7 @@ import com.hada.pins_backend.domain.user.UserRepository;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,23 +32,9 @@ class MeetingPinRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    @BeforeEach
-    void createUser(){
-        User user = User.builder()
-                .name("bang")
-                .nickName("하나둘")
-                .resRedNumber("980103-1")
-                .phoneNum("010-7760-6393")
-                .age(24)
-                .gender(Gender.Male)
-                .profileImage("http;//...")
-                .build();
-        userRepository.save(user);
-
-        userRepository.findAll().forEach(System.out::println);
-    }
 
     @Test
+    @Disabled
     void Test1(){
 
         MeetingPin meetingPin = MeetingPin.builder()

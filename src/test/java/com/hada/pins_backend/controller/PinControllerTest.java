@@ -97,7 +97,6 @@ class PinControllerTest {
     @Test
     @DisplayName("이야기 핀 생성 컨트롤러 mvc 테스트")
     void createStoryPin() throws Exception{
-        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
         RequestStoryPin requestStoryPin = RequestStoryPin.builder()
                 .title("에어팟 케이스 분실")
                 .content("정문에서 에어팟 케이스 분실 했는데 보신분?")

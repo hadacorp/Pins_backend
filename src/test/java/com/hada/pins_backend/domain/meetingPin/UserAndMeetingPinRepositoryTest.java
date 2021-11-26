@@ -5,6 +5,7 @@ import com.hada.pins_backend.domain.Gender;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
 import org.assertj.core.util.Lists;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,6 +35,7 @@ class UserAndMeetingPinRepositoryTest {
     private EntityManager entityManager;
 
     @Test
+    @Disabled
     @Transactional
     void Test1() {
         User user1 = userRepository.findAll().get(0);

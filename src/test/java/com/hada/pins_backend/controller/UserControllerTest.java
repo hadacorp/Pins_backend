@@ -5,7 +5,9 @@ import com.hada.pins_backend.dto.user.NicknameDto;
 import com.hada.pins_backend.dto.user.UserLoginForm;
 import com.hada.pins_backend.dto.user.request.JoinUserRequest;
 import com.hada.pins_backend.service.user.UserService;
+import io.florianlopes.spring.test.web.servlet.request.MockMvcRequestBuilderUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,32 +42,33 @@ class UserControllerTest {
     @Autowired
     UserService userService;
 
-    @BeforeEach
-    void insertOne() throws IOException {
-        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
-
-        JoinUserRequest joinUserRequest = new JoinUserRequest("아무개",
-                "아아무무개",
-                "011212-2",
-                "010-1234-5678",
-                file);
-        userService.insertUser(joinUserRequest);
-    }
+//    @BeforeEach
+//    void insertOne() throws IOException {
+//        MockMultipartFile file = new MockMultipartFile("file","userimage1.png" , "image/png" ,new URL("https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/21b4b8ff-dd07-4838-a703-35f8f83378caman-technologist-light-skin-tone_1f468-1f3fb-200d-1f4bb.png").openStream());
+//
+//        JoinUserRequest joinUserRequest = new JoinUserRequest("아무개",
+//                "아아무무개",
+//                "011212-2",
+//                "010-1234-5678",
+//                file);
+//        userService.insertUser(joinUserRequest);
+//    }
 
     @Test
     @DisplayName("회원가입 컨트롤러 테스트")
+    @Disabled
     void join() throws Exception{
         JoinUserRequest joinUserRequest = new JoinUserRequest("방진혁",
                 "뱅뱅뱅",
                 "980103-1",
                 "010-7760-6393",
                 null);
-        mockMvc.perform(MockMvcRequestBuilders.post("/users/join")
-                        .content(objectMapper.writeValueAsString(joinUserRequest))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+
+        mockMvc.perform(MockMvcRequestBuilderUtils
+                        .postForm("/users/join",joinUserRequest))
                 .andExpect(status().isCreated())
                 .andDo(print());
+
     }
 
     @Test
@@ -93,7 +96,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("false"))
+                .andExpect(content().string("true"))
                 .andDo(print());
     }
     @Test
@@ -134,7 +137,7 @@ class UserControllerTest {
     @Test
     @DisplayName("로그인 컨트롤러 테스트")
     void login() throws Exception {
-        UserLoginForm userLoginForm = UserLoginForm.builder().userphonenum("010-1234-5678").build();
+        UserLoginForm userLoginForm = UserLoginForm.builder().userphonenum("010-7760-6393").build();
         mockMvc.perform(MockMvcRequestBuilders.post("/users/login")
                         .content(objectMapper.writeValueAsString(userLoginForm))
                         .contentType(MediaType.APPLICATION_JSON)
