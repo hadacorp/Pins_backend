@@ -13,12 +13,22 @@ import com.hada.pins_backend.service.aws.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.*;
 
 /**
@@ -31,6 +41,9 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final S3Uploader s3Uploader;
+
+    @Value("${cafe24.key}")
+    private String cafe24Key;
 
     @Override
     @Transactional
@@ -127,5 +140,42 @@ public class UserServiceImpl implements UserService{
                 .data(member.getAge()+"세 "+genderKor)
                 .jwtToken(jwtToken)
                 .build();
+    }
+
+    @Override
+    public ResponseEntity<String> sms(String phoneNum, String type) {
+        Random random = new Random();
+        StringBuilder sms = new StringBuilder();
+        sms.append("Pins 인증번호 ");
+        for(int i = 0; i<6; i++){
+            sms.append(random.nextInt(10));
+        }
+
+
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("user_id",Base64.getEncoder().encodeToString("goeat123".getBytes()));
+        params.add("secure",Base64.getEncoder().encodeToString(cafe24Key.getBytes()));
+        params.add("sphone1",Base64.getEncoder().encodeToString("010".getBytes()));
+        params.add("sphone2",Base64.getEncoder().encodeToString("7760".getBytes()));
+        params.add("sphone3",Base64.getEncoder().encodeToString("6393".getBytes()));
+        params.add("rphone",Base64.getEncoder().encodeToString(phoneNum.getBytes()));
+        params.add("msg",Base64.getEncoder().encodeToString(sms.toString().getBytes()));
+        params.add("mode",Base64.getEncoder().encodeToString("1".getBytes()));
+        params.add("testflag",Base64.getEncoder().encodeToString(type.getBytes()));
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://sslsms.cafe24.com/sms_sender.php")
+                .queryParams(params)
+                .build()
+                .toUri();
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<String> result = restTemplate.postForEntity(uri,params,String.class);
+
+        if(result.getBody().startsWith("success")) return ResponseEntity.ok(sms.toString());
+
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(result.getBody());
+
     }
 }

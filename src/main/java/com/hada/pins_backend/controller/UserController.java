@@ -48,10 +48,9 @@ public class UserController {
     }
 
 
-    @PostMapping("/login")
-    public ResponseEntity<String> beforeLogin(@RequestBody @Valid UserLoginForm userLoginForm) {
-        //TODO: 로그인 문자인증 넣기
-        return ResponseEntity.status(HttpStatus.OK).body("123456");
+    @GetMapping("/beforelogin")
+    public ResponseEntity<String> sms(@RequestParam String phoneNum) {
+        return userService.sms(phoneNum, "Y");
     }
 
     // 로그인

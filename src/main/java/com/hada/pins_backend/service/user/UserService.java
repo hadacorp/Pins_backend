@@ -14,4 +14,5 @@ public interface UserService {
     Boolean checkOldUser(UserLoginForm userLoginForm);
     Boolean checkNickname(String nickname);
     LoginUserResponse login(UserLoginForm userLoginForm);
+    ResponseEntity<String> sms(String phoneNum, String type);
 }
