@@ -80,4 +80,10 @@ class UserServiceImplTest {
         System.out.println(userService.login(userLoginForm));
     }
 
+    @Test
+    @DisplayName("문자인증 테스트")
+    void Test5(){
+        System.out.println(userService.sms("010-7760-6393","Y"));
+    }
+
 }
