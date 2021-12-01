@@ -7,21 +7,25 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.*;
 
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 
 public class GpsToAddress {
     double latitude;
     double longitude;
     String regionAddress;
-    @Value("${google.key}")
-    private String googleKey;
+    String googleKey;
 
-    public GpsToAddress(double latitude, double longitude) throws Exception {
+    public GpsToAddress(double latitude, double longitude, String googleKey) throws Exception {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.googleKey = googleKey;
         this.regionAddress = getRegionAddress(getJSONData(getApiAddress()));
     }
 

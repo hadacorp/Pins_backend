@@ -16,6 +16,7 @@ import com.hada.pins_backend.exception.pin.NotExistException;
 import com.hada.pins_backend.service.aws.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,9 @@ public class PinServiceImpl implements PinService{
     private final CommunityPinRepository communityPinRepository;
     private final MeetingPinRepository meetingPinRepository;
     private final StoryPinRepository storyPinRepository;
+    @Value("${google.key}")
+    private String googleKey;
+
 
     /**
      * 커뮤니티핀 저장
@@ -102,7 +106,7 @@ public class PinServiceImpl implements PinService{
     public ResponseEntity<MeetingPinResponse> getMeetingPin(Long id) {
         if(meetingPinRepository.findById(id).isPresent()) {
             MeetingPin meetingPin = meetingPinRepository.findById(id).get();
-            return ResponseEntity.ok(new MeetingPinResponse().meetingPintoResponse(meetingPin));
+            return ResponseEntity.ok(new MeetingPinResponse().meetingPintoResponse(meetingPin,googleKey));
         }else throw new NotExistException();
     }
     /**

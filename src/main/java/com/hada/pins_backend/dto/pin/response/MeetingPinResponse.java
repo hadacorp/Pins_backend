@@ -52,7 +52,7 @@ public class MeetingPinResponse {
 
     private List<ParticipantDetail> participantDetailList = new ArrayList<>();
 
-    public MeetingPinResponse meetingPintoResponse(MeetingPin meetingPin){
+    public MeetingPinResponse meetingPintoResponse(MeetingPin meetingPin, String googleKey){
         this.id = meetingPin.getId();
 
         StringBuilder userdetail = new StringBuilder();
@@ -83,7 +83,7 @@ public class MeetingPinResponse {
 
         GpsToAddress gps = null;
         try {
-            gps = new GpsToAddress(meetingPin.getLatitude(), meetingPin.getLongitude());
+            gps = new GpsToAddress(meetingPin.getLatitude(), meetingPin.getLongitude(),googleKey);
         } catch (Exception e) {
             e.printStackTrace();
         }
