@@ -10,11 +10,14 @@ import java.net.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.springframework.beans.factory.annotation.Value;
 
 public class GpsToAddress {
     double latitude;
     double longitude;
     String regionAddress;
+    @Value("${google.key}")
+    private String googleKey;
 
     public GpsToAddress(double latitude, double longitude) throws Exception {
         this.latitude = latitude;
@@ -24,7 +27,7 @@ public class GpsToAddress {
 
     private String getApiAddress() {
         String apiURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng="
-                + latitude + "," + longitude + "&language=ko&key="+"AIzaSyDl_5XJMb1oqhd5YwBh73yYUcPgXhyvWYQ";
+                + latitude + "," + longitude + "&language=ko&key="+googleKey;
         return apiURL;
     }
 
