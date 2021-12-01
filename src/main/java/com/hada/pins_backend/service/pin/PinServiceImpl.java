@@ -98,6 +98,7 @@ public class PinServiceImpl implements PinService{
      * 만남핀 가져오기
      */
     @Override
+    @Transactional
     public ResponseEntity<MeetingPinResponse> getMeetingPin(Long id) {
         if(meetingPinRepository.findById(id).isPresent()) {
             MeetingPin meetingPin = meetingPinRepository.findById(id).get();
