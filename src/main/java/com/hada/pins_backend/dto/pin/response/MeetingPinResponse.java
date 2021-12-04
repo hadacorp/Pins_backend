@@ -17,10 +17,16 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.StringTokenizer;
 
 /**
  * Created by bangjinhyuk on 2021/09/27.
@@ -49,6 +55,8 @@ public class MeetingPinResponse {
     private String address;
 
     private String date;
+
+    private String createdAt;
 
     private List<ParticipantDetail> participantDetailList = new ArrayList<>();
 
@@ -93,7 +101,30 @@ public class MeetingPinResponse {
         }
 
 
-        this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM월 dd일 HH시"));
+        StringTokenizer dayTokens = new StringTokenizer(meetingPin.getDate().format(DateTimeFormatter.ofPattern("MM월 dd일 -HH")),"-");
+        StringBuilder day = new StringBuilder();
+        day.append(dayTokens.nextToken());
+        DayOfWeek dayOfWeek = meetingPin.getDate().getDayOfWeek();
+        day.append("(").append(dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN)).append(") ");
+
+        int hour = Integer.parseInt(dayTokens.nextToken());
+        if(hour>12) day.append("오후 ").append(hour-12).append("시");
+        else day.append("오전 ").append(hour).append("시");
+
+        this.date = day.toString();
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime pinDateTime = meetingPin.getCreatedAt();
+        StringBuilder createAtSb = new StringBuilder();
+
+        if(ChronoUnit.DAYS.between(pinDateTime, now)<1){
+            if(ChronoUnit.HOURS.between(pinDateTime, now)<1) createAtSb.append(ChronoUnit.MINUTES.between(pinDateTime, now)).append("분 전");
+            else createAtSb.append(ChronoUnit.HOURS.between(pinDateTime, now)).append("시간 전");
+        }else{
+            createAtSb.append(ChronoUnit.DAYS.between(pinDateTime, now)).append("일 전");
+        }
+        this.createdAt = createAtSb.toString();
+
 
 
         List<UserAndMeetingPin> userAndMeetingPins = meetingPin.getUserAndMeetingPins();
