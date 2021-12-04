@@ -74,21 +74,35 @@ public class PinController {
     public ResponseEntity<StoryPinResponse> getStoryPin(@PathVariable("id") Long id){
         return pinService.getStoryPin(id);
     }
-
+    /**
+     * 커뮤니티핀 삭제
+     */
     @DeleteMapping ("/communitypin/{id}")
     public ResponseEntity<String> deleteCommunityPin(@PathVariable("id") Long id){
         return pinService.deleteCommunityPin(id);
     }
-
+    /**
+     * 만남핀 삭제
+     */
     @DeleteMapping ("/meetingpin/{id}")
     public ResponseEntity<String> deleteMeetingPin(@PathVariable("id") Long id){
         return pinService.deleteMeetingPin(id);
     }
-
+    /**
+     * 이야기핀 삭제
+     */
     @DeleteMapping ("/storypin/{id}")
     public ResponseEntity<String> deleteStoryPin(@PathVariable("id") Long id){
         return pinService.deleteStoryPin(id);
     }
 
-
+    /**
+     * 만남핀 참가 요청
+     */
+    @PostMapping("/meetingin/{id}")
+    public ResponseEntity<String> participantMeetingPin(@PathVariable("id") Long id, @RequestBody String greetings){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return pinService.participantMeetingPin(id,greetings,user);
+    }
 }

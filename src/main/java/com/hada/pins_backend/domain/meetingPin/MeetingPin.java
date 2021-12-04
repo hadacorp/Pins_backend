@@ -10,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -63,6 +62,10 @@ public class MeetingPin extends BaseTimeEntity {
     @OneToMany(mappedBy = "meetingPin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<UserAndMeetingPin> userAndMeetingPins;
+
+    @OneToMany(mappedBy = "requestMeetingPin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<MeetingPinRequest> meetingPinRequests;
 
     @Builder
     public MeetingPin(User createUser,

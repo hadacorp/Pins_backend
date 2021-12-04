@@ -27,4 +27,6 @@ public interface PinService {
     ResponseEntity<String> deleteMeetingPin(Long id);
 
     ResponseEntity<String> deleteStoryPin(Long id);
+
+    ResponseEntity<String> participantMeetingPin(Long id, String greetings, User user);
 }

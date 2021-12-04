@@ -4,6 +4,8 @@ import com.hada.pins_backend.domain.communityPin.CommunityPin;
 import com.hada.pins_backend.domain.communityPin.CommunityPinRepository;
 import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
+import com.hada.pins_backend.domain.meetingPin.MeetingPinRequest;
+import com.hada.pins_backend.domain.meetingPin.MeetingPinRequestRepository;
 import com.hada.pins_backend.domain.storyPin.StoryPin;
 import com.hada.pins_backend.domain.storyPin.StoryPinRepository;
 import com.hada.pins_backend.domain.user.User;
@@ -35,6 +37,7 @@ public class PinServiceImpl implements PinService{
     private final CommunityPinRepository communityPinRepository;
     private final MeetingPinRepository meetingPinRepository;
     private final StoryPinRepository storyPinRepository;
+    private final MeetingPinRequestRepository meetingPinRequestRepository;
     @Value("${google.key}")
     private String googleKey;
 
@@ -148,5 +151,25 @@ public class PinServiceImpl implements PinService{
             storyPinRepository.deleteById(id);
             return ResponseEntity.ok("delete");
         }else return ResponseEntity.ok("Not exist");
+    }
+
+    /**
+     * 만남핀 참가 요청
+     */
+    @Override
+    public ResponseEntity<String> participantMeetingPin(Long id, String greetings, User user) {
+        try{
+            if(meetingPinRepository.findById(id).isPresent()) {
+                MeetingPinRequest meetingPinRequest = MeetingPinRequest.builder()
+                        .requestMeetingPinUser(user)
+                        .requestMeetingPin(meetingPinRepository.findById(id).get())
+                        .greetings(greetings)
+                        .build();
+                meetingPinRequestRepository.save(meetingPinRequest);
+                return ResponseEntity.ok("success");
+            }throw new NotExistException();
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().body(e.toString());
+        }
     }
 }

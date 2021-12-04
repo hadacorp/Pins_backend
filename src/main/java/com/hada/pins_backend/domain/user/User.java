@@ -6,6 +6,7 @@ import com.hada.pins_backend.domain.communityPin.CommunityPin;
 import com.hada.pins_backend.domain.communityPin.MembersAndCommunityPin;
 import com.hada.pins_backend.domain.communityPin.MiddleMgmtAndCommunityPin;
 import com.hada.pins_backend.domain.meetingPin.MeetingPin;
+import com.hada.pins_backend.domain.meetingPin.MeetingPinRequest;
 import com.hada.pins_backend.domain.meetingPin.UserAndMeetingPin;
 import com.hada.pins_backend.domain.storyPin.StoryPinComment;
 import com.hada.pins_backend.domain.storyPin.StoryPinLike;
@@ -74,6 +75,10 @@ public class User extends BaseTimeEntity implements UserDetails {
     @ToString.Exclude
     private List<MeetingPin> meetingPins;
 
+    @OneToMany(mappedBy = "requestMeetingPinUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<MeetingPinRequest> meetingPinRequests;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<UserAndMeetingPin> userAndMeetingPins;
@@ -101,8 +106,6 @@ public class User extends BaseTimeEntity implements UserDetails {
     @OneToMany(mappedBy = "communityMember", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<MembersAndCommunityPin> membersAndCommunityPins;
-
-
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
