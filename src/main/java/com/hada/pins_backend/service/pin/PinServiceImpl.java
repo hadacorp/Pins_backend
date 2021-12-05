@@ -178,7 +178,7 @@ public class PinServiceImpl implements PinService{
      */
     public MeetingPinStatus getMeetingPinStatus(User user, MeetingPin meetingPin){
         if(meetingPin.getUserAndMeetingPins().size() == meetingPin.getSetLimit()) return MeetingPinStatus.CLOSED;
-        else if(meetingPin.getCreateUser().equals(user)) return MeetingPinStatus.MANAGE;
+        else if(meetingPin.getCreateUser().getId().equals(user.getId())) return MeetingPinStatus.MANAGE;
         else if(meetingPinRequestRepository.findByRequestMeetingPinAndRequestMeetingPinUser(meetingPin, user).isPresent()){
             MeetingPinRequest meetingPinRequest = meetingPinRequestRepository.findByRequestMeetingPinAndRequestMeetingPinUser(meetingPin, user).get();
             if(meetingPinRequest.getApplicationResult() == ApplicationResult.PROCEEDING) return MeetingPinStatus.REQUESTED;
