@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by bangjinhyuk on 2021/12/04.
@@ -24,6 +25,9 @@ public class MeetingPinRequest {
     @NotBlank
     private String greetings;
 
+    @NotNull
+    private ApplicationResult applicationResult;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User requestMeetingPinUser;
@@ -37,5 +41,6 @@ public class MeetingPinRequest {
         this.greetings = greetings;
         this.requestMeetingPinUser = requestMeetingPinUser;
         this.requestMeetingPin = requestMeetingPin;
+        this.applicationResult = ApplicationResult.PROCEEDING;
     }
 }
