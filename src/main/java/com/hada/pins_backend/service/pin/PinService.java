@@ -18,7 +18,7 @@ public interface PinService {
 
     ResponseEntity<String> createStoryPin(User user, RequestStoryPin requestStoryPin);
 
-    ResponseEntity<MeetingPinResponse> getMeetingPin(Long id);
+    ResponseEntity<MeetingPinResponse> getMeetingPin(Long id,User user);
 
     ResponseEntity<StoryPinResponse> getStoryPin(Long id);
 

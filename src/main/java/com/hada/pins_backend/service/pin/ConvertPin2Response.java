@@ -1,9 +1,15 @@
 package com.hada.pins_backend.service.pin;
 
 import com.hada.pins_backend.domain.Gender;
-import com.hada.pins_backend.domain.meetingPin.UserAndMeetingPin;
+import com.hada.pins_backend.domain.meetingPin.*;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.dto.pin.response.MeetingPinResponse;
+import com.hada.pins_backend.dto.pin.response.MeetingPinStatus;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -20,7 +26,7 @@ import java.util.StringTokenizer;
  */
 public class ConvertPin2Response {
     //위도, 경도 to 주소
-    public static String GpsToAddress(Double latitude, Double longitude, String googleKey){
+    public String GpsToAddress(Double latitude, Double longitude, String googleKey){
         GpsToAddress gps = null;
         try {
             gps = new GpsToAddress(latitude, longitude, googleKey);
@@ -32,7 +38,7 @@ public class ConvertPin2Response {
         }else return "주소 오류";
     }
     //만남 날짜 to 상세 페이지 형식
-    public static String localDateTime2String(LocalDateTime localDateTime){
+    public String localDateTime2String(LocalDateTime localDateTime){
         StringTokenizer dayTokens = new StringTokenizer(localDateTime.format(DateTimeFormatter.ofPattern("MM월 dd일 -HH")),"-");
         StringBuilder day = new StringBuilder();
         day.append(dayTokens.nextToken());
@@ -45,7 +51,7 @@ public class ConvertPin2Response {
         return day.toString();
     }
     //~분전,~시전,~일전 상세 페이지 양식
-    public static String createdAt2String(LocalDateTime localDateTime){
+    public String createdAt2String(LocalDateTime localDateTime){
         LocalDateTime now = LocalDateTime.now();
         StringBuilder createAtSb = new StringBuilder();
 
@@ -58,7 +64,7 @@ public class ConvertPin2Response {
         return createAtSb.toString();
     }
 
-    public static MeetingPinResponse.CreateDetail user2CreateDetail(User createUser){
+    public MeetingPinResponse.CreateDetail user2CreateDetail(User createUser){
         String userdetail = createUser.getAge() + "세 " +
                 Gender.convert2Korean(createUser.getGender());
         return new MeetingPinResponse.CreateDetail(
@@ -69,7 +75,7 @@ public class ConvertPin2Response {
         );
     }
 
-    public static List<MeetingPinResponse.ParticipantDetail> user2ParticipantDetail(List<UserAndMeetingPin> userAndMeetingPins){
+    public List<MeetingPinResponse.ParticipantDetail> user2ParticipantDetail(List<UserAndMeetingPin> userAndMeetingPins){
         List<MeetingPinResponse.ParticipantDetail> participantDetailList = new ArrayList<>();
         for (UserAndMeetingPin userAndMeetingPin : userAndMeetingPins) {
             User tmpUser = userAndMeetingPin.getMember();
@@ -85,7 +91,6 @@ public class ConvertPin2Response {
             );
         }
         return participantDetailList;
-
     }
 
 }

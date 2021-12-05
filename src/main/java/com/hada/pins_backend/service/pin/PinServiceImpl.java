@@ -2,10 +2,7 @@ package com.hada.pins_backend.service.pin;
 
 import com.hada.pins_backend.domain.communityPin.CommunityPin;
 import com.hada.pins_backend.domain.communityPin.CommunityPinRepository;
-import com.hada.pins_backend.domain.meetingPin.MeetingPin;
-import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
-import com.hada.pins_backend.domain.meetingPin.MeetingPinRequest;
-import com.hada.pins_backend.domain.meetingPin.MeetingPinRequestRepository;
+import com.hada.pins_backend.domain.meetingPin.*;
 import com.hada.pins_backend.domain.storyPin.StoryPin;
 import com.hada.pins_backend.domain.storyPin.StoryPinRepository;
 import com.hada.pins_backend.domain.user.User;
@@ -13,6 +10,7 @@ import com.hada.pins_backend.dto.pin.request.RequestCreateCommunityPin;
 import com.hada.pins_backend.dto.pin.request.RequestMeetingPin;
 import com.hada.pins_backend.dto.pin.request.RequestStoryPin;
 import com.hada.pins_backend.dto.pin.response.MeetingPinResponse;
+import com.hada.pins_backend.dto.pin.response.MeetingPinStatus;
 import com.hada.pins_backend.dto.pin.response.StoryPinResponse;
 import com.hada.pins_backend.exception.pin.NotExistException;
 import com.hada.pins_backend.service.aws.S3Uploader;
@@ -38,6 +36,7 @@ public class PinServiceImpl implements PinService{
     private final MeetingPinRepository meetingPinRepository;
     private final StoryPinRepository storyPinRepository;
     private final MeetingPinRequestRepository meetingPinRequestRepository;
+    private final UserAndMeetingPinRepository userAndMeetingPinRepository;
     @Value("${google.key}")
     private String googleKey;
 
@@ -106,10 +105,10 @@ public class PinServiceImpl implements PinService{
      */
     @Override
     @Transactional
-    public ResponseEntity<MeetingPinResponse> getMeetingPin(Long id) {
+    public ResponseEntity<MeetingPinResponse> getMeetingPin(Long id, User user) {
         if(meetingPinRepository.findById(id).isPresent()) {
             MeetingPin meetingPin = meetingPinRepository.findById(id).get();
-            return ResponseEntity.ok(new MeetingPinResponse().meetingPintoResponse(meetingPin,googleKey));
+            return ResponseEntity.ok(new MeetingPinResponse().meetingPintoResponse(meetingPin,googleKey).setMeetingPinStatus(getMeetingPinStatus(user,meetingPin)));
         }else throw new NotExistException();
     }
     /**
@@ -159,7 +158,8 @@ public class PinServiceImpl implements PinService{
     @Override
     public ResponseEntity<String> participantMeetingPin(Long id, String greetings, User user) {
         try{
-            if(meetingPinRepository.findById(id).isPresent()) {
+            if(meetingPinRepository.findById(id).isPresent()
+                    && meetingPinRequestRepository.findByRequestMeetingPinAndRequestMeetingPinUser(meetingPinRepository.findById(id).get(),user).isEmpty()) {
                 MeetingPinRequest meetingPinRequest = MeetingPinRequest.builder()
                         .requestMeetingPinUser(user)
                         .requestMeetingPin(meetingPinRepository.findById(id).get())
@@ -167,9 +167,24 @@ public class PinServiceImpl implements PinService{
                         .build();
                 meetingPinRequestRepository.save(meetingPinRequest);
                 return ResponseEntity.ok("success");
-            }throw new NotExistException();
+            }throw new Exception("이미 신청 완료");
         }catch (Exception e){
             return ResponseEntity.internalServerError().body(e.toString());
         }
+    }
+
+    /**
+     * 만남핀 상세 정보 가져오기에서 만남핀 상태 분류
+     */
+    public MeetingPinStatus getMeetingPinStatus(User user, MeetingPin meetingPin){
+        if(meetingPin.getUserAndMeetingPins().size() == meetingPin.getSetLimit()) return MeetingPinStatus.CLOSED;
+        else if(meetingPin.getCreateUser().equals(user)) return MeetingPinStatus.MANAGE;
+        else if(meetingPinRequestRepository.findByRequestMeetingPinAndRequestMeetingPinUser(meetingPin, user).isPresent()){
+            MeetingPinRequest meetingPinRequest = meetingPinRequestRepository.findByRequestMeetingPinAndRequestMeetingPinUser(meetingPin, user).get();
+            if(meetingPinRequest.getApplicationResult() == ApplicationResult.PROCEEDING) return MeetingPinStatus.REQUESTED;
+            else return MeetingPinStatus.REJECTED;
+        }else if(userAndMeetingPinRepository.findByMemberAndMeetingPin(user, meetingPin).isPresent()) return MeetingPinStatus.PARTICIPATED;
+        else return MeetingPinStatus.OPEN;
+
     }
 }

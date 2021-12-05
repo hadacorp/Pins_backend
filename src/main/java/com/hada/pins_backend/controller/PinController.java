@@ -1,6 +1,5 @@
 package com.hada.pins_backend.controller;
 
-import com.hada.pins_backend.domain.storyPin.StoryPin;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.dto.pin.request.RequestCreateCommunityPin;
 import com.hada.pins_backend.dto.pin.request.RequestMeetingPin;
@@ -9,7 +8,6 @@ import com.hada.pins_backend.dto.pin.response.MeetingPinResponse;
 import com.hada.pins_backend.dto.pin.response.StoryPinResponse;
 import com.hada.pins_backend.service.pin.PinService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -65,7 +63,9 @@ public class PinController {
      */
     @GetMapping("/meetingpin/{id}")
     public ResponseEntity<MeetingPinResponse> getMeetingPin(@PathVariable("id") Long id){
-        return pinService.getMeetingPin(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return pinService.getMeetingPin(id,user);
     }
     /**
      * 이야기핀 가져오기

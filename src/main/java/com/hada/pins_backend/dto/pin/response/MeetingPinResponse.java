@@ -41,8 +41,11 @@ public class MeetingPinResponse {
 
     private List<ParticipantDetail> participantDetailList = new ArrayList<>();
 
+    private MeetingPinStatus meetingPinStatus;
+
     public MeetingPinResponse meetingPintoResponse(MeetingPin meetingPin, String googleKey){
 
+        ConvertPin2Response convertPin2Response = new ConvertPin2Response();
         this.id = meetingPin.getId();
         this.title = meetingPin.getTitle();
         this.content = meetingPin.getContent();
@@ -50,13 +53,17 @@ public class MeetingPinResponse {
         this.setGender = Gender.convert2Korean(meetingPin.getSetGender());
         this.ageRange = meetingPin.getMinAge() +"세 ~ "+meetingPin.getMaxAge()+"세";
         this.setLimit = meetingPin.getSetLimit();
-        this.address = ConvertPin2Response.GpsToAddress(meetingPin.getLatitude(), meetingPin.getLongitude(),googleKey);
-        this.date = ConvertPin2Response.localDateTime2String(meetingPin.getDate());
-        this.createdAt = ConvertPin2Response.createdAt2String(meetingPin.getCreatedAt());
-        this.createUser = ConvertPin2Response.user2CreateDetail(meetingPin.getCreateUser());
+        this.address = convertPin2Response.GpsToAddress(meetingPin.getLatitude(), meetingPin.getLongitude(),googleKey);
+        this.date = convertPin2Response.localDateTime2String(meetingPin.getDate());
+        this.createdAt = convertPin2Response.createdAt2String(meetingPin.getCreatedAt());
+        this.createUser = convertPin2Response.user2CreateDetail(meetingPin.getCreateUser());
         this.participantNum = meetingPin.getUserAndMeetingPins().size();
-        this.participantDetailList = ConvertPin2Response.user2ParticipantDetail(meetingPin.getUserAndMeetingPins());
+        this.participantDetailList = convertPin2Response.user2ParticipantDetail(meetingPin.getUserAndMeetingPins());
+        return this;
+    }
 
+    public MeetingPinResponse setMeetingPinStatus(MeetingPinStatus meetingPinStatus) {
+        this.meetingPinStatus = meetingPinStatus;
         return this;
     }
 

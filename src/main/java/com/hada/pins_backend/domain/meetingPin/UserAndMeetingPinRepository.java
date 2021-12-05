@@ -1,7 +1,10 @@
 package com.hada.pins_backend.domain.meetingPin;
 
+import com.hada.pins_backend.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserAndMeetingPinRepository extends JpaRepository<UserAndMeetingPin,Long> {
+import java.util.Optional;
 
+public interface UserAndMeetingPinRepository extends JpaRepository<UserAndMeetingPin,Long> {
+    Optional<UserAndMeetingPin> findByMemberAndMeetingPin(User member, MeetingPin meetingPin);
 }
