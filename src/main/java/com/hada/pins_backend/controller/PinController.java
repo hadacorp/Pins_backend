@@ -99,10 +99,20 @@ public class PinController {
     /**
      * 만남핀 참가 요청
      */
-    @PostMapping("/meetingin/{id}")
+    @PostMapping("/meetingpin/{id}")
     public ResponseEntity<String> participantMeetingPin(@PathVariable("id") Long id, @RequestBody String greetings){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         return pinService.participantMeetingPin(id,greetings,user);
+    }
+
+    /**
+     * 내가 생성한 핀 목록 가져오기
+     */
+    @GetMapping("/meetingpin/manage/{id}")
+    public ResponseEntity<String> getMyPinList(@PathVariable("id") Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return pinService.getMyPinList(id,user);
     }
 }
