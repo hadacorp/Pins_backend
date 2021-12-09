@@ -3,6 +3,8 @@ package com.hada.pins_backend.test;
 import com.hada.pins_backend.domain.Gender;
 import com.hada.pins_backend.domain.meetingPin.MeetingPin;
 import com.hada.pins_backend.domain.meetingPin.MeetingPinRepository;
+import com.hada.pins_backend.domain.meetingPin.UserAndMeetingPin;
+import com.hada.pins_backend.domain.meetingPin.UserAndMeetingPinRepository;
 import com.hada.pins_backend.domain.storyPin.*;
 import com.hada.pins_backend.domain.user.User;
 import com.hada.pins_backend.domain.user.UserRepository;
@@ -19,6 +21,7 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
@@ -43,6 +46,8 @@ public class InsertTestDataSet {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserAndMeetingPinRepository userAndMeetingPinRepository;
 
     @BeforeEach
     void insertUser() throws Exception{
@@ -82,7 +87,6 @@ public class InsertTestDataSet {
     }
 
     @Test
-    @Disabled
     public void insertMeetingPin(){
         String [] meetingPinCategory = new String[11];
         String [] storyPinCategory = new String[9];
@@ -97,18 +101,31 @@ public class InsertTestDataSet {
         for (int i=0;i<9;i++){
             storyPinCategory[i] = stringTokenizer2.nextToken();
         }
-        for(int i=0;i<1000;i++){
+        for(int i=0;i<600;i++){
             int userNum = (int)((Math.random()*10000)%5);
             int categoryNum = (int)((Math.random()*10000)%11);
             int dayNum = (int)((Math.random()*10000)%8);
             double latitudeValue = Math.random()/8;
             double longitudeValue = Math.random()/8;
             User user = userRepository.findAll().get(userNum);
+            String title = "";
+
+            if(meetingPinCategory[categoryNum].equals("대화/친목")) title = "술 마실분들 구해요!";
+            if(meetingPinCategory[categoryNum].equals("산책/반려동물")) title = "산책하실분 구해요!";
+            if(meetingPinCategory[categoryNum].equals("맛집탐방")) title = "맛집 돌아다니실분 구해요!";
+            if(meetingPinCategory[categoryNum].equals("영화/문화생활")) title = "샹치 영화 보실분 구합니다!";
+            if(meetingPinCategory[categoryNum].equals("게임/오락")) title = "롤 5대5 하실분 구합니다!";
+            if(meetingPinCategory[categoryNum].equals("스포츠/운동")) title = "같이 운동하실분 구해요!";
+            if(meetingPinCategory[categoryNum].equals("등산/캠핑")) title = "등산하실분!";
+            if(meetingPinCategory[categoryNum].equals("스터디/독서")) title = "모각코 하실분 구합니다.";
+            if(meetingPinCategory[categoryNum].equals("여행/드라이브")) title = "드라이브 하실분 구해요";
+            if(meetingPinCategory[categoryNum].equals("거래/나눔")) title = "무료 나눔합니다.";
+            if(meetingPinCategory[categoryNum].equals("기타")) title = "학교 탐방 하실분 구해요.";
 
             meetingPinRepository.save(MeetingPin.builder()
                     .createUser(user)
-                    .title(meetingPinCategory[categoryNum]+"<= 카테고리 :만남핀 TEST: 생성 유저=>"+user.getName())
-                    .content(user.getNickName()+" === "+user.getPhoneNum())
+                    .title(title)
+                    .content(title)
                     .minAge(userNum+categoryNum+dayNum+10)
                     .maxAge(userNum+categoryNum+dayNum+20)
                     .setLimit(categoryNum+1)
@@ -119,30 +136,21 @@ public class InsertTestDataSet {
                     .date(LocalDateTime.now().plusDays(dayNum))
                     .build());
 
+            int[] userid = new int[categoryNum];
+            for(int j = 0; j<categoryNum;j++){
+                userid[j] = (int)((Math.random()*10000)%5);
+            }
+            userid = Arrays.stream(userid).distinct().toArray();
+            for(int j: userid){
+                if(j!=0){
+                    UserAndMeetingPin userAndMeetingPin = UserAndMeetingPin.builder()
+                            .meetingPin(meetingPinRepository.findById(Long.valueOf(i+1)).get())
+                            .member(userRepository.findById(Long.valueOf(j)).get()).build();
+                    userAndMeetingPinRepository.save(userAndMeetingPin);
+                }
+            }
         }
-        for(int i=0;i<10;i++){
-            int userNum = (int)((Math.random()*10000)%5);
-            int categoryNum = (int)((Math.random()*10000)%11);
-            int dayNum = (int)((Math.random()*10000)%8);
-            double latitudeValue = Math.random()/1000;
-            double longitudeValue = Math.random()/1000;
-            User user = userRepository.findAll().get(userNum);
 
-            meetingPinRepository.save(MeetingPin.builder()
-                    .createUser(user)
-                    .title(meetingPinCategory[categoryNum]+"<= 카테고리 :만남핀 TEST: 생성 유저=>"+user.getName())
-                    .content(user.getNickName()+" === "+user.getPhoneNum())
-                    .minAge(userNum+categoryNum+dayNum+10)
-                    .maxAge(userNum+categoryNum+dayNum+20)
-                    .setLimit(categoryNum+1)
-                    .setGender(Gender.Both)
-                    .category(meetingPinCategory[categoryNum])
-                    .latitude(latitude2 + latitudeValue)
-                    .longitude(longitude2 + longitudeValue)
-                    .date(LocalDateTime.now().plusDays(dayNum))
-                    .build());
-
-        }
         storypinImage[0]="https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+6.04.25.png";
         storypinImage[1]="https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+6.04.45.png";
         storypinImage[2]="https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+6.05.43.png";
@@ -153,18 +161,32 @@ public class InsertTestDataSet {
         storypinImage[7]="https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2021-09-12+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+6.06.21.png";
         storypinImage[8]=null;
 
-        for(int i=0;i<500;i++){
+
+
+
+        for(int i=0;i<300;i++){
             int userNum = (int)((Math.random()*10000)%5);
             int categoryNum = (int)((Math.random()*10000)%9);
             int imageNum = (int)((Math.random()*10000)%9);
             double latitudeValue = Math.random()/8;
             double longitudeValue = Math.random()/8;
             User user = userRepository.findAll().get(userNum);
+            String title = "";
+            if(storyPinCategory[categoryNum].equals("#궁금해요")) title = "여기 맛집이 궁금합니다.";
+            else if(storyPinCategory[categoryNum].equals("#장소리뷰")) title = "여기가 뭐하는곳인지 궁금합니다.";
+            else if(storyPinCategory[categoryNum].equals("#동네꿀팁")) title = "동네 꿀팁!";
+            else if(storyPinCategory[categoryNum].equals("#반려동물")) title = "떠돌이 강아지 발견했어요";
+            else if(storyPinCategory[categoryNum].equals("#취미생활")) title = "요즘 좋은 취미는 무엇이 있나요?";
+            else if(storyPinCategory[categoryNum].equals("#도와줘요")) title = "도와주세용";
+            else if(storyPinCategory[categoryNum].equals("#사건사고")) title = "여기 큰사고 난거 같아요";
+            else if(storyPinCategory[categoryNum].equals("#분실/실종")) title = "여기서 에어팟을 분실했는데 보신분 있으신가요..?";
+            else if(storyPinCategory[categoryNum].equals("#잡담")) title = "심심하다..";
+            else title = "심심하다..";
 
             storyPinRepository.save(StoryPin.builder()
                     .createUser(user)
-                    .title(storyPinCategory[categoryNum]+"<= 카테고리 :이야기핀 TEST: 생성 유저=>"+user.getName())
-                    .content(user.getNickName()+" === "+user.getPhoneNum())
+                    .title(title)
+                    .content(title)
                     .category(storyPinCategory[categoryNum])
                     .latitude(latitudeValue+latitude)
                     .longitude(longitudeValue+longitude)
