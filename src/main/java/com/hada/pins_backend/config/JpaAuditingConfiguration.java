@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 /**
- * Created by bangjinhyuk on 2021/08/27.
+ * Created by bangjinhyuk on 2022/01/15.
  */
 @Configuration
 @EnableJpaAuditing

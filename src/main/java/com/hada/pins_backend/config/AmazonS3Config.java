@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by bangjinhyuk on 2021/09/03.
+ * Created by bangjinhyuk on 2022/01/15.
  */
 @Configuration
 public class AmazonS3Config {

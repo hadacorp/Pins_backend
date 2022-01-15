@@ -1,4 +1,4 @@
-package com.hada.pins_backend.domain;
+package com.hada.pins_backend.model;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 /**
- * Created by bangjinhyuk on 2021/08/04.
+ * Created by bangjinhyuk on 2022/01/15.
  */
 @Getter
 @MappedSuperclass

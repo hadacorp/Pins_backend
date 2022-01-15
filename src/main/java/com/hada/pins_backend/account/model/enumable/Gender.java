@@ -1,7 +1,7 @@
-package com.hada.pins_backend.domain;
+package com.hada.pins_backend.account.model.enumable;
 
 /**
- * Created by bangjinhyuk on 2021/08/04.
+ * Created by bangjinhyuk on 2022/01/15.
  */
 public enum Gender {
     Male, Female, Both;
