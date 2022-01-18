@@ -1,7 +1,8 @@
-package com.hada.pins_backend.account.model.request;
+package com.hada.pins_backend.account.model.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
@@ -11,9 +12,11 @@ import javax.validation.constraints.Size;
 
 /**
  * Created by bangjinhyuk on 2022/01/15.
+ * Modified by parksuho in 2022/01/18.
  */
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class JoinUserRequest {
     @NotBlank
     @Size(min = 1,max = 4)
@@ -29,6 +32,5 @@ public class JoinUserRequest {
     @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
     private String phoneNum;
 
-    private MultipartFile profileImage;
-
+//    private MultipartFile profileImage;
 }
