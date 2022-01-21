@@ -7,8 +7,8 @@ import com.hada.pins_backend.account.model.enumable.Gender;
 import com.hada.pins_backend.account.repository.RefreshTokenRepository;
 import com.hada.pins_backend.account.repository.UserRepository;
 import com.hada.pins_backend.config.jwt.JwtTokenProvider;
-import com.hada.pins_backend.exception.CAlreadyResigterUserException;
-import com.hada.pins_backend.exception.CUnregisteredUserException;
+import com.hada.pins_backend.advice.exception.CAlreadyResigterUserException;
+import com.hada.pins_backend.advice.exception.CUnregisteredUserException;
 import com.hada.pins_backend.model.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,11 +54,13 @@ public class UserServiceImpl implements UserService{
         }
         else gender = Gender.Female;
 
-        User user = userRepository.save(User.builder()
+        User user = User.builder()
                 .name(request.getName()).nickName(request.getNickName())
                 .resRedNumber(request.getResRedNumber()).phoneNum(request.getPhoneNum())
                 .age(age).gender(gender)
-                .profileImage("tmp").roles(Collections.singletonList("ROLE_USER")).build());
+                .profileImage("tmp").roles(Collections.singletonList("ROLE_USER")).build();
+
+        userRepository.save(user);
         return new ApiResponse<>(JoinUserResponse.builder()
                 .phoneNum(user.getPhoneNum())
                 .nickName(user.getNickName())
@@ -71,13 +73,11 @@ public class UserServiceImpl implements UserService{
     public ApiResponse<TokenDto> login(LoginUserRequest request) {
         // 회원 정보 존재하는지 확인
         User user = userRepository.findByPhoneNum(request.getPhoneNum()).orElseThrow(CUnregisteredUserException::new);
-//        // 로그인 된 상태이면 기존 refresh token 삭제
-//        if (tokenRepository.findByUserId(user.getId()).isPresent()) {
-//            RefreshToken refreshToken = tokenRepository.findByUserId(user.getId()).orElseThrow();
-//            tokenRepository.delete(refreshToken);
-//        }
-        // 회원 패스워드 일치 여부 확인
-//        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) throw new CPasswordLoginFailedException();
+        // 로그인 된 상태이면 기존 refresh token 삭제
+        if (tokenRepository.findByUserId(user.getId()).isPresent()) {
+            RefreshToken refreshToken = tokenRepository.findByUserId(user.getId()).orElseThrow();
+            tokenRepository.delete(refreshToken);
+        }
         // AccessToken, RefreshToken 발급
         TokenDto tokenDto = jwtTokenProvider.createTokenDto(user.getPhoneNum(), user.getRoles());
         // RefreshToken 저장
@@ -92,8 +92,16 @@ public class UserServiceImpl implements UserService{
     @Transactional(readOnly = true)
     public ApiResponse<UserDto> userInfo(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(CUnregisteredUserException::new);
-        return new ApiResponse<>(new UserDto(user));
+        return new ApiResponse<>(UserDto.builder().user(user).build());
     }
 
+    @Transactional(readOnly = true)
+    public ApiResponse<Boolean> checkOldUser(LoginUserRequest request) {
+        return new ApiResponse<>(userRepository.findByPhoneNum(request.getPhoneNum()).isPresent());
+    }
 
+    @Transactional(readOnly = true)
+    public ApiResponse<Boolean> checkNickName(CheckNickNameRequest request) {
+        return new ApiResponse<>(userRepository.findByNickName(request.getNickName()).isPresent());
+    }
 }

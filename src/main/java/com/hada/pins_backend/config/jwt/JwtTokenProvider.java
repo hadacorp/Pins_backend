@@ -1,22 +1,16 @@
 package com.hada.pins_backend.config.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.account.model.entity.dto.TokenDto;
-import com.hada.pins_backend.exception.CAuthenticationEntryPointException;
+import com.hada.pins_backend.advice.exception.CAuthenticationEntryPointException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.Base64UrlCodec;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -37,7 +31,7 @@ public class JwtTokenProvider {
 
 //    private static final Algorithm ALGORITHM = Algorithm.HMAC256("hadaPins");
 
-    @Value("spring.jwt.secret")
+    @Value("${jwt.secret}")
     private String SECRET_KEY;
 
     private String ROLES = "roles";

@@ -12,7 +12,7 @@ import com.hada.pins_backend.dto.pin.request.RequestStoryPin;
 import com.hada.pins_backend.dto.pin.response.MeetingPinResponse;
 import com.hada.pins_backend.dto.pin.response.MeetingPinStatus;
 import com.hada.pins_backend.dto.pin.response.StoryPinResponse;
-import com.hada.pins_backend.exception.pin.NotExistException;
+import com.hada.pins_backend.advice.pin.NotExistException;
 import com.hada.pins_backend.service.aws.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

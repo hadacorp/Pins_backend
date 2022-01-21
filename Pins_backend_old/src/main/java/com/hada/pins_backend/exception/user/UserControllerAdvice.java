@@ -1,4 +1,4 @@
-package com.hada.pins_backend.exception.user;
+package com.hada.pins_backend.advice.user;
 
 import com.hada.pins_backend.controller.UserController;
 import org.springframework.http.HttpStatus;

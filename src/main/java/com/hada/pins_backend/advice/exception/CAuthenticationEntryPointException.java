@@ -1,4 +1,4 @@
-package com.hada.pins_backend.exception;
+package com.hada.pins_backend.advice.exception;
 
 /*
  * Created by parksuho on 2022/01/19.

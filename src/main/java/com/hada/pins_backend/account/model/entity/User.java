@@ -23,27 +23,27 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@ToString
+//@ToString
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(min = 1,max = 4)
+//    @NotBlank
+//    @Size(min = 1,max = 4)
     private String name;
 
-    @Size(min = 2,max = 8)
-    @NotBlank
-    @Pattern(regexp = "^[가-힣|0-9]+$")
+//    @Size(min = 2,max = 8)
+//    @NotBlank
+//    @Pattern(regexp = "^[가-힣|0-9]+$")
     private String nickName;
 
-    @NotBlank
-    @Pattern(regexp = "\\d{6}-[1-4]$")
+//    @NotBlank
+//    @Pattern(regexp = "\\d{6}-[1-4]$")
     private String resRedNumber;
 
-    @NotBlank
-    @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
+//    @NotBlank
+//    @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
     private String phoneNum;
 
     @DecimalMin(value="20")

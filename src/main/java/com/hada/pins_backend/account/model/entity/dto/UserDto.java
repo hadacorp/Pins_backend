@@ -1,6 +1,7 @@
 package com.hada.pins_backend.account.model.entity.dto;
 
 import com.hada.pins_backend.account.model.entity.User;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class UserDto {
     private final String nickName;
     private final List<String> role;
 
+    @Builder
     public UserDto(User user) {
         this.id = user.getId();
         this.name = user.getName();

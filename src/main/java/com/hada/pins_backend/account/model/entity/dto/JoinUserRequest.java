@@ -1,5 +1,6 @@
 package com.hada.pins_backend.account.model.entity.dto;
 
+import com.hada.pins_backend.advice.ValidationGroups.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,18 +19,23 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JoinUserRequest {
-    @NotBlank
-    @Size(min = 1,max = 4)
+    @NotBlank(message = "이름은 필수 값입니다.", groups = NotEmptyGroup.class)
+    @Size(min = 1,max = 4,
+            message = "이름은 최소 {min}자 이상, 최대 {max}자 이하 입니다.", groups = SizeCheckGroup.class)
     private String name;
-    @Size(min = 2,max = 8)
-    @NotBlank
-    @Pattern(regexp = "^[가-힣|0-9]+$")
+    @NotBlank(message = "닉네임은 필수 값입니다.", groups = NotEmptyGroup.class)
+    @Size(min = 2,max = 8,
+            message = "닉네임은 최소 {min}자 이상, 최대 {max}자 이하 입니다.", groups = SizeCheckGroup.class)
+    @Pattern(regexp = "^[가-힣|0-9]+$",
+            message = "닉네임 형식이 아닙니다.", groups = PatternCheckGroup.class)
     private String nickName;
-    @NotBlank
-    @Pattern(regexp = "\\d{6}-[1-4]$")
+    @NotBlank(message = "주민번호는 필수 값입니다.", groups = NotEmptyGroup.class)
+    @Pattern(regexp = "\\d{6}-[1-4]$",
+            message = "주민번호 형식이 아닙니다.", groups = PatternCheckGroup.class)
     private String resRedNumber;
-    @NotBlank
-    @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
+    @NotBlank(message = "핸드폰 번호는 필수 값입니다.", groups = NotEmptyGroup.class)
+    @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$",
+            message = "핸드폰 번호 형식이 아닙니다.", groups = PatternCheckGroup.class)
     private String phoneNum;
 
 //    private MultipartFile profileImage;
