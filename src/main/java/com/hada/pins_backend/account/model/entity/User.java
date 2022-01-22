@@ -17,31 +17,33 @@ import java.util.stream.Collectors;
 
 /**
  * Created by bangjinhyuk on 2022/01/15.
+ * Modified by parksuho in 2022/01/18.
  */
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@ToString
-public class User extends BaseTimeEntity implements UserDetails {
+//@ToString
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(min = 1,max = 4)
+//    @NotBlank
+//    @Size(min = 1,max = 4)
     private String name;
 
-    @Size(min = 2,max = 8)
-    @NotBlank
-    @Pattern(regexp = "^[가-힣|0-9]+$")
+//    @Size(min = 2,max = 8)
+//    @NotBlank
+//    @Pattern(regexp = "^[가-힣|0-9]+$")
     private String nickName;
 
-    @NotBlank
-    @Pattern(regexp = "\\d{6}-[1-4]$")
+//    @NotBlank
+//    @Pattern(regexp = "\\d{6}-[1-4]$")
     private String resRedNumber;
 
-    @NotBlank
-    @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
+//    @NotBlank
+//    @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
     private String phoneNum;
 
     @DecimalMin(value="20")
@@ -64,43 +66,6 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public String getPassword() {
-        return "";
-    }
-
-    @Override
-    public String getUsername() {
-        return this.phoneNum;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 
     @Builder
     public User(String name,

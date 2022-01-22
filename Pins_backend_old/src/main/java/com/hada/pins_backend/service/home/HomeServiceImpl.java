@@ -10,7 +10,7 @@ import com.hada.pins_backend.dto.home.LongitudeAndLatitude;
 import com.hada.pins_backend.dto.home.response.HomeCardViewResponse;
 import com.hada.pins_backend.dto.home.response.HomeLocationResponse;
 import com.hada.pins_backend.dto.home.response.HomePinResponse;
-import com.hada.pins_backend.exception.home.PintypeDBIdException;
+import com.hada.pins_backend.advice.home.PintypeDBIdException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
