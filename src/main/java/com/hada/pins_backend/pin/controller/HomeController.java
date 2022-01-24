@@ -3,7 +3,9 @@ package com.hada.pins_backend.pin.controller;
 import com.hada.pins_backend.account.model.entity.CurrentUser;
 import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.model.ApiResponse;
+import com.hada.pins_backend.pin.model.request.HomePinRequest;
 import com.hada.pins_backend.pin.model.response.HomeLocationResponse;
+import com.hada.pins_backend.pin.model.response.HomePinResponse;
 import com.hada.pins_backend.pin.service.HomeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,19 +30,13 @@ public class HomeController {
     /**
      * 홈화면 핀 , 카드뷰 로딩
      */
-    @GetMapping("/pinandcardview")
-    public ResponseEntity<List<HomeCardViewResponse>> loadPinAndCardview(@RequestParam double latitude,
-                                                                         @RequestParam double longitude,
-                                                                         @RequestParam String meetingPinCategory,
-                                                                         @RequestParam String meetDate,
-                                                                         @RequestParam String meetTime,
-                                                                         @RequestParam String meetGender,
-                                                                         @RequestParam String meetAge,
-                                                                         @RequestParam String communityPinCategory,
-                                                                         @RequestParam String storyPinCategory,
-                                                                         @CurrentUser User user){
+    @GetMapping("/pin")
+    public ResponseEntity<ApiResponse<List<HomePinResponse>>> loadPin(
+            @RequestParam HomePinRequest homePinRequest,
+            @CurrentUser User user
+    ){
 
-        return null;
+        return homeService.loadPin(user,homePinRequest);
     }
 
     /**
