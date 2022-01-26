@@ -1,5 +1,7 @@
 package com.hada.pins_backend.account.service;
 
+import com.hada.pins_backend.account.exception.CRefreshTokenNotFoundException;
+import com.hada.pins_backend.account.exception.CUserNotFoundException;
 import com.hada.pins_backend.account.model.entity.RefreshToken;
 import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.account.model.entity.dto.*;
@@ -7,9 +9,7 @@ import com.hada.pins_backend.account.model.enumable.Gender;
 import com.hada.pins_backend.account.repository.RefreshTokenRepository;
 import com.hada.pins_backend.account.repository.UserRepository;
 import com.hada.pins_backend.config.jwt.JwtTokenProvider;
-import com.hada.pins_backend.advice.exception.CAlreadyResigterUserException;
-import com.hada.pins_backend.advice.exception.CUnregisteredUserException;
-import com.hada.pins_backend.model.ApiResponse;
+import com.hada.pins_backend.account.exception.CAlreadyJoinUserException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +22,7 @@ import java.util.StringTokenizer;
 /**
  * Created by bangjinhyuk on 2022/01/15.
  * Modified by parksuho in 2022/01/19.
+ * Modified by parksuho on 2022/01/26.
  */
 @Slf4j
 @Service
@@ -32,9 +33,9 @@ public class UserServiceImpl implements UserService{
     private final RefreshTokenRepository tokenRepository;
 
     @Transactional
-    public ApiResponse<JoinUserResponse> join(JoinUserRequest request) {
+    public JoinUserResponse join(JoinUserRequest request) {
         // 가입된 유저인지 검증
-        if (userRepository.findByPhoneNum(request.getPhoneNum()).isPresent()) throw new CAlreadyResigterUserException();
+        if (userRepository.findByPhoneNum(request.getPhoneNum()).isPresent()) throw new CAlreadyJoinUserException();
         //나이 계산
         StringTokenizer resRedTokens = new StringTokenizer(request.getResRedNumber(),"-");
         Calendar cal = Calendar.getInstance();
@@ -61,21 +62,21 @@ public class UserServiceImpl implements UserService{
                 .profileImage("tmp").roles(Collections.singletonList("ROLE_USER")).build();
 
         userRepository.save(user);
-        return new ApiResponse<>(JoinUserResponse.builder()
+        return JoinUserResponse.builder()
                 .phoneNum(user.getPhoneNum())
                 .nickName(user.getNickName())
                 .profileImage("tmp")
                 .ageAndGender(age+"세 "+genderKor)
-                .build());
+                .build();
     }
 
     @Transactional
-    public ApiResponse<TokenDto> login(LoginUserRequest request) {
+    public TokenDto login(LoginUserRequest request) {
         // 회원 정보 존재하는지 확인
-        User user = userRepository.findByPhoneNum(request.getPhoneNum()).orElseThrow(CUnregisteredUserException::new);
+        User user = userRepository.findByPhoneNum(request.getPhoneNum()).orElseThrow(CUserNotFoundException::new);
         // 로그인 된 상태이면 기존 refresh token 삭제
         if (tokenRepository.findByUserId(user.getId()).isPresent()) {
-            RefreshToken refreshToken = tokenRepository.findByUserId(user.getId()).orElseThrow();
+            RefreshToken refreshToken = tokenRepository.findByUserId(user.getId()).orElseThrow(CRefreshTokenNotFoundException::new);
             tokenRepository.delete(refreshToken);
         }
         // AccessToken, RefreshToken 발급
@@ -86,22 +87,22 @@ public class UserServiceImpl implements UserService{
                 .token(tokenDto.getRefreshToken())
                 .build();
         tokenRepository.save(refreshToken);
-        return new ApiResponse<>(tokenDto);
+        return tokenDto;
     }
 
     @Transactional(readOnly = true)
-    public ApiResponse<UserDto> userInfo(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(CUnregisteredUserException::new);
-        return new ApiResponse<>(UserDto.builder().user(user).build());
+    public UserDto userInfo(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(CUserNotFoundException::new);
+        return UserDto.builder().user(user).build();
     }
 
     @Transactional(readOnly = true)
-    public ApiResponse<Boolean> checkOldUser(LoginUserRequest request) {
-        return new ApiResponse<>(userRepository.findByPhoneNum(request.getPhoneNum()).isPresent());
+    public Boolean checkOldUser(LoginUserRequest request) {
+        return userRepository.findByPhoneNum(request.getPhoneNum()).isPresent();
     }
 
     @Transactional(readOnly = true)
-    public ApiResponse<Boolean> checkNickName(CheckNickNameRequest request) {
-        return new ApiResponse<>(userRepository.findByNickName(request.getNickName()).isPresent());
+    public Boolean checkNickName(CheckNickNameRequest request) {
+        return userRepository.findByNickName(request.getNickName()).isPresent();
     }
 }
