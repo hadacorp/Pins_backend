@@ -4,55 +4,47 @@ package com.hada.pins_backend.account.model.entity;
 import com.hada.pins_backend.account.model.enumable.Gender;
 import com.hada.pins_backend.model.BaseTimeEntity;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by bangjinhyuk on 2022/01/15.
  * Modified by parksuho in 2022/01/18.
+ * Modified by parksuho in 2022/01/27.
  */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-//@ToString
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NotBlank
-//    @Size(min = 1,max = 4)
+    @Column(nullable = false)
     private String name;
 
-//    @Size(min = 2,max = 8)
-//    @NotBlank
-//    @Pattern(regexp = "^[가-힣|0-9]+$")
+    @Column(nullable = false)
     private String nickName;
 
-//    @NotBlank
-//    @Pattern(regexp = "\\d{6}-[1-4]$")
+    @Column(nullable = false)
     private String resRedNumber;
 
-//    @NotBlank
-//    @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
+    @Column(nullable = false)
     private String phoneNum;
 
     @DecimalMin(value="20")
+    @Column(nullable = false)
     private int age;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
     private Gender gender;
 
-    @NotBlank
+    @Column(nullable = false)
     private String profileImage;
 
     private String backgroundImage;

@@ -10,11 +10,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * Created by bangjinhyuk on 2022/01/15.
  * Modified by parksuho in 2022/01/19.
  * Modified by parksuho on 2022/01/26.
+ * Modified by parksuho on 2022/01/27.
  */
 @RestController
 @RequiredArgsConstructor
@@ -24,14 +28,16 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/join")
-    @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<JoinUserResponse> join(@RequestBody @Validated(ValidationSequence.class) JoinUserRequest request) {
-        return new ApiResponse<>(userService.join(request));
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<JoinUserResponse> join(
+            @RequestPart(value = "profileImage", required = false) MultipartFile file,
+            @RequestPart @Validated(ValidationSequence.class) JoinUserRequest request) throws IOException {
+        return new ApiResponse<>(userService.join(file, request));
     }
 
     // 로그인
     @PostMapping("/login")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public ApiResponse<TokenDto> login(@RequestBody @Validated(ValidationSequence.class) LoginUserRequest request) {
         return new ApiResponse<>(userService.login(request));
     }

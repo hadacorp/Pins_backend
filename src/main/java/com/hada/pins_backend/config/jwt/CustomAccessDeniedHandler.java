@@ -1,4 +1,4 @@
-package com.hada.pins_backend.account.exception;
+package com.hada.pins_backend.config.jwt;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

@@ -1,7 +1,7 @@
 package com.hada.pins_backend.config.jwt;
 
 import com.hada.pins_backend.account.model.entity.dto.TokenDto;
-import com.hada.pins_backend.advice.exception.CAuthenticationEntryPointException;
+import com.hada.pins_backend.account.exception.CAuthenticationEntryPointException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.Base64UrlCodec;
 import lombok.RequiredArgsConstructor;

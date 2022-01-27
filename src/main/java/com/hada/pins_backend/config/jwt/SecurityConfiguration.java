@@ -1,7 +1,5 @@
 package com.hada.pins_backend.config.jwt;
 
-import com.hada.pins_backend.account.exception.CustomAccessDeniedHandler;
-import com.hada.pins_backend.account.exception.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;

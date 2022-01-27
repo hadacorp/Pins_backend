@@ -8,6 +8,7 @@ import java.util.List;
 
 /*
  * Created by parksuho on 2022/01/19.
+ * Created by parksuho on 2022/01/27.
  */
 @Getter
 public class UserDto {
@@ -15,6 +16,7 @@ public class UserDto {
     private final String name;
     private final String phoneNum;
     private final String nickName;
+    private final String profileImage;
     private final List<String> role;
 
     @Builder
@@ -23,6 +25,7 @@ public class UserDto {
         this.name = user.getName();
         this.phoneNum = user.getPhoneNum();
         this.nickName = user.getNickName();
+        this.profileImage = user.getProfileImage();
         this.role = user.getRoles();
     }
 }
