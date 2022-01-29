@@ -2,26 +2,25 @@ package com.hada.pins_backend.pin.service;
 
 import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.account.model.enumable.Gender;
-import com.hada.pins_backend.model.ApiResponse;
 import com.hada.pins_backend.model.LongitudeAndLatitude;
 import com.hada.pins_backend.pin.model.entity.MeetingPin;
-import com.hada.pins_backend.pin.model.enumable.PinType;
 import com.hada.pins_backend.pin.model.request.HomePinRequest;
 import com.hada.pins_backend.pin.model.response.HomeLocationResponse;
 import com.hada.pins_backend.pin.model.response.HomePinResponse;
-import com.hada.pins_backend.pin.repository.MeetingPinRepository;
+import com.hada.pins_backend.pin.model.response.MeetingPinResponse;
 import com.hada.pins_backend.pin.repository.MeetingPinRepositorySupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -35,16 +34,20 @@ import java.util.List;
  */
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class HomeServiceImpl implements HomeService{
     private final MeetingPinRepositorySupport meetingPinRepositorySupport;
 
     @Value("${kakao.key}")
     private String kakaoKey;
 
+    @Value("${google.key}")
+    private String googleKey;
+
     @Override
-    public ResponseEntity<ApiResponse<List<HomeLocationResponse>>> searchLocation(String keyword) {
+    public List<HomeLocationResponse> searchLocation(String keyword) throws ParseException {
         URI uri = UriComponentsBuilder
                 .fromUriString("https://dapi.kakao.com")
                 .path("/v2/local/search/keyword.json")
@@ -62,35 +65,29 @@ public class HomeServiceImpl implements HomeService{
         ResponseEntity<String> result = restTemplate.exchange(req,String.class);
         List<HomeLocationResponse> homeLocationResponses = new ArrayList<>();
 
-        try {
-            JSONObject responseJson = new JSONObject(result.getBody());
-            JSONArray locations = responseJson.getJSONArray("documents");
-            for (Object jsonArray: locations) {
-                JSONObject data = (JSONObject) jsonArray;
 
-                HomeLocationResponse homeLocationResponse = HomeLocationResponse.builder()
-                        .placeName(data.getString("place_name"))
-                        .longitude(data.getDouble("x"))
-                        .latitude(data.getDouble("y"))
-                        .build();
-                homeLocationResponses.add(homeLocationResponse);
-            }
-        }catch (JSONException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        JSONParser jsonParser = new JSONParser();
+        JSONObject responseJson = (JSONObject) jsonParser.parse(result.getBody());
+        JSONArray locations = (JSONArray) responseJson.get("documents");
+        for (Object jsonArray: locations) {
+            JSONObject data = (JSONObject) jsonArray;
+
+            HomeLocationResponse homeLocationResponse = HomeLocationResponse.builder()
+                    .placeName((String) data.get("place_name"))
+                    .longitude((Double) data.get("x"))
+                    .latitude((Double) data.get("y"))
+                    .build();
+            homeLocationResponses.add(homeLocationResponse);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(homeLocationResponses));
+
+        return homeLocationResponses;
     }
 
     @Override
-    public ResponseEntity<ApiResponse<List<HomePinResponse>>> loadPin(User user, HomePinRequest homePinRequest) {
+    public List<HomePinResponse> loadPin(User user, HomePinRequest homePinRequest) {
 
         LongitudeAndLatitude longitudeAndLatitude = new LongitudeAndLatitude(homePinRequest.getLongitude(), homePinRequest.getLatitude());
-        //최대 최소 위도 경도 계산
-        double maxLatitude = longitudeAndLatitude.getMaxLatitude(), minLatitude = longitudeAndLatitude.getMinLatitude();
-        double maxLongitude = longitudeAndLatitude.getMaxLongitude(), minLongitude = longitudeAndLatitude.getMinLongitude();
 
-
-        // 토큰에서 가져온 전화번호로 사용자 나이와 성별 가져오기
         int age = user.getAge();
         Gender gender =  user.getGender();
 
@@ -98,30 +95,28 @@ public class HomeServiceImpl implements HomeService{
 
         //만남핀 가져오기
         List<MeetingPin> meetingPins = meetingPinRepositorySupport.findAllMeetingPinAtHome(
-                maxLatitude,
-                minLatitude,
-                maxLongitude,
-                minLongitude,
+                longitudeAndLatitude,
                 age,
                 gender
         );
 
         meetingPins.forEach(meetingPin -> {
+            MeetingPinResponse meetingPinResponse = new MeetingPinResponse();
             homePinResponses.add(HomePinResponse.builder()
-                    .pinType(PinType.MeetingPin)
+                    .pinType(HomePinResponse.PinType.MeetingPin)
                     .distance(distance(
                             meetingPin.getLatitude(),
                             meetingPin.getLongitude(),
                             longitudeAndLatitude.getLatitude(),
                             longitudeAndLatitude.getLongitude(),
                             "meter"))
-                    .pin(meetingPin)
+                    .pin(meetingPinResponse.meetingPin2Response(meetingPin,googleKey))
                     .build());
         });
 
         Collections.sort(homePinResponses);
 
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return null;
     }
 
     /**
