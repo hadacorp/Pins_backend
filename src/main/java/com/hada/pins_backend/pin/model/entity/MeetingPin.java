@@ -59,6 +59,10 @@ public class MeetingPin extends BaseTimeEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime date;
 
+    @OneToMany(mappedBy = "meetingPin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<UserAndMeetingPin> userAndMeetingPins;
+
 
     @Builder
     public MeetingPin(User createUser,
