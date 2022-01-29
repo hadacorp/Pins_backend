@@ -8,7 +8,7 @@ import com.hada.pins_backend.advice.exception.CAuthenticationEntryPointException
 import com.hada.pins_backend.model.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
+import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -61,14 +61,16 @@ public class ExceptionAdvice {
         return new ErrorResponse(ErrorCode.REQUEST_BODY_PROBLEM.getMessage());
     }
 
+
     /**
-     * JSON Exception
+     * Parse Exception
      */
-    @ExceptionHandler(JSONException.class)
+    @ExceptionHandler(ParseException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    protected ErrorResponse jsonException(HttpServletRequest request, JSONException e) {
-        return new ErrorResponse(ErrorCode.JSON_EXCEPTION.getMessage());
+    protected ErrorResponse parseException(HttpServletRequest request, ParseException e) {
+        return new ErrorResponse(ErrorCode.PARSE_EXCEPTION.getMessage());
     }
+
 
     /**
      * 틀린 URL 로 접근했을 경우 발생 시키는 예외
