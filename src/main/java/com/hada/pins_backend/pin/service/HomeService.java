@@ -5,6 +5,7 @@ import com.hada.pins_backend.model.ApiResponse;
 import com.hada.pins_backend.pin.model.request.HomePinRequest;
 import com.hada.pins_backend.pin.model.response.HomeLocationResponse;
 import com.hada.pins_backend.pin.model.response.HomePinResponse;
+import org.json.simple.parser.ParseException;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -13,8 +14,8 @@ import java.util.List;
  * Created by bangjinhyuk on 2022/01/15.
  */
 public interface HomeService {
-    ResponseEntity<ApiResponse<List<HomeLocationResponse>>> searchLocation(String keyword);
+    List<HomeLocationResponse> searchLocation(String keyword) throws ParseException;
 
-    ResponseEntity<ApiResponse<List<HomePinResponse>>> loadPin(User user, HomePinRequest homePinRequest);
+    List<HomePinResponse> loadPin(User user, HomePinRequest homePinRequest);
 
 }

@@ -1,6 +1,5 @@
 package com.hada.pins_backend.pin.model.response;
 
-import com.hada.pins_backend.pin.model.enumable.PinType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,5 +27,9 @@ public class HomePinResponse implements Comparable<HomePinResponse>{
     @Override
     public int compareTo(HomePinResponse o) {
         return Double.compare(this.distance, o.distance);
+    }
+
+    public enum PinType {
+        MeetingPin
     }
 }

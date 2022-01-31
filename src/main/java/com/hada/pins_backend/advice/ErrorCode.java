@@ -35,7 +35,7 @@ public enum ErrorCode {
     DUPLICATE_RESOURCE("데이터가 이미 존재합니다"),
 
     /* 500 : */
-    JSON_EXCEPTION("JSON 에러가 발생했습니다."),
+    PARSE_EXCEPTION("JSON 에러가 발생했습니다."),
     SERVER_ERROR("서버에 문제가 발생했습니다.")
     ;
 
