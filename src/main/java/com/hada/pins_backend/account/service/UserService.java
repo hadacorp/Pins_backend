@@ -17,4 +17,5 @@ public interface UserService {
     UserDto userInfo(Long userId);
     Boolean checkOldUser(LoginUserRequest request);
     Boolean checkNickName(CheckNickNameRequest request);
+    UserDto updateUser(Long userId, MultipartFile file, UpdateUserRequest request) throws IOException;
 }

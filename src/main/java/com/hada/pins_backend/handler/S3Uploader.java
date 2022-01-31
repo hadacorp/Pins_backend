@@ -17,6 +17,7 @@ import java.util.Optional;
  * Created by bangjinhyuk on 2022/01/15.
  * Modified by parksuho on 2022/01/27.
  * Modified by parksuho on 2022/01/30.
+ * Modified by parksuho on 2022/01/31.
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -78,8 +79,7 @@ public class S3Uploader {
         do {
             objects = amazonS3Client.listObjects(listObject);
             //1000개 단위로 읽음
-            for (S3ObjectSummary objectSummary : objects.getObjectSummaries())
-            {
+            for (S3ObjectSummary objectSummary : objects.getObjectSummaries()) {
                 amazonS3Client.deleteObject(bucket, objectSummary.getKey());
             }
             //objects = s3.listNextBatchOfObjects(objects); <--이녀석은 1000개 단위로만 가져옴..

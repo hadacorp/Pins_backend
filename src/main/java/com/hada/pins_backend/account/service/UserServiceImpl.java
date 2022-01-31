@@ -27,6 +27,7 @@ import java.util.*;
  * Modified by parksuho on 2022/01/26.
  * Modified by parksuho on 2022/01/27.
  * Modified by parksuho on 2022/01/30.
+ * Modified by parksuho on 2022/01/31.
  */
 @Slf4j
 @Service
@@ -136,5 +137,21 @@ public class UserServiceImpl implements UserService{
     @Transactional(readOnly = true)
     public Boolean checkNickName(CheckNickNameRequest request) {
         return userRepository.findByNickName(request.getNickName()).isPresent();
+    }
+
+    @Override
+    public UserDto updateUser(Long userId, MultipartFile file, UpdateUserRequest request) throws IOException {
+        User modifiedUser = userRepository.findById(userId).orElseThrow(CUserNotFoundException::new);
+
+        String changedImage;
+        if(file.isEmpty()) changedImage = modifiedUser.getProfileImage();
+        else {
+            changedImage = fileHandler.parseFileInfo(file, modifiedUser.getPhoneNum());
+            s3Uploader.updateS3(file, modifiedUser.getNickName(), changedImage);
+        }
+        String changedName = (request.getName().isBlank()) ? modifiedUser.getName() : request.getName();
+        String changedNickName = (request.getNickName().isBlank()) ? modifiedUser.getNickName() : request.getNickName();
+        modifiedUser.update(changedImage, changedName, changedNickName);
+        return UserDto.builder().user(modifiedUser).build();
     }
 }

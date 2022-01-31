@@ -63,6 +63,16 @@ public class UserController {
     public ApiResponse<Boolean> nickname(@RequestBody @Validated(ValidationSequence.class) CheckNickNameRequest request){
         return new ApiResponse<>(userService.checkNickName(request));
     }
+
+    // 유저 정보 업데이트
+    @PostMapping("/update")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<UserDto> update(
+            @CurrentUser User user,
+            @RequestPart(value = "profileImage", required = false) MultipartFile file,
+            @RequestPart @Validated(ValidationSequence.class) UpdateUserRequest request) throws IOException {
+        return new ApiResponse<>(userService.updateUser(user.getId(), file, request));
+    }
 //
 //    @GetMapping("/beforelogin")
 //    public ResponseEntity<String> sms(@RequestParam String phoneNum) {
