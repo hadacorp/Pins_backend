@@ -2,6 +2,7 @@ package com.hada.pins_backend.account.service;
 
 import com.hada.pins_backend.account.exception.CProfileImageInvalidException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,9 @@ import java.util.UUID;
 @Component
 @Slf4j
 public class FileHandler {
+    @Value("${cloud.aws.env}")
+    private String env;
+
     public String parseFileInfo(MultipartFile multipartFile, String phoneNum) {
         String contentType = multipartFile.getContentType();
         String originalFileExtension;
@@ -33,7 +37,7 @@ public class FileHandler {
         // 파일 이름
         String fileName = UUID.randomUUID() + originalFileExtension;
         // 파일 위치
-        String filePath = "profileImage/" + phoneNum + "/" + fileName;
+        String filePath = env + "/" + "profileImage/" + phoneNum + "/" + fileName;
         log.info("profileImage : origName : \"{}\", fileName : \"{}\", filePath : \"{}\"",
                 multipartFile.getOriginalFilename(), fileName, filePath);
         return filePath;

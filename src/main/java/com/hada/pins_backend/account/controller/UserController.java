@@ -19,6 +19,7 @@ import java.io.IOException;
  * Modified by parksuho in 2022/01/19.
  * Modified by parksuho on 2022/01/26.
  * Modified by parksuho on 2022/01/27.
+ * Modified by parksuho on 2022/01/30.
  */
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class UserController {
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<JoinUserResponse> join(
-            @RequestPart(value = "profileImage", required = false) MultipartFile file,
+            @RequestPart(value = "profileImage") MultipartFile file,
             @RequestPart @Validated(ValidationSequence.class) JoinUserRequest request) throws IOException {
         return new ApiResponse<>(userService.join(file, request));
     }
