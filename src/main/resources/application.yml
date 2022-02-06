@@ -1,0 +1,98 @@
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-request-size: 10MB
+      max-file-size: 10MB
+      enabled: true
+      resolve-lazily: true
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+jwt:
+  secret: jwt.secret
+cloud:
+  aws:
+    env: dev
+    credentials:
+      accessKey: aws.dev.s3.accessKey
+      secretKey: aws.dev.s3.secretKey
+    s3:
+      bucket: pinsuserimagebucket
+    region:
+      auto: false
+      static: ap-northeast-2
+    stack:
+      auto: false
+    cloudFront:
+      distributionDomain: https://d21ye6uqd6ovq2.cloudfront.net
+kakao:
+  key: dev.kakao.key
+
+cafe24:
+  key: dev.cafe24.key
+
+google:
+  key: dev.google.key
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/pins_dev?serverTimezone=Asia/Seoul
+    username: admin
+    password: 1234
+  sql:
+    init:
+      mode: always
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+  port: 8081
+---
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://pins-dev.cipuud6hoacg.ap-northeast-2.rds.amazonaws.com:3306/pins_dev?serverTimezone=Asia/Seoul
+    username: hada
+    password: rds.dev.password
+  sql:
+    init:
+      mode: always
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+  port: 8081
+---

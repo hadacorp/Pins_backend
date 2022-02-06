@@ -10,12 +10,21 @@ plugins {
 	id 'org.springframework.experimental.aot' version '0.11.1'
 	id 'org.hibernate.orm'
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
-
+	id 'application'
 }
-
+archivesBaseName = 'springboot-deploy'
 group = 'com.hada'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+tasks.jar {
+	enabled = false
+}
+
+tasks.bootJar {
+	enabled = true
+	mainClassName = "com.hada.pins_backend.PinsBackendApplication"
+}
 
 configurations {
 	compileOnly {
