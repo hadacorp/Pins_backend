@@ -32,7 +32,7 @@ public class HomeController {
     @GetMapping("/pin")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse<List<HomePinResponse>> loadPin(
-            @ModelAttribute HomePinRequest homePinRequest,
+            HomePinRequest homePinRequest,
             @CurrentUser User user
     ){
 
