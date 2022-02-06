@@ -1,10 +1,10 @@
 #!/bin/bash
-BUILD_PATH=$(ls /home/ec2-user/build/*.jar)
+BUILD_PATH=$(ls /home/ubuntu/build/*.jar)
 JAR_NAME=$(basename $BUILD_PATH)
 echo "> build 파일명: $JAR_NAME"
 
 echo "> build 파일 복사"
-DEPLOY_PATH=/home/ec2-user/
+DEPLOY_PATH=/home/ubuntu/
 cp $BUILD_PATH $DEPLOY_PATH
 
 echo "> springboot-deploy.jar 교체"
