@@ -1,10 +1,8 @@
 package com.hada.pins_backend.advice;
 
-import com.hada.pins_backend.account.exception.CUserNotFoundException;
 import com.hada.pins_backend.advice.exception.BusinessException;
-import com.hada.pins_backend.advice.exception.CAccessDeniedException;
-import com.hada.pins_backend.account.exception.CAlreadyJoinUserException;
-import com.hada.pins_backend.advice.exception.CAuthenticationEntryPointException;
+import com.hada.pins_backend.account.exception.CAccessDeniedException;
+import com.hada.pins_backend.account.exception.CAuthenticationEntryPointException;
 import com.hada.pins_backend.model.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

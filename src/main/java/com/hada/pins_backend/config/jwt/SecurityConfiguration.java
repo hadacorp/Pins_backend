@@ -1,7 +1,5 @@
 package com.hada.pins_backend.config.jwt;
 
-import com.hada.pins_backend.account.exception.CustomAccessDeniedHandler;
-import com.hada.pins_backend.account.exception.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -49,10 +47,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/users/join", "/users/login", "/", "/exception/**").permitAll()
+                .antMatchers("/users/join", "/users/login", "/users/old-user", "/users/nickname").permitAll()
+                .antMatchers("/exception/**").permitAll()
                 .antMatchers("/h2-console/**", "/favicon.ico").permitAll()
-                .antMatchers("/users/me").hasRole("USER")
+                .antMatchers("/users/me", "/users/update").hasRole("USER")
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .anyRequest().denyAll()
 
                 .and()
                 .exceptionHandling()

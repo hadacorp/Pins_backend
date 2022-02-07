@@ -16,6 +16,7 @@ public enum ErrorCode {
     INVALID_TOKEN("토큰이 비정상적입니다."),
     VALID_PROBLEM("Request Body 의 Valid 에 문제가 있습니다."),
     REQUEST_BODY_PROBLEM("Request Body 에 문제가 있습니다."),
+    PROFILE_IMAGE_INVALID("프로필 사진에 문제가 있습니다."),
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
 //    INVALID_AUTH_TOKEN("권한 정보가 없는 토큰입니다"),

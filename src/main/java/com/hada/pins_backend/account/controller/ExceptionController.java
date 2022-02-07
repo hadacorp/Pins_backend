@@ -1,7 +1,7 @@
 package com.hada.pins_backend.account.controller;
 
-import com.hada.pins_backend.advice.exception.CAccessDeniedException;
-import com.hada.pins_backend.advice.exception.CAuthenticationEntryPointException;
+import com.hada.pins_backend.account.exception.CAccessDeniedException;
+import com.hada.pins_backend.account.exception.CAuthenticationEntryPointException;
 import com.hada.pins_backend.model.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
