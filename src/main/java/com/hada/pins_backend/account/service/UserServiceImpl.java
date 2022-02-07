@@ -81,7 +81,10 @@ public class UserServiceImpl implements UserService{
         String genderKor = (String) details.get("genderKor");
 
         // 프로필 사진 존재 유무 검증
-        if (file.isEmpty()) throw new CProfileImageInvalidException();
+        if (file.isEmpty())  {
+            log.error("No image");
+            throw new CProfileImageInvalidException();
+        }
 
         // 프로필 사진에서 파일 path 추출
         String profileImagePath = fileHandler.parseFileInfo(file, request.getPhoneNum());

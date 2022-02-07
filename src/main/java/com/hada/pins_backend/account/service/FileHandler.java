@@ -14,6 +14,7 @@ import java.util.UUID;
 /**
  * Created by parksuho on 2022/01/27.
  * Modified by parksuho on 2022/01/31.
+ * Modified by parksuho on 2022/02/07.
  */
 @Component
 @Slf4j
@@ -25,7 +26,7 @@ public class FileHandler {
         String contentType = multipartFile.getContentType();
         String originalFileExtension;
         if (!StringUtils.hasText(contentType)) {
-            log.error("file string is empty");
+            log.error("File type is empty");
             throw new CProfileImageInvalidException();
         }
         if(contentType.contains("image/jpeg")){
