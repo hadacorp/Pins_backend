@@ -24,7 +24,10 @@ public class FileHandler {
     public String parseFileInfo(MultipartFile multipartFile, String phoneNum) {
         String contentType = multipartFile.getContentType();
         String originalFileExtension;
-        if (!StringUtils.hasText(contentType)) throw new CProfileImageInvalidException();
+        if (!StringUtils.hasText(contentType)) {
+            log.error("file string is empty");
+            throw new CProfileImageInvalidException();
+        }
         if(contentType.contains("image/jpeg")){
             originalFileExtension = ".jpg";
         }
@@ -33,7 +36,10 @@ public class FileHandler {
         }
         else if(contentType.contains("image/gif")) {
             originalFileExtension = ".gif";
-        } else throw new CProfileImageInvalidException();
+        } else  {
+            log.error("File type error");
+            throw new CProfileImageInvalidException();
+        }
 
         // 파일 이름
         String fileName = UUID.randomUUID() + originalFileExtension;

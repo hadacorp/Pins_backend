@@ -28,6 +28,7 @@ import java.util.*;
  * Modified by parksuho on 2022/01/27.
  * Modified by parksuho on 2022/01/30.
  * Modified by parksuho on 2022/01/31.
+ * Modified by parksuho on 2022/02/07.
  */
 @Slf4j
 @Service
@@ -80,7 +81,7 @@ public class UserServiceImpl implements UserService{
         String genderKor = (String) details.get("genderKor");
 
         // 프로필 사진 존재 유무 검증
-        if (!file.isEmpty()) throw new CProfileImageInvalidException();
+        if (file.isEmpty()) throw new CProfileImageInvalidException();
 
         // 프로필 사진에서 파일 path 추출
         String profileImagePath = fileHandler.parseFileInfo(file, request.getPhoneNum());
@@ -139,7 +140,7 @@ public class UserServiceImpl implements UserService{
         return userRepository.findByNickName(request.getNickName()).isPresent();
     }
 
-    @Override
+    @Transactional
     public UserDto updateUser(Long userId, MultipartFile file, UpdateUserRequest request) throws IOException {
         User modifiedUser = userRepository.findById(userId).orElseThrow(CUserNotFoundException::new);
 
@@ -147,7 +148,7 @@ public class UserServiceImpl implements UserService{
         if(file.isEmpty()) changedImage = modifiedUser.getProfileImage();
         else {
             changedImage = fileHandler.parseFileInfo(file, modifiedUser.getPhoneNum());
-            s3Uploader.updateS3(file, modifiedUser.getNickName(), changedImage);
+            s3Uploader.updateS3(file, modifiedUser.getProfileImage(), changedImage);
         }
         String changedName = (request.getName().isBlank()) ? modifiedUser.getName() : request.getName();
         String changedNickName = (request.getNickName().isBlank()) ? modifiedUser.getNickName() : request.getNickName();
