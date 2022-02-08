@@ -1,10 +1,16 @@
 spring:
+  jpa:
+    hibernate:
+      use-new-id-generator-mappings: false
   mvc:
     hiddenmethod:
       filter:
         enabled: true
+    throw-exception-if-no-handler-found: true
+    resources:
+      add-mappings: false
   profiles:
-    active: dev
+    active: dev # local, dev, prod
   servlet:
     multipart:
       max-request-size: 10MB
@@ -66,6 +72,13 @@ server:
       charset: UTF-8
       force: true
   port: 8081
+cloud:
+  aws:
+    env: local
+  minio:
+    access-key: admin
+    secret-key: password
+    endpoint: http://127.0.0.1:9000
 ---
 
 ---
@@ -95,4 +108,43 @@ server:
       charset: UTF-8
       force: true
   port: 8081
+cloud:
+  aws:
+    env: dev
+  minio:
+    access-key: admin
+    secret-key: password
+    endpoint: http://127.0.0.1:9000
+---
+
+---
+spring:
+  jwt:
+    secret:
+  config:
+    activate:
+      on-profile: prod
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    generate-ddl: true
+  datasource:
+    url:
+    username:
+    password:
+  sql:
+    init:
+      mode: always
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+  port: 8081
+cloud:
+  aws:
+    env: prod
 ---
