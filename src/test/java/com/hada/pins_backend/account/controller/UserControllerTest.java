@@ -1,6 +1,7 @@
 package com.hada.pins_backend.account.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hada.pins_backend.PinsBackendApplication;
 import com.hada.pins_backend.account.model.entity.RefreshToken;
 import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.account.model.entity.dto.*;
@@ -22,6 +23,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -52,6 +54,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
+@ContextConfiguration(classes = PinsBackendApplication.class)
 class UserControllerTest {
     @Autowired
     protected MockMvc mockMvc;
@@ -84,7 +87,7 @@ class UserControllerTest {
                 .age(21)
                 .gender(Gender.Male)
                 .profileImage("test.png")
-                .roles(Collections.singletonList("ROLE_USER"))
+                .role("ROLE_USER")
                 .build());
         tokenDto = userService.login(LoginUserRequest.builder().phoneNum("010-1234-1234").build());
     }
@@ -119,14 +122,14 @@ class UserControllerTest {
                         ),
                         requestPartFields("request",
                                 fieldWithPath("name").description("유저 이름"),
-                                fieldWithPath("nickname").description("유저 닉네임"),
+                                fieldWithPath("nickName").description("유저 닉네임"),
                                 fieldWithPath("resRedNumber").description("유저 주민번호"),
                                 fieldWithPath("phoneNum").description("유저 전화번호")
                         ),
                         responseFields(
-                                fieldWithPath("phoneNum").description("유저 전화번호"),
-                                fieldWithPath("nickname").description("유저 닉네임"),
-                                fieldWithPath("ageAndGender").description("유저 나이 및 성별")
+                                fieldWithPath("data.phoneNum").description("유저 전화번호"),
+                                fieldWithPath("data.nickName").description("유저 닉네임"),
+                                fieldWithPath("data.ageAndGender").description("유저 나이 및 성별")
                         )
                 ))
                 .andExpect(status().isCreated());
@@ -267,7 +270,7 @@ class UserControllerTest {
                         ),
                         requestPartFields("request",
                                 fieldWithPath("name").description("유저 이름"),
-                                fieldWithPath("nickname").description("유저 닉네임")
+                                fieldWithPath("nickName").description("유저 닉네임")
                         ),
                         responseFields(
                                 fieldWithPath("data.id").description("회원 고유번호"),

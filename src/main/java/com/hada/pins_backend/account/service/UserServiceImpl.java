@@ -29,6 +29,7 @@ import java.util.*;
  * Modified by parksuho on 2022/01/30.
  * Modified by parksuho on 2022/01/31.
  * Modified by parksuho on 2022/02/07.
+ * Modified by parksuho on 2022/02/27.
  */
 @Slf4j
 @Service
@@ -90,13 +91,13 @@ public class UserServiceImpl implements UserService{
         String profileImagePath = fileHandler.parseFileInfo(file, request.getPhoneNum());
         
         // 이미지 S3에 업로드
-        s3Uploader.upload(file, profileImagePath);
+        String profileImage = s3Uploader.upload(file, profileImagePath);
         
         User user = User.builder()
                 .name(request.getName()).nickName(request.getNickName())
                 .resRedNumber(request.getResRedNumber()).phoneNum(request.getPhoneNum())
                 .age(age).gender(gender)
-                .profileImage(profileImagePath).roles(Collections.singletonList("ROLE_USER")).build();
+                .profileImage(profileImage).role("ROLE_USER").build();
         userRepository.save(user);
         
         return JoinUserResponse.builder()
@@ -117,7 +118,7 @@ public class UserServiceImpl implements UserService{
             tokenRepository.delete(refreshToken);
         }
         // AccessToken, RefreshToken 발급
-        TokenDto tokenDto = jwtTokenProvider.createTokenDto(user.getPhoneNum(), user.getRoles());
+        TokenDto tokenDto = jwtTokenProvider.createTokenDto(user.getPhoneNum(), user.getRole());
         // RefreshToken 저장
         RefreshToken refreshToken = RefreshToken.builder()
                 .userId(user.getId())
@@ -151,7 +152,7 @@ public class UserServiceImpl implements UserService{
         if(file.isEmpty()) changedImage = modifiedUser.getProfileImage();
         else {
             changedImage = fileHandler.parseFileInfo(file, modifiedUser.getPhoneNum());
-            s3Uploader.updateS3(file, modifiedUser.getProfileImage(), changedImage);
+            changedImage = s3Uploader.updateS3(file, modifiedUser.getProfileImage(), changedImage);
         }
         String changedName = (request.getName().isBlank()) ? modifiedUser.getName() : request.getName();
         String changedNickName = (request.getNickName().isBlank()) ? modifiedUser.getNickName() : request.getNickName();

@@ -17,18 +17,18 @@ spring:
       max-file-size: 10MB
       enabled: true
       resolve-lazily: true
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 jwt:
   secret: jwt.secret
 cloud:
   aws:
-    env: dev
+#    env: dev
     credentials:
       accessKey: aws.dev.s3.accessKey
       secretKey: aws.dev.s3.secretKey
     s3:
-      bucket: pinsuserimagebucket
+      bucket: hada-pins
     region:
       auto: false
       static: ap-northeast-2
@@ -58,7 +58,7 @@ spring:
         format_sql: true
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   datasource:
     url: jdbc:mysql://localhost:3306/pins_dev?serverTimezone=Asia/Seoul
     username: admin

@@ -23,6 +23,7 @@ import java.util.List;
 /**
  * Created by bangjinhyuk on 2022/01/15.
  * Modified by parksuho in 2022/01/18.
+ * Modified by parksuho on 2022/02/27.
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -57,11 +58,11 @@ public class JwtTokenProvider {
 //                .sign(ALGORITHM);
 //
 //    }
-    public TokenDto createTokenDto(String phoneNumber, List<String> roles) {
+    public TokenDto createTokenDto(String phoneNumber, String role) {
         // Claims 에 user 구분을 위한 User pk 및 authorities 목록 삽입
         // Claims에 회원 구분할 수 있는 값 세팅하고 토큰 들어오면 해당 값으로 회원 구분해서 리소스 제공
         Claims claims = Jwts.claims().setSubject(phoneNumber);
-        claims.put(ROLES, roles);
+        claims.put(ROLES, role);
 
         // 생성날짜, 만료날짜를 위한 Date
         Date now = new Date();

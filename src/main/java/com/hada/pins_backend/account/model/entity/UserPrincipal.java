@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 /*
  * Created by parksuho on 2022/01/19.
+ * Modified by parksuho on 2022/02/27.
  */
 public class UserPrincipal extends org.springframework.security.core.userdetails.User {
     private User user;
@@ -20,7 +21,7 @@ public class UserPrincipal extends org.springframework.security.core.userdetails
     }
 
     public UserPrincipal(User user) {
-        super(user.getPhoneNum(), "", getAuthorities(user.getRoles()));
+        super(user.getPhoneNum(), "", List.of(new SimpleGrantedAuthority(user.getRole())));
         this.user = user;
     }
 

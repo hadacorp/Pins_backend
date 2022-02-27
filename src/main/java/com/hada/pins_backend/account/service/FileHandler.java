@@ -15,6 +15,7 @@ import java.util.UUID;
  * Created by parksuho on 2022/01/27.
  * Modified by parksuho on 2022/01/31.
  * Modified by parksuho on 2022/02/07.
+ * Modified by parksuho on 2022/02/27.
  */
 @Component
 @Slf4j
@@ -29,7 +30,7 @@ public class FileHandler {
             log.error("File type is empty");
             throw new CProfileImageInvalidException();
         }
-        if(contentType.contains("image/jpeg")){
+        if(contentType.contains("image/jpeg") || contentType.contains("image/jpg")){
             originalFileExtension = ".jpg";
         }
         else if(contentType.contains("image/png")){
