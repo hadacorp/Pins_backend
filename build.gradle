@@ -11,6 +11,7 @@ plugins {
 	id 'org.hibernate.orm'
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 	id 'application'
+	id 'org.asciidoctor.jvm.convert' version '3.2.0'
 }
 archivesBaseName = 'springboot-deploy'
 group = 'com.hada'
@@ -27,6 +28,7 @@ tasks.bootJar {
 }
 
 configurations {
+	asciidoctorExt
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -63,15 +65,42 @@ dependencies {
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+}
+
+ext {
+	snippetsDir = file('build/generated-snippets') // Snippet 의 생성 위치를 지정
 }
 
 test {
 	useJUnitPlatform()
+	outputs.dir snippetsDir
+}
+
+asciidoctor {
+	inputs.dir snippetsDir
+	configurations 'asciidoctorExt'
+	dependsOn test
 }
 
 bootBuildImage {
 	builder = 'paketobuildpacks/builder:tiny'
 	environment = ['BP_NATIVE_IMAGE': 'true']
+}
+
+asciidoctor.doFirst {
+	delete file('src/main/resources/static/docs')
+}
+
+task copyDocument(type: Copy) {
+	dependsOn asciidoctor
+
+	from file("build/docs/asciidoc/")
+	into file("src/main/resources/static/docs")
+}
+build {
+	dependsOn copyDocument
 }
 
 hibernate {
