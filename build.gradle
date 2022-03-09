@@ -112,7 +112,7 @@ hibernate {
 	}
 }
 
-def querydslDir = "$buildDir/generated/querydsl" as Object
+def querydslDir = "$buildDir/generated/querydsl"
 
 querydsl {
 	jpa = true
@@ -121,12 +121,14 @@ querydsl {
 sourceSets {
 	main.java.srcDir querydslDir
 }
-compileQuerydsl{
-	options.annotationProcessorPath = configurations.querydsl
-}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
 	querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
 }
