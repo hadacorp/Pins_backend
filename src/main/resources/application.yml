@@ -2,6 +2,7 @@ spring:
   jpa:
     hibernate:
       use-new-id-generator-mappings: false
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   mvc:
     hiddenmethod:
       filter:
@@ -10,7 +11,7 @@ spring:
     resources:
       add-mappings: false
   profiles:
-    active: dev # local, dev, prod
+    active: local # local, dev, prod
   servlet:
     multipart:
       max-request-size: 10MB
@@ -19,132 +20,20 @@ spring:
       resolve-lazily: true
 #  autoconfigure:
 #    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
-jwt:
-  secret: jwt.secret
-cloud:
-  aws:
-#    env: dev
-    credentials:
-      accessKey: aws.dev.s3.accessKey
-      secretKey: aws.dev.s3.secretKey
-    s3:
-      bucket: hada-pins
-    region:
-      auto: false
-      static: ap-northeast-2
-    stack:
-      auto: false
-    cloudFront:
-      distributionDomain: https://d21ye6uqd6ovq2.cloudfront.net
-kakao:
-  key: dev.kakao.key
-
-cafe24:
-  key: dev.cafe24.key
-
-google:
-  key: dev.google.key
 
 ---
 spring:
-  config:
-    activate:
-      on-profile: local
-  jpa:
-    defer-datasource-initialization: true
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create
-  datasource:
-    url: jdbc:mysql://localhost:3306/pins_dev?serverTimezone=Asia/Seoul
-    username: admin
-    password: 1234
-  sql:
-    init:
-      mode: always
-server:
-  servlet:
-    encoding:
-      charset: UTF-8
-      force: true
-  port: 8081
-cloud:
-  aws:
-    env: local
-  minio:
-    access-key: admin
-    secret-key: password
-    endpoint: http://127.0.0.1:9000
+  profiles:
+    active: local
+
+---
+spring:
+  profiles:
+    active: dev
 ---
 
 ---
 spring:
-  config:
-    activate:
-      on-profile: dev
-  jpa:
-    defer-datasource-initialization: true
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-  datasource:
-    url: jdbc:mysql://pins-dev.cipuud6hoacg.ap-northeast-2.rds.amazonaws.com:3306/pins_dev?serverTimezone=Asia/Seoul
-    username: hada
-    password: rds.dev.password
-  sql:
-    init:
-      mode: always
-server:
-  servlet:
-    encoding:
-      charset: UTF-8
-      force: true
-  port: 8081
-cloud:
-  aws:
-    env: dev
-  minio:
-    access-key: admin
-    secret-key: password
-    endpoint: http://127.0.0.1:9000
----
-
----
-spring:
-  jwt:
-    secret:
-  config:
-    activate:
-      on-profile: prod
-  jpa:
-    defer-datasource-initialization: true
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
-    generate-ddl: true
-  datasource:
-    url:
-    username:
-    password:
-  sql:
-    init:
-      mode: always
-server:
-  servlet:
-    encoding:
-      charset: UTF-8
-      force: true
-  port: 8081
-cloud:
-  aws:
-    env: prod
+  profiles:
+    active: prod
 ---

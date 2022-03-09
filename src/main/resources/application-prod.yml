@@ -1,0 +1,50 @@
+spring:
+  jwt:
+    secret:
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    generate-ddl: true
+  datasource:
+    url:
+    username:
+    password:
+  sql:
+    init:
+      mode: always
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+  port: 8081
+jwt:
+  secret: jwt.secret
+cloud:
+  aws:
+    env: prod
+    credentials:
+      accessKey: aws.dev.s3.accessKey
+      secretKey: aws.dev.s3.secretKey
+    s3:
+      bucket: hada-pins
+    region:
+      auto: false
+      static: ap-northeast-2
+    stack:
+      auto: false
+    cloudFront:
+      distributionDomain: https://d21ye6uqd6ovq2.cloudfront.net
+kakao:
+  key: dev.kakao.key
+
+cafe24:
+  key: dev.cafe24.key
+
+google:
+  key: dev.google.key
+
+
