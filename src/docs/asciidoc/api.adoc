@@ -1,0 +1,43 @@
+= REST API Guide
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:site-url: /build/asciidoc/html5/
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+:roots: ./build/generated-snippets
+endif::[]
+
+== Host
+|===
+|환경|Host
+|LOCAL|http://localhost:8080
+|PROD|http://
+|===
+
+== User API
+회원가입, 로그인, 조회, 가입 여부 확인, 닉네임 중복 확인, 업데이트 API
+
+=== User 회원가입 [POST]
+operation::users/join[snippets='http-request,request-parts,request-part-request-fields,http-response,response-fields']
+
+=== USER 로그인 [POST]
+operation::users/login[snippets='http-request,request-fields,http-response,response-fields']
+
+=== USER 조회 [GET]
+operation::users/me[snippets='http-request,request-headers,http-response,response-fields']
+
+=== USER 가입 여부 확인 [POST]
+operation::users/old-user[snippets='http-request,request-fields,http-response,response-fields']
+
+=== USER 닉네임 중복 확인 [POST]
+operation::users/nickname[snippets='http-request,request-fields,http-response,response-fields']
+
+=== USER 업데이트 [POST]
+operation::users/update[snippets='http-request,request-headers,request-parts,request-part-request-fields,http-response,response-fields']
