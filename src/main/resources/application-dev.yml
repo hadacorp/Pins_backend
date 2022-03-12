@@ -1,0 +1,53 @@
+spring:
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://pins-dev.cipuud6hoacg.ap-northeast-2.rds.amazonaws.com:3306/pins_dev?serverTimezone=Asia/Seoul
+    username: hada
+    password: rds.dev.password
+  sql:
+    init:
+      mode: always
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+  port: 8081
+jwt:
+  secret: jwt.secret
+cloud:
+  aws:
+    env: dev
+    credentials:
+      accessKey: aws.dev.s3.accessKey
+      secretKey: aws.dev.s3.secretKey
+    s3:
+      bucket: hada-pins
+    region:
+      auto: false
+      static: ap-northeast-2
+    stack:
+      auto: false
+    cloudFront:
+      distributionDomain: https://d21ye6uqd6ovq2.cloudfront.net
+  minio:
+    access-key: admin
+    secret-key: password
+    endpoint: http://127.0.0.1:9000
+kakao:
+  key: dev.kakao.key
+
+cafe24:
+  key: dev.cafe24.key
+
+google:
+  key: dev.google.key
+

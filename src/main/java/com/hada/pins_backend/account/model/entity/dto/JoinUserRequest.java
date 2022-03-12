@@ -2,6 +2,7 @@ package com.hada.pins_backend.account.model.entity.dto;
 
 import com.hada.pins_backend.advice.ValidationGroups.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,8 +14,10 @@ import javax.validation.constraints.Size;
  * Created by bangjinhyuk on 2022/01/15.
  * Modified by parksuho in 2022/01/18.
  * Modified by parksuho on 2022/01/27.
+ * Modified by parksuho on 2022/02/26.
  */
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class JoinUserRequest {

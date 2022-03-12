@@ -2,6 +2,7 @@ package com.hada.pins_backend.account.model.entity.dto;
 
 import com.hada.pins_backend.advice.ValidationGroups.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,8 +11,10 @@ import javax.validation.constraints.Pattern;
 
 /**
  * Created by parksuho on 2022/01/19.
+ * Modified by parksuho on 2022/02/26.
  */
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginUserRequest {

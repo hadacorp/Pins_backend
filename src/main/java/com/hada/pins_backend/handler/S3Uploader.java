@@ -18,6 +18,7 @@ import java.util.Optional;
  * Modified by parksuho on 2022/01/27.
  * Modified by parksuho on 2022/01/30.
  * Modified by parksuho on 2022/01/31.
+ * Modified by parksuho on 2022/02/27.
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class S3Uploader {
         File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
                 .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
         upload(uploadFile, fileName);
-        return fileName;
+        return CLOUD_FRONT_DOMAIN_NAME + "/" + fileName;
     }
 
     // S3로 파일 업로드하기
@@ -55,6 +56,10 @@ public class S3Uploader {
 //        return "https://pinsuserimagebucket.s3.ap-northeast-2.amazonaws.com/images/328266fd-8f20-4db7-9501-ebfbff7fa76auserimage1.png";
     }
 
+    public String get(String fileName) {
+        return CLOUD_FRONT_DOMAIN_NAME + "/" + fileName;
+    }
+
     // get file
     private String getS3(String fileName) {
         log.info("get file : " + fileName);
@@ -63,6 +68,7 @@ public class S3Uploader {
 
     // delete file
     public void deleteFileS3(String fileName) {
+        fileName = fileName.replace(CLOUD_FRONT_DOMAIN_NAME + "/", "");
         log.info("delete file : " + fileName);
         if (amazonS3Client.doesObjectExist(bucket, fileName)) amazonS3Client.deleteObject(bucket, fileName);
     }
@@ -70,21 +76,24 @@ public class S3Uploader {
     // delete file
     public void deleteFolderS3(String folderName) {
         log.info("delete folder : " + folderName);
-//        ObjectListing objects = amazonS3Client.listObjects(bucket, folderName);
-        ListObjectsRequest listObject = new ListObjectsRequest();
-        listObject.setBucketName(bucket);
-        listObject.setPrefix(folderName);
+        if (amazonS3Client.listObjectsV2(bucket, folderName).getKeyCount() > 0) {
+            //        ObjectListing objects = amazonS3Client.listObjects(bucket, folderName);
+            ListObjectsRequest listObject = new ListObjectsRequest();
+            listObject.setBucketName(bucket);
+            listObject.setPrefix(folderName);
 
-        ObjectListing objects;
-        do {
-            objects = amazonS3Client.listObjects(listObject);
-            //1000개 단위로 읽음
-            for (S3ObjectSummary objectSummary : objects.getObjectSummaries()) {
-                amazonS3Client.deleteObject(bucket, objectSummary.getKey());
-            }
-            //objects = s3.listNextBatchOfObjects(objects); <--이녀석은 1000개 단위로만 가져옴..
-            listObject.setMarker(objects.getNextMarker());
-        } while (objects.isTruncated());
+            ObjectListing objects;
+            do {
+                objects = amazonS3Client.listObjects(listObject);
+                //1000개 단위로 읽음
+                for (S3ObjectSummary objectSummary : objects.getObjectSummaries()) {
+                    log.info("key : " + objectSummary.getKey());
+                    amazonS3Client.deleteObject(bucket, objectSummary.getKey());
+                }
+                //objects = s3.listNextBatchOfObjects(objects); <--이녀석은 1000개 단위로만 가져옴..
+                listObject.setMarker(objects.getNextMarker());
+            } while (objects.isTruncated());
+        }
     }
 
     // update file

@@ -14,11 +14,13 @@ import java.util.List;
  * Created by bangjinhyuk on 2022/01/15.
  * Modified by parksuho in 2022/01/18.
  * Modified by parksuho in 2022/01/27.
+ * Modified by parksuho on 2022/02/27.
  */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "user")
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,8 +58,8 @@ public class User extends BaseTimeEntity {
     private String email;
 
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles = new ArrayList<>();
+    @Column(nullable = false)
+    private String role;
 
     @Builder
     public User(String name,
@@ -67,7 +69,7 @@ public class User extends BaseTimeEntity {
                 int age,
                 Gender gender,
                 String profileImage,
-                List<String> roles){
+                String role){
         this.name = name;
         this.nickName = nickName;
         this.resRedNumber = resRedNumber;
@@ -75,7 +77,7 @@ public class User extends BaseTimeEntity {
         this.age = age;
         this.gender = gender;
         this.profileImage = profileImage;
-        this.roles = roles;
+        this.role = role;
     }
 
     public void setBackgroundImage(String backgroundImage) {
