@@ -44,7 +44,7 @@ public class StoryPin extends BaseTimeEntity {
     @CollectionTable(name = "story_pin_image", joinColumns = @JoinColumn(name = "id"))
     private Set<String> images = new HashSet<>();
 
-    private enum StoryPinCategory {
+    public enum StoryPinCategory {
         Town, Lost
     }
 

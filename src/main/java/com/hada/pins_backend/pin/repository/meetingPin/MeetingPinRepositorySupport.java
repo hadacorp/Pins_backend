@@ -3,7 +3,7 @@ package com.hada.pins_backend.pin.repository.meetingPin;
 import com.hada.pins_backend.account.model.enumable.Gender;
 import com.hada.pins_backend.model.LongitudeAndLatitude;
 import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPin;
-import com.hada.pins_backend.pin.model.entity.QMeetingPin;
+import com.hada.pins_backend.pin.model.entity.meetingPin.QMeetingPin;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
