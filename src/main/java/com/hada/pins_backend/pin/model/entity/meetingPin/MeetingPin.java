@@ -43,7 +43,7 @@ public class MeetingPin extends BaseTimeEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender")
+    @Column(name = "gender", columnDefinition = "TINYINT")
     private Gender gender;
 
     @NotNull
@@ -69,7 +69,7 @@ public class MeetingPin extends BaseTimeEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "category")
+    @Column(name = "category", columnDefinition = "TINYINT")
     private MeetingPinCategory meetingPinCategory;
 
     @OneToMany(mappedBy = "meetingPin", cascade = CascadeType.ALL, orphanRemoval = true)

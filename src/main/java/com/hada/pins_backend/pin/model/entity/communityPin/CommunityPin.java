@@ -48,7 +48,7 @@ public class CommunityPin extends BaseTimeEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender")
+    @Column(name = "gender", columnDefinition = "TINYINT")
     private Gender gender;
 
     @NotNull
@@ -73,7 +73,7 @@ public class CommunityPin extends BaseTimeEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "category")
+    @Column(name = "category", columnDefinition = "TINYINT")
     private CommunityPinCategory communityPinCategory;
 
     @OneToMany(mappedBy = "requestCommunityPin", cascade = CascadeType.ALL, orphanRemoval = true)
