@@ -3,12 +3,12 @@ package com.hada.pins_backend.pin.service;
 import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.account.model.enumable.Gender;
 import com.hada.pins_backend.model.LongitudeAndLatitude;
-import com.hada.pins_backend.pin.model.entity.MeetingPin;
+import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPin;
 import com.hada.pins_backend.pin.model.request.HomePinRequest;
 import com.hada.pins_backend.pin.model.response.HomeLocationResponse;
 import com.hada.pins_backend.pin.model.response.HomePinResponse;
 import com.hada.pins_backend.pin.model.response.MeetingPinResponse;
-import com.hada.pins_backend.pin.repository.MeetingPinRepositorySupport;
+import com.hada.pins_backend.pin.repository.meetingPin.MeetingPinRepositorySupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

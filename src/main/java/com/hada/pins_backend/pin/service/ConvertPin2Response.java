@@ -2,7 +2,6 @@ package com.hada.pins_backend.pin.service;
 
 import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.account.model.enumable.Gender;
-import com.hada.pins_backend.pin.model.entity.UserAndMeetingPin;
 import com.hada.pins_backend.pin.model.response.MeetingPinResponse;
 
 import java.time.DayOfWeek;
@@ -55,22 +54,22 @@ public class ConvertPin2Response {
         );
     }
 
-    public List<MeetingPinResponse.ParticipantDetail> user2ParticipantDetail(List<UserAndMeetingPin> userAndMeetingPins){
-        List<MeetingPinResponse.ParticipantDetail> participantDetailList = new ArrayList<>();
-        for (UserAndMeetingPin userAndMeetingPin : userAndMeetingPins) {
-            User tmpUser = userAndMeetingPin.getMember();
-            String detail = tmpUser.getAge() + "세 " +
-                    Gender.convert2Korean(tmpUser.getGender());
-            participantDetailList.add(
-                    new MeetingPinResponse.ParticipantDetail(
-                            tmpUser.getId(),
-                            tmpUser.getNickName(),
-                            detail,
-                            tmpUser.getProfileImage()
-                    )
-            );
-        }
-        return participantDetailList;
-    }
+//    public List<MeetingPinResponse.ParticipantDetail> user2ParticipantDetail(List<UserAndMeetingPin> userAndMeetingPins){
+//        List<MeetingPinResponse.ParticipantDetail> participantDetailList = new ArrayList<>();
+//        for (UserAndMeetingPin userAndMeetingPin : userAndMeetingPins) {
+//            User tmpUser = userAndMeetingPin.getMember();
+//            String detail = tmpUser.getAge() + "세 " +
+//                    Gender.convert2Korean(tmpUser.getGender());
+//            participantDetailList.add(
+//                    new MeetingPinResponse.ParticipantDetail(
+//                            tmpUser.getId(),
+//                            tmpUser.getNickName(),
+//                            detail,
+//                            tmpUser.getProfileImage()
+//                    )
+//            );
+//        }
+//        return participantDetailList;
+//    }
 
 }

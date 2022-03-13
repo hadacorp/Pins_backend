@@ -1,8 +1,7 @@
 package com.hada.pins_backend.pin.model.response;
 
 
-import com.hada.pins_backend.account.model.enumable.Gender;
-import com.hada.pins_backend.pin.model.entity.MeetingPin;
+import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPin;
 import com.hada.pins_backend.pin.service.ConvertPin2Response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,18 +49,18 @@ public class MeetingPinResponse {
 
         ConvertPin2Response convertPin2Response = new ConvertPin2Response();
         this.id = meetingPin.getId();
-        this.title = meetingPin.getTitle();
+//        this.title = meetingPin.getTitle();
         this.content = meetingPin.getContent();
-        this.category = meetingPin.getCategory();
-        this.setGender = Gender.convert2Korean(meetingPin.getSetGender());
+//        this.category = meetingPin.getCategory();
+//        this.setGender = Gender.convert2Korean(meetingPin.getSetGender());
         this.ageRange = meetingPin.getMinAge() +"세 ~ "+meetingPin.getMaxAge()+"세";
         this.setLimit = meetingPin.getSetLimit();
         this.address = convertPin2Response.GpsToAddress(meetingPin.getLatitude(), meetingPin.getLongitude(),googleKey);
-        this.date = convertPin2Response.localDateTime2String(meetingPin.getDate());
+//        this.date = convertPin2Response.localDateTime2String(meetingPin.getDate());
         this.createdAt = meetingPin.getCreatedAt();
         this.createUser = convertPin2Response.user2CreateDetail(meetingPin.getCreateUser());
-        this.participantNum = meetingPin.getUserAndMeetingPins().size();
-        this.participantDetailList = convertPin2Response.user2ParticipantDetail(meetingPin.getUserAndMeetingPins());
+//        this.participantNum = meetingPin.getUserAndMeetingPins().size();
+//        this.participantDetailList = convertPin2Response.user2ParticipantDetail(meetingPin.getUserAndMeetingPins());
         return this;
     }
 
