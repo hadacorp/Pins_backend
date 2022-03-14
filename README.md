@@ -11,7 +11,7 @@
 
 # DB modeling
 ERD v1.0
-![v1.0-Erd](./erd/ERD-v1.png)
+![v1.0-Erd](./erd/ERD-v3.0.png)
 
 &nbsp;
 &nbsp;
