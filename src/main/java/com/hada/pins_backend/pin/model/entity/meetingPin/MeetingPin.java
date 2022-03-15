@@ -42,7 +42,7 @@ public class MeetingPin extends BaseTimeEntity {
     private LocalDateTime dateTime;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "gender", columnDefinition = "TINYINT")
     private Gender gender;
 
@@ -68,7 +68,7 @@ public class MeetingPin extends BaseTimeEntity {
     private Integer setLimit;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "category", columnDefinition = "TINYINT")
     private MeetingPinCategory meetingPinCategory;
 

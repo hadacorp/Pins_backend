@@ -35,7 +35,7 @@ public class MeetingPinRequest extends BaseTimeEntity {
     private User requestUser;
 
     @NotNull
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(value = EnumType.ORDINAL)
     @Column(name = "state", columnDefinition = "TINYINT")
     private State state;
 

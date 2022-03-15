@@ -47,7 +47,7 @@ public class CommunityPin extends BaseTimeEntity {
     private LocalDateTime startedAt;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "gender", columnDefinition = "TINYINT")
     private Gender gender;
 
@@ -72,7 +72,7 @@ public class CommunityPin extends BaseTimeEntity {
     private Integer setLimit;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "category", columnDefinition = "TINYINT")
     private CommunityPinCategory communityPinCategory;
 

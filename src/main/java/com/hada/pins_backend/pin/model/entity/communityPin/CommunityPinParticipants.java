@@ -33,7 +33,7 @@ public class CommunityPinParticipants extends BaseTimeEntity {
 
     @NotNull
     @Column(name = "state")
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(value = EnumType.ORDINAL)
     private State state;
 
     @NotNull @NotBlank

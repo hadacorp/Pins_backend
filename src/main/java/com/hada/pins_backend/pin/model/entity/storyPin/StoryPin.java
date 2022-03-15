@@ -33,7 +33,7 @@ public class StoryPin extends BaseTimeEntity {
 
     @NotNull
     @Column(name = "category", columnDefinition = "TINYINT")
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(value = EnumType.ORDINAL)
     private StoryPinCategory category;
 
     @NotNull @NotBlank

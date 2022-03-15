@@ -13,6 +13,7 @@ import com.hada.pins_backend.pin.model.enumable.State;
 import com.hada.pins_backend.pin.repository.meetingPin.MeetingPinRepository;
 import com.hada.pins_backend.pin.repository.meetingPin.MeetingPinRequestRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -94,6 +95,7 @@ class MeetingPinTest {
 
     @Test
     @Transactional
+    @Disabled
     @DisplayName(value = "만남핀 저장")
     public void insertMeetingPin(){
         //given

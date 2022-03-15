@@ -34,7 +34,7 @@ public class CommunityPinRequest extends BaseTimeEntity {
 
     @NotNull
     @Column(name = "state", columnDefinition = "TINYINT")
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(value = EnumType.ORDINAL)
     private State state;
 
     @NotNull @NotBlank
