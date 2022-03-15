@@ -24,6 +24,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDateTime;
+
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -99,7 +101,7 @@ class UserControllerTest {
 
         //when
         ResultActions perform = mockMvc.perform(multipart("/users/join")
-                .file(new MockMultipartFile("profileImage", "test.png", "image/png", "test".getBytes()))
+                .file(new MockMultipartFile("profileImage", LocalDateTime.now()+".png", "image/png", "test".getBytes()))
                 .file(request).accept(MediaType.APPLICATION_JSON));
         //then
         perform.andDo(print())
@@ -242,7 +244,7 @@ class UserControllerTest {
 
         //when
         ResultActions perform = mockMvc.perform(multipart("/users/update")
-                .file(new MockMultipartFile("profileImage", "test.png", "image/png", "test".getBytes()))
+                .file(new MockMultipartFile("profileImage", LocalDateTime.now()+".png", "image/png", "test".getBytes()))
                 .file(request)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + tokenDto.getAccessToken()));
