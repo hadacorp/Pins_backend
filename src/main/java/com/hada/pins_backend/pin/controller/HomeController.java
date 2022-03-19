@@ -32,7 +32,7 @@ public class HomeController {
      */
     @GetMapping("/pin")
     public ResponseEntity loadPin(
-            HomePinRequest homePinRequest,
+            @ModelAttribute HomePinRequest homePinRequest,
             @CurrentUser User user
     ){
         return new ResponseEntity(new ApiResponse<>(homeService.loadPin(user,homePinRequest)), HttpStatus.OK);
