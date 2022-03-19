@@ -3,8 +3,6 @@ package com.hada.pins_backend.pin.model.entity.communityPin;
 import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.account.model.enumable.Gender;
 import com.hada.pins_backend.model.BaseTimeEntity;
-import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPinParticipants;
-import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPinRequest;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +17,7 @@ import java.util.Set;
 
 /**
  * Created by bangjinhyuk on 2022/03/13.
+ * Modified by bangjinhyuk on 2022/03/19.
  */
 @Getter
 @NoArgsConstructor
@@ -74,7 +73,7 @@ public class CommunityPin extends BaseTimeEntity {
     @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "category", columnDefinition = "TINYINT")
-    private CommunityPinCategory communityPinCategory;
+    private CommunityPinCategory category;
 
     @OneToMany(mappedBy = "requestCommunityPin", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CommunityPinRequest> communityPinRequests = new HashSet<>();
@@ -84,5 +83,19 @@ public class CommunityPin extends BaseTimeEntity {
 
     public enum CommunityPinCategory {
         Apartment, College
+    }
+
+    @Builder
+    public CommunityPin(User createUser, Double latitude, Double longitude, LocalDateTime startedAt, Gender gender, Integer maxAge, Integer minAge, String content, Integer setLimit, CommunityPinCategory category) {
+        this.createUser = createUser;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.startedAt = startedAt;
+        this.gender = gender;
+        this.maxAge = maxAge;
+        this.minAge = minAge;
+        this.content = content;
+        this.setLimit = setLimit;
+        this.category = category;
     }
 }

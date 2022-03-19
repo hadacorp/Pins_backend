@@ -14,6 +14,7 @@ import java.util.Set;
 
 /**
  * Created by bangjinhyuk on 2022/01/15.
+ * Modified by bangjinhyuk on 2022/03/19.
  */
 @Getter
 @NoArgsConstructor
@@ -70,7 +71,7 @@ public class MeetingPin extends BaseTimeEntity {
     @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "category", columnDefinition = "TINYINT")
-    private MeetingPinCategory meetingPinCategory;
+    private MeetingPinCategory category;
 
     @OneToMany(mappedBy = "meetingPin", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MeetingPinParticipants> meetingPinParticipants = new HashSet<>();
@@ -80,7 +81,7 @@ public class MeetingPin extends BaseTimeEntity {
 
 
     @Builder
-    public MeetingPin(User createUser, Double latitude, Double longitude, LocalDateTime dateTime, Gender gender, Integer maxAge, Integer minAge, String content, Integer setLimit, MeetingPinCategory meetingPinCategory) {
+    public MeetingPin(User createUser, Double latitude, Double longitude, LocalDateTime dateTime, Gender gender, Integer maxAge, Integer minAge, String content, Integer setLimit, MeetingPinCategory category) {
         this.createUser = createUser;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -90,7 +91,7 @@ public class MeetingPin extends BaseTimeEntity {
         this.minAge = minAge;
         this.content = content;
         this.setLimit = setLimit;
-        this.meetingPinCategory = meetingPinCategory;
+        this.category = category;
     }
 
 

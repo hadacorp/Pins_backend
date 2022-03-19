@@ -1,5 +1,6 @@
 package com.hada.pins_backend.pin.model.entity.storyPin;
 
+import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.model.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import java.util.Set;
 
 /**
  * Created by bangjinhyuk on 2022/03/13.
+ * Modified by bangjinhyuk on 2022/03/19.
  */
 @Entity
 @Getter
@@ -22,6 +24,10 @@ public class StoryPin extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User createUser;
 
     @NotNull
     @Column(name = "latitude")
@@ -49,7 +55,8 @@ public class StoryPin extends BaseTimeEntity {
     }
 
     @Builder
-    public StoryPin(Double latitude, Double longitude, StoryPinCategory category, String content) {
+    public StoryPin(User createUser, Double latitude, Double longitude, StoryPinCategory category, String content) {
+        this.createUser = createUser;
         this.latitude = latitude;
         this.longitude = longitude;
         this.category = category;
