@@ -50,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/join", "/users/login", "/users/old-user", "/users/nickname").permitAll()
                 .antMatchers("/exception/**").permitAll()
                 .antMatchers("/h2-console/**", "/favicon.ico").permitAll()
-                .antMatchers("/users/me", "/users/update").hasRole("USER")
+                .antMatchers("/users/me", "/users/update","/v1/home/**").hasRole("USER")
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .anyRequest().denyAll()
 
