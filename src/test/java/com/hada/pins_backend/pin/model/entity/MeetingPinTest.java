@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -104,9 +103,9 @@ class MeetingPinTest {
                 .createUser(user)
                 .dateTime(LocalDateTime.of(2022,3,15,15,30,0))
                 .gender(Gender.Both)
-                .latitude(123.12312312)
-                .longitude(123.12312312)
-                .meetingPinCategory(MeetingPin.MeetingPinCategory.study)
+                .latitude(37.2910659)
+                .longitude(127.0458188)
+                .category(MeetingPin.MeetingPinCategory.study)
                 .maxAge(25)
                 .minAge(20)
                 .setLimit(10)
