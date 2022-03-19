@@ -1,8 +1,8 @@
 package com.hada.pins_backend.pin.model.request;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * Created by bangjinhyuk on 2022/01/22.
  */
 @Getter
-@AllArgsConstructor
+@Setter
 @ToString
 public class HomePinRequest {
 

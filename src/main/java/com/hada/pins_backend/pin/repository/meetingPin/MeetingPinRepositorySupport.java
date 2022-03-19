@@ -8,10 +8,12 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
  * Created by bangjinhyuk on 2022/01/22.
+ * Modified by bangjinhyuk on 2022/03/19.
  */
 @Repository
 public class MeetingPinRepositorySupport{
@@ -32,6 +34,7 @@ public class MeetingPinRepositorySupport{
                 .where(qMeetingPin.longitude.between(longitudeAndLatitude.getMinLongitude(),longitudeAndLatitude.getMaxLongitude()))
                 .where(qMeetingPin.maxAge.goe(age).and(qMeetingPin.minAge.loe(age)))
                 .where(qMeetingPin.gender.eq(gender).or(qMeetingPin.gender.eq(Gender.Both)))
+                .where(qMeetingPin.dateTime.before(LocalDateTime.now()))
                 .fetch();
     }
 }
