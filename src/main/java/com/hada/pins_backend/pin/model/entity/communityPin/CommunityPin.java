@@ -82,7 +82,19 @@ public class CommunityPin extends BaseTimeEntity {
     private Set<CommunityPinParticipants> communityPinParticipants = new HashSet<>();
 
     public enum CommunityPinCategory {
-        Apartment, College
+        FRIENDSHIP,
+        WALK,
+        PET,
+        FOOD,
+        CULTURAL,
+        GAME,
+        EXERCISE,
+        MOUNTAIN,
+        STUDY,
+        JOURNEY,
+        SCHOOL,
+        APARTMENT,
+        ETC
     }
 
     @Builder
