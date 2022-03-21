@@ -15,9 +15,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/kafka");
-//        registry.enableSimpleBroker("/topic", "/queue");
-        registry.enableSimpleBroker("/meeting", "/community");
+        registry.setApplicationDestinationPrefixes("/app");
+        registry.enableSimpleBroker("/topic", "/queue");
     }
 
     @Override
