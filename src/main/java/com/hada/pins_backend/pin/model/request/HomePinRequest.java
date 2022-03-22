@@ -1,6 +1,7 @@
 package com.hada.pins_backend.pin.model.request;
 
 
+import com.hada.pins_backend.advice.ValidationGroups.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,10 +16,10 @@ import javax.validation.constraints.NotNull;
 @ToString
 public class HomePinRequest {
 
-    @NotNull
+    @NotNull(message = "위도는 필수값입니다.", groups = NotEmptyGroup.class)
     private double latitude;
 
-    @NotNull
+    @NotNull(message = "경도는 필수값입니다.", groups = NotEmptyGroup.class)
     private double longitude;
 
     private String meetingPinCategory;
