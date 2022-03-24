@@ -42,6 +42,9 @@ cloud:
     access-key: admin
     secret-key: password
     endpoint: http://127.0.0.1:9000
+  redis:
+    host: redis.host
+    port: redis.port
 kakao:
   key: dev.kakao.key
 
