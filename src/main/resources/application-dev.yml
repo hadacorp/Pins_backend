@@ -45,6 +45,12 @@ cloud:
   redis:
     host: redis.host
     port: redis.port
+
+logging:
+  slack:
+    webhook-uri: hooks.slack.com
+  config: classpath:logback-spring.xml
+
 kakao:
   key: dev.kakao.key
 
