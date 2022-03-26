@@ -15,6 +15,7 @@ import com.hada.pins_backend.chatting.repository.MeetingMessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -32,23 +33,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
     @Qualifier("subRedisTemplate")
-    private final StringRedisTemplate redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
     private final RedisPubService redisPubService;
     private final MeetingMessageRepository meetingMessageRepository;
     private final CommunityMessageRepository communityMessageRepository;
     private final UserRepository userRepository;
 
-    private final SetOperations<String, String> subscribers = redisTemplate.opsForSet();
     private static final String KEY = "PINS:";
 
     @Transactional(readOnly = true)
     public Long numOfSubscribers(MessageClass messageClass, Long pinId) {
-        return subscribers.size(KEY + pinId);
+        return redisTemplate.opsForSet().size(KEY + pinId);
     }
 
     @Transactional(readOnly = true)
     public List<ChatMessage> loadMessages(Long userId, MessageClass messageClass, Long pinId) {
-        if (Boolean.FALSE.equals(subscribers.isMember(KEY + pinId, String.valueOf(userId)))) throw new CUserNotSubscribeException();
+        if (Boolean.FALSE.equals(redisTemplate.opsForSet().isMember(KEY + pinId, userId))) throw new CUserNotSubscribeException();
         if (messageClass.equals(MessageClass.meeting)) {
             return meetingMessageRepository.findAllByPinIdOrderByTimeStampDesc(pinId);
         } else if (messageClass.equals(MessageClass.community)) {
@@ -58,7 +58,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Transactional
     public void publishMessage(Long senderId, MessageClass messageClass, Long pinId, ChatMessageDto dto) {
-        if (Boolean.FALSE.equals(subscribers.isMember(KEY + pinId, String.valueOf(senderId)))) throw new CUserNotSubscribeException();
+        if (Boolean.FALSE.equals(redisTemplate.opsForSet().isMember(KEY + pinId, senderId))) throw new CUserNotSubscribeException();
         User user = userRepository.findById(senderId).orElseThrow(CUserNotFoundException::new);
 
         String timeStamp = LocalDateTime.now().toString();

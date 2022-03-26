@@ -2,6 +2,7 @@ package com.hada.pins_backend.config;
 
 import com.hada.pins_backend.chatting.model.ChatMessage;
 import com.hada.pins_backend.chatting.service.RedisSubService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * Created by parksuho on 2022/03/25.
  */
 @Configuration
+@RequiredArgsConstructor
 public class RedisConfig {
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
