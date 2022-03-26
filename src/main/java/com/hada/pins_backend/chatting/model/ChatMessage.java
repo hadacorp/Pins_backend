@@ -1,32 +1,38 @@
 package com.hada.pins_backend.chatting.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.hada.pins_backend.advice.ValidationGroups;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.hada.pins_backend.chatting.model.enumerate.MessageType;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /*
  * Created by parksuho on 2022/03/15.
  * Modified by parksuho on 2022/03/25.
+ * Modified by parksuho on 2022/03/26.
  */
 @Getter
-@Setter
+@SuperBuilder
+@MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatMessage {
-    public enum MessageType {
-        ENTER, QUIT, TALK
-    }
-    @NotNull(message = "메시지 타입은 필수 값입니다.", groups = ValidationGroups.NotEmptyGroup.class)
+public abstract class ChatMessage {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false)
     private MessageType type;
-    @NotBlank(message = "핀 번호는 필수 값입니다.", groups = ValidationGroups.NotEmptyGroup.class)
-    private String pinId;
-    @NotBlank(message = "발신자는 필수 값입니다.", groups = ValidationGroups.NotEmptyGroup.class)
-    private String sender;
+    @Column(nullable = false)
+    private Long pinId;
+    @Column(nullable = false)
+    private Long senderId;
+    @Column(nullable = false)
+    private String senderName;
+
     private String message;
     private String timeStamp;
 }

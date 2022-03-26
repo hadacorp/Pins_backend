@@ -2,8 +2,10 @@ package com.hada.pins_backend.config;
 
 import com.hada.pins_backend.chatting.model.ChatMessage;
 import com.hada.pins_backend.chatting.service.RedisSubService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,6 +26,17 @@ public class RedisConfig {
     }
 
     @Bean
+    @Qualifier("subRedisTemplate")
+    public RedisTemplate<String, String> subRedisTemplate() {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+        return redisTemplate;
+    }
+
+    @Bean
+    @Primary
     public RedisTemplate<String, ChatMessage> chatMessageRedisTemplate() {
         RedisTemplate<String, ChatMessage> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());

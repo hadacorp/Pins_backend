@@ -12,17 +12,23 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 /*
  * Created by parksuho on 2022/01/19.
  * Modified by parksuho on 2022/01/21.
  * Modified by parksuho on 2022/01/26.
+ * Modified by parksuho on 2022/03/25.
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -59,7 +65,6 @@ public class ExceptionAdvice {
         return new ErrorResponse(ErrorCode.REQUEST_BODY_PROBLEM.getMessage());
     }
 
-
     /**
      * Parse Exception
      */
@@ -69,14 +74,55 @@ public class ExceptionAdvice {
         return new ErrorResponse(ErrorCode.PARSE_EXCEPTION.getMessage());
     }
 
-
-    /**
+    /*
      * 틀린 URL 로 접근했을 경우 발생 시키는 예외
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected ErrorResponse wrongURLException(HttpServletRequest request, NoHandlerFoundException e) {
         return new ErrorResponse(ErrorCode.WRONG_URL.getMessage());
+    }
+
+    /*
+     * Path Variable, Query Parameter 의 valid 가 실패
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ErrorResponse argumentNotValidException(HttpServletRequest request, ConstraintViolationException e) {
+        for (ConstraintViolation<?> error : e.getConstraintViolations()) {
+            log.error("error field : \"{}\", value : \"{}\", message : \"{}\"",
+                    error.getPropertyPath().toString().split(".")[1], error.getInvalidValue(), error.getMessage());
+        }
+        return new ErrorResponse(ErrorCode.ARGUMENT_INVALID.getMessage());
+    }
+
+    /*
+     * Path Variable 가 누락된 예외
+     */
+    @ExceptionHandler(MissingPathVariableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ErrorResponse pathVariableMissingException(HttpServletRequest request, MissingPathVariableException e) {
+        log.error("error field : \"{}\", message : \"{}\"", e.getVariableName(), e.getMessage());
+        return new ErrorResponse(ErrorCode.PATH_VARIABLE_MISSING.getMessage());
+    }
+
+    /*
+     * Path Variable 타입이 틀린 예외
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ErrorResponse pathVariableTypeMismatchException(HttpServletRequest request, MethodArgumentTypeMismatchException  e) {
+        return new ErrorResponse(ErrorCode.PATH_VARIABLE_TYPE_ERROR.getMessage());
+    }
+
+    /*
+     * Query Parameter 가 누락된 예외
+     */
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ErrorResponse pathVariableMissingException(HttpServletRequest request, MissingServletRequestParameterException e) {
+        log.error("error field : \"{}\", message : \"{}\"", e.getParameterName(), e.getMessage());
+        return new ErrorResponse(ErrorCode.QUERY_PARAMETER_MISSING.getMessage());
     }
 
     /**
