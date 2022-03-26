@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -72,9 +73,6 @@ class UserControllerTest {
 
     @BeforeEach
     public void setUp() {
-        refreshTokenRepository.deleteAllInBatch();
-        userRepository.deleteAllInBatch();
-
         user = userRepository.save(User.builder()
                 .name("홍길동")
                 .nickName("엘든링")
@@ -90,8 +88,6 @@ class UserControllerTest {
 
     @AfterEach
     public void setDown() {
-        refreshTokenRepository.deleteAllInBatch();
-        userRepository.deleteAllInBatch();
     }
 
     @Test
@@ -104,7 +100,7 @@ class UserControllerTest {
 
         //when
         ResultActions perform = mockMvc.perform(multipart("/users/join")
-                .file(new MockMultipartFile("profileImage", LocalDateTime.now()+".png", "image/png", "test".getBytes()))
+                .file(new MockMultipartFile("profileImage", UUID.randomUUID().toString() +".png", "image/png", "test".getBytes()))
                 .file(request).accept(MediaType.APPLICATION_JSON));
         //then
         perform.andDo(print())
@@ -252,7 +248,7 @@ class UserControllerTest {
 
         //when
         ResultActions perform = mockMvc.perform(multipart("/users/update")
-                .file(new MockMultipartFile("profileImage", LocalDateTime.now()+".png", "image/png", "test".getBytes()))
+                .file(new MockMultipartFile("profileImage", UUID.randomUUID().toString()+".png", "image/png", "test".getBytes()))
                 .file(request)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + tokenDto.getAccessToken()));
