@@ -87,12 +87,14 @@
         <appender-ref ref="Console"/>
     </root>
 
-    <logger name="com.hada.pins_backend" level="INFO">
-<!--        <appender-ref ref="APP_FILE"/>-->
-<!--        <appender-ref ref="WARN_FILE"/>-->
-<!--        <appender-ref ref="ERROR_FILE"/>-->
-        <appender-ref ref="ASYNC_SLACK"/>
-    </logger>
+    <springProfile name="dev, prod">
+        <logger name="com.hada.pins_backend" level="INFO">
+            <!--        <appender-ref ref="APP_FILE"/>-->
+            <!--        <appender-ref ref="WARN_FILE"/>-->
+            <!--        <appender-ref ref="ERROR_FILE"/>-->
+            <appender-ref ref="ASYNC_SLACK"/>
+        </logger>
+    </springProfile>
 
 
 
