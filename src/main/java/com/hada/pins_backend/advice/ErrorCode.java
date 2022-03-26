@@ -5,6 +5,7 @@ import lombok.Getter;
 
 /*
  * Created by parksuho on 2022/01/27.
+ * Modified by parksuho on 2022/03/25.
  */
 
 @Getter
@@ -17,6 +18,10 @@ public enum ErrorCode {
     VALID_PROBLEM("Request Body 의 Valid 에 문제가 있습니다."),
     REQUEST_BODY_PROBLEM("Request Body 에 문제가 있습니다."),
     PROFILE_IMAGE_INVALID("프로필 사진에 문제가 있습니다."),
+    ARGUMENT_INVALID("Path Variable 또는 Query Parameter 에 문제가 있습니다."),
+    PATH_VARIABLE_MISSING("Path Variable 이 누락되었습니다."),
+    PATH_VARIABLE_TYPE_ERROR("Path Variable 의 타입이 잘못되었습니다."),
+    QUERY_PARAMETER_MISSING("Query Parameter 가 누락되었습니다."),
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
 //    INVALID_AUTH_TOKEN("권한 정보가 없는 토큰입니다"),
@@ -27,6 +32,7 @@ public enum ErrorCode {
     WRONG_URL("없는 URL 입니다."),
     USER_NOT_FOUND("해당 유저를 찾을 수 없습니다"),
     REFRESH_TOKEN_NOT_FOUND("존재하지 않는 리프레쉬 토큰입니다."),
+    USER_NOT_SUBSCRIBE("해당 유저는 해당 채팅방에 있지 않습니다."),
 
     /* 405 Method Not Allowed : 요청이 허용되지 않은 메소드 (GET,POST,PUT,DELETE,...) */
     WRONG_METHOD("잘못된 접근입니다."),

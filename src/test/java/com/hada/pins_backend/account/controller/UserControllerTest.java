@@ -23,6 +23,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -44,6 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by parksuho on 2022/02/26.
  * Modified by parksuho on 2022/03/10.
+ * Modified by parksuho on 2022/03/26.
  */
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
@@ -93,6 +95,7 @@ class UserControllerTest {
     }
 
     @Test
+    @Transactional
     void joinTest() throws Exception {
         //given
         String object = objectMapper.writeValueAsString(JoinUserRequest.builder()
@@ -128,6 +131,7 @@ class UserControllerTest {
     }
 
     @Test
+    @Transactional
     void login() throws Exception {
         //given
         String object = objectMapper.writeValueAsString(LoginUserRequest.builder()
@@ -158,6 +162,7 @@ class UserControllerTest {
     }
 
     @Test
+    @Transactional
     void findUserInfo() throws Exception {
         //given
         ResultActions actions = mockMvc.perform(get("/users/me")
@@ -183,6 +188,7 @@ class UserControllerTest {
     }
 
     @Test
+    @Transactional
     void oldUser () throws Exception {
         //given
         String object = objectMapper.writeValueAsString(LoginUserRequest.builder()
@@ -210,6 +216,7 @@ class UserControllerTest {
     }
 
     @Test
+    @Transactional
     void checkNickName () throws Exception {
         //given
         String object = objectMapper.writeValueAsString(CheckNickNameRequest.builder().nickName("고인물").build());
@@ -236,6 +243,7 @@ class UserControllerTest {
     }
 
     @Test
+    @Transactional
     void updateUser() throws Exception {
         //given
         String object = objectMapper.writeValueAsString(UpdateUserRequest.builder()
