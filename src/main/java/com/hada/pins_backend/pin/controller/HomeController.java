@@ -2,6 +2,7 @@ package com.hada.pins_backend.pin.controller;
 
 import com.hada.pins_backend.account.model.entity.CurrentUser;
 import com.hada.pins_backend.account.model.entity.User;
+import com.hada.pins_backend.advice.ValidationSequence;
 import com.hada.pins_backend.model.ApiResponse;
 import com.hada.pins_backend.pin.model.request.HomePinRequest;
 import com.hada.pins_backend.pin.model.response.HomeLocationResponse;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 /**
  * Created by bangjinhyuk on 2022/01/15.
  * Modified by bangjinhyuk on 2022/03/19.
+ * Modified by bangjinhyuk on 2022/03/26.
  */
 
 @Slf4j
@@ -32,7 +35,7 @@ public class HomeController {
      */
     @GetMapping("/pin")
     public ResponseEntity loadPin(
-            @ModelAttribute HomePinRequest homePinRequest,
+            @Validated(ValidationSequence.class) HomePinRequest homePinRequest,
             @CurrentUser User user
     ){
         return new ResponseEntity(new ApiResponse<>(homeService.loadPin(user,homePinRequest)), HttpStatus.OK);

@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 /**
  * Created by bangjinhyuk on 2022/01/15.
  * Modified by bangjinhyuk on 2022/03/19.
+ * Modified by bangjinhyuk on 2022/03/26.
  */
 
 @Slf4j
@@ -92,26 +93,24 @@ public class HomeServiceImpl implements HomeService{
 
         LongitudeAndLatitude longitudeAndLatitude = new LongitudeAndLatitude(homePinRequest.getLatitude(), homePinRequest.getLongitude());
 
-        int age = user.getAge();
-        Gender gender =  user.getGender();
-
         //만남핀 가져오기
         List<MeetingPin> meetingPins = meetingPinRepositorySupport.findAllMeetingPinAtHome(
                 longitudeAndLatitude,
-                age,
-                gender
+                user,
+                homePinRequest
         );
 
         //커뮤니티핀 가져오기
         List<CommunityPin> communityPins = communityPinRepositorySupport.findAllCommunityPinAtHome(
                 longitudeAndLatitude,
-                age,
-                gender
+                user,
+                homePinRequest
         );
 
         //이야기핀 가져오기
         List<StoryPin> storyPins = storyPinRepositorySupport.findAllStoryPinAtHome(
-                longitudeAndLatitude
+                longitudeAndLatitude,
+                homePinRequest
         );
         GpsToAddress gpsToAddress = new GpsToAddress(googleKey);
         Map<String,List> stringListMap = new HashMap<>();
