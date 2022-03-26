@@ -39,8 +39,8 @@ cloud:
     cloudFront:
       distributionDomain: https://d21ye6uqd6ovq2.cloudfront.net
   minio:
-    access-key: admin
-    secret-key: password
+    access-key: minioadmin
+    secret-key: minioadmin
     endpoint: http://127.0.0.1:9000
   redis:
     host: redis.host

@@ -1,16 +1,9 @@
 package com.hada.pins_backend.pin.service;
 
-import com.hada.pins_backend.account.model.entity.User;
-import com.hada.pins_backend.account.model.enumable.Gender;
-import com.hada.pins_backend.pin.model.entity.UserAndMeetingPin;
-import com.hada.pins_backend.pin.model.response.MeetingPinResponse;
-
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
@@ -19,17 +12,17 @@ import java.util.StringTokenizer;
  */
 public class ConvertPin2Response {
     //위도, 경도 to 주소
-    public String GpsToAddress(Double latitude, Double longitude, String googleKey){
-        GpsToAddress gps = null;
-        try {
-            gps = new GpsToAddress(latitude, longitude, googleKey);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (gps != null) {
-            return gps.getAddress();
-        }else return "주소 오류";
-    }
+//    public String GpsToAddress(Double latitude, Double longitude, String googleKey){
+//        GpsToAddress gps = null;
+//        try {
+//            gps = new GpsToAddress(latitude, longitude, googleKey);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        if (gps != null) {
+//            return gps.getAddress();
+//        }else return "주소 오류";
+//    }
     //만남 날짜 to 상세 페이지 형식
     public String localDateTime2String(LocalDateTime localDateTime){
         StringTokenizer dayTokens = new StringTokenizer(localDateTime.format(DateTimeFormatter.ofPattern("MM월 dd일 -HH")),"-");
@@ -44,33 +37,33 @@ public class ConvertPin2Response {
         return day.toString();
     }
 
-    public MeetingPinResponse.CreateDetail user2CreateDetail(User createUser){
-        String userdetail = createUser.getAge() + "세 " +
-                Gender.convert2Korean(createUser.getGender());
-        return new MeetingPinResponse.CreateDetail(
-                createUser.getId(),
-                createUser.getNickName(),
-                userdetail,
-                createUser.getProfileImage()
-        );
-    }
+//    public MeetingPinCardViewResponse.CreateDetail user2CreateDetail(User createUser){
+//        String userdetail = createUser.getAge() + "세 " +
+//                Gender.convert2Korean(createUser.getGender());
+//        return new MeetingPinCardViewResponse.CreateDetail(
+//                createUser.getId(),
+//                createUser.getNickName(),
+//                userdetail,
+//                createUser.getProfileImage()
+//        );
+//    }
 
-    public List<MeetingPinResponse.ParticipantDetail> user2ParticipantDetail(List<UserAndMeetingPin> userAndMeetingPins){
-        List<MeetingPinResponse.ParticipantDetail> participantDetailList = new ArrayList<>();
-        for (UserAndMeetingPin userAndMeetingPin : userAndMeetingPins) {
-            User tmpUser = userAndMeetingPin.getMember();
-            String detail = tmpUser.getAge() + "세 " +
-                    Gender.convert2Korean(tmpUser.getGender());
-            participantDetailList.add(
-                    new MeetingPinResponse.ParticipantDetail(
-                            tmpUser.getId(),
-                            tmpUser.getNickName(),
-                            detail,
-                            tmpUser.getProfileImage()
-                    )
-            );
-        }
-        return participantDetailList;
-    }
+//    public List<MeetingPinResponse.ParticipantDetail> user2ParticipantDetail(List<UserAndMeetingPin> userAndMeetingPins){
+//        List<MeetingPinResponse.ParticipantDetail> participantDetailList = new ArrayList<>();
+//        for (UserAndMeetingPin userAndMeetingPin : userAndMeetingPins) {
+//            User tmpUser = userAndMeetingPin.getMember();
+//            String detail = tmpUser.getAge() + "세 " +
+//                    Gender.convert2Korean(tmpUser.getGender());
+//            participantDetailList.add(
+//                    new MeetingPinResponse.ParticipantDetail(
+//                            tmpUser.getId(),
+//                            tmpUser.getNickName(),
+//                            detail,
+//                            tmpUser.getProfileImage()
+//                    )
+//            );
+//        }
+//        return participantDetailList;
+//    }
 
 }

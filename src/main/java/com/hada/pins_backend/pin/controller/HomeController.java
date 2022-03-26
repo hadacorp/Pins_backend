@@ -5,18 +5,19 @@ import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.model.ApiResponse;
 import com.hada.pins_backend.pin.model.request.HomePinRequest;
 import com.hada.pins_backend.pin.model.response.HomeLocationResponse;
-import com.hada.pins_backend.pin.model.response.HomePinResponse;
 import com.hada.pins_backend.pin.service.HomeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  * Created by bangjinhyuk on 2022/01/15.
+ * Modified by bangjinhyuk on 2022/03/19.
  */
 
 @Slf4j
@@ -30,13 +31,11 @@ public class HomeController {
      * 홈화면 핀 , 카드뷰 로딩
      */
     @GetMapping("/pin")
-    @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<List<HomePinResponse>> loadPin(
-            HomePinRequest homePinRequest,
+    public ResponseEntity loadPin(
+            @ModelAttribute HomePinRequest homePinRequest,
             @CurrentUser User user
     ){
-
-        return new ApiResponse<>(homeService.loadPin(user,homePinRequest));
+        return new ResponseEntity(new ApiResponse<>(homeService.loadPin(user,homePinRequest)), HttpStatus.OK);
     }
 
     /**

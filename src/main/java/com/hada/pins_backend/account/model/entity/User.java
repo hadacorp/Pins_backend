@@ -3,18 +3,26 @@ package com.hada.pins_backend.account.model.entity;
 
 import com.hada.pins_backend.account.model.enumable.Gender;
 import com.hada.pins_backend.model.BaseTimeEntity;
+import com.hada.pins_backend.pin.model.entity.communityPin.CommunityPin;
+import com.hada.pins_backend.pin.model.entity.communityPin.CommunityPinParticipants;
+import com.hada.pins_backend.pin.model.entity.communityPin.CommunityPinRequest;
+import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPin;
+import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPinParticipants;
+import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPinRequest;
+import com.hada.pins_backend.pin.model.entity.storyPin.StoryPin;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by bangjinhyuk on 2022/01/15.
  * Modified by parksuho in 2022/01/18.
  * Modified by parksuho in 2022/01/27.
  * Modified by parksuho on 2022/02/27.
+ * Modified by bangjinhyuk on 2022/03/19.
  */
 @Getter
 @NoArgsConstructor
@@ -60,6 +68,28 @@ public class User extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String role;
+
+    @OneToMany(mappedBy = "createUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MeetingPin> meetingPins = new HashSet<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MeetingPinParticipants> meetingPinParticipants = new HashSet<>();
+
+    @OneToMany(mappedBy = "requestUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MeetingPinRequest> meetingPinRequests = new HashSet<>();
+
+    @OneToMany(mappedBy = "requestCommunityPin", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CommunityPinRequest> communityPinRequests = new HashSet<>();
+
+    @OneToMany(mappedBy = "communityPin", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CommunityPinParticipants> communityPinParticipants = new HashSet<>();
+
+    @OneToMany(mappedBy = "createUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CommunityPin> communityPins = new HashSet<>();
+
+    @OneToMany(mappedBy = "createUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<StoryPin> storyPins = new HashSet<>();
+
 
     @Builder
     public User(String name,

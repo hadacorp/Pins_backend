@@ -1,17 +1,19 @@
-package com.hada.pins_backend.pin.repository;
+package com.hada.pins_backend.pin.repository.meetingPin;
 
 import com.hada.pins_backend.account.model.enumable.Gender;
 import com.hada.pins_backend.model.LongitudeAndLatitude;
-import com.hada.pins_backend.pin.model.entity.MeetingPin;
-import com.hada.pins_backend.pin.model.entity.QMeetingPin;
+import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPin;
+import com.hada.pins_backend.pin.model.entity.meetingPin.QMeetingPin;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
  * Created by bangjinhyuk on 2022/01/22.
+ * Modified by bangjinhyuk on 2022/03/19.
  */
 @Repository
 public class MeetingPinRepositorySupport{
@@ -31,7 +33,8 @@ public class MeetingPinRepositorySupport{
                 .where(qMeetingPin.latitude.between(longitudeAndLatitude.getMinLatitude(), longitudeAndLatitude.getMaxLatitude()))
                 .where(qMeetingPin.longitude.between(longitudeAndLatitude.getMinLongitude(),longitudeAndLatitude.getMaxLongitude()))
                 .where(qMeetingPin.maxAge.goe(age).and(qMeetingPin.minAge.loe(age)))
-                .where(qMeetingPin.setGender.eq(gender).or(qMeetingPin.setGender.eq(Gender.Both)))
+                .where(qMeetingPin.gender.eq(gender).or(qMeetingPin.gender.eq(Gender.Both)))
+                .where(qMeetingPin.dateTime.before(LocalDateTime.now()))
                 .fetch();
     }
 }
