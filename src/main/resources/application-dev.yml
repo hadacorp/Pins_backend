@@ -10,7 +10,7 @@ spring:
       ddl-auto: update
   datasource:
     url: rds.dev.host
-    username: hada
+    username: rds.dev.username
     password: rds.dev.password
   sql:
     init:
