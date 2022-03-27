@@ -35,9 +35,9 @@ public class HomePinRequest {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private List<LocalDate> meetDate;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime startMeetTime;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime endMeetTime;
     @Min(value = 20, message = "최소 나이는 20살 입니다.", groups = SizeCheckGroup.class)
     private Integer minAge;
