@@ -33,6 +33,9 @@ public class StoryPinRepositorySupport {
         if(Objects.nonNull(homePinRequest.getStoryPinCategory())){
             searchCondition.and(qStoryPin.category.in(homePinRequest.getStoryPinCategory()));
         }
+        if(Objects.nonNull(homePinRequest.getKeyWord())){
+            searchCondition.and(qStoryPin.content.contains(homePinRequest.getKeyWord()));
+        }
 
         return jpaQueryFactory.select(qStoryPin).from(qStoryPin)
                 .where(qStoryPin.latitude.between(longitudeAndLatitude.getMinLatitude(), longitudeAndLatitude.getMaxLatitude()))

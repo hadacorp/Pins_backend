@@ -52,6 +52,9 @@ public class MeetingPinRepositorySupport {
         if(Objects.nonNull(homePinRequest.getMeetingPinCategory())){
             searchCondition.and(qMeetingPin.category.in(homePinRequest.getMeetingPinCategory()));
         }
+        if(Objects.nonNull(homePinRequest.getKeyWord())){
+            searchCondition.and(qMeetingPin.content.contains(homePinRequest.getKeyWord()));
+        }
 
         return jpaQueryFactory.select(qMeetingPin).from(qMeetingPin)
                 .where(qMeetingPin.latitude.between(longitudeAndLatitude.getMinLatitude(), longitudeAndLatitude.getMaxLatitude()))

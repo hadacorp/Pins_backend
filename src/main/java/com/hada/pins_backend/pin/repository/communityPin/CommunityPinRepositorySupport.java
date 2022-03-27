@@ -38,6 +38,9 @@ public class CommunityPinRepositorySupport{
         if(Objects.nonNull(homePinRequest.getCommunityPinCategory())){
             searchCondition.and(qCommunityPin.category.in(homePinRequest.getCommunityPinCategory()));
         }
+        if(Objects.nonNull(homePinRequest.getKeyWord())){
+            searchCondition.and(qCommunityPin.content.contains(homePinRequest.getKeyWord()));
+        }
         return jpaQueryFactory.select(qCommunityPin).from(qCommunityPin)
                 .where(qCommunityPin.latitude.between(longitudeAndLatitude.getMinLatitude(), longitudeAndLatitude.getMaxLatitude()))
                 .where(qCommunityPin.longitude.between(longitudeAndLatitude.getMinLongitude(),longitudeAndLatitude.getMaxLongitude()))

@@ -43,6 +43,7 @@ public class HomePinRequest {
     private Integer minAge;
     @Max(value = 100, message = "최대 나이는 100살 입니다.", groups = SizeCheckGroup.class)
     private Integer maxAge;
+    private String keyWord;
     private Gender meetGender;
     private List<MeetingPin.MeetingPinCategory> meetingPinCategory;
     private List<CommunityPin.CommunityPinCategory> communityPinCategory;
