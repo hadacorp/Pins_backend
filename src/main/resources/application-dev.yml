@@ -9,7 +9,7 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://pins-dev.cipuud6hoacg.ap-northeast-2.rds.amazonaws.com:3306/pins_dev?serverTimezone=Asia/Seoul
+    url: rds.dev.host
     username: hada
     password: rds.dev.password
   sql:
@@ -59,4 +59,3 @@ cafe24:
 
 google:
   key: dev.google.key
-
