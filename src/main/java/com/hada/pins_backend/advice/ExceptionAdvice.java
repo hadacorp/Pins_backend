@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,6 +30,7 @@ import javax.validation.ConstraintViolationException;
  * Modified by parksuho on 2022/01/21.
  * Modified by parksuho on 2022/01/26.
  * Modified by parksuho on 2022/03/25.
+ * Modified by bangjinhyuk on 2022/03/27.
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -159,5 +161,16 @@ public class ExceptionAdvice {
     protected ErrorResponse businessException(HttpServletRequest request, BusinessException e) {
         log.error(e.getMessage());
         return new ErrorResponse(e.getMessage());
+    }
+
+    /**
+     * Query Parameter Valid 문제
+     */
+    @ExceptionHandler(BindException.class)
+    protected ErrorResponse BindException(HttpServletRequest request, BindException e) {
+        for (FieldError error : e.getBindingResult().getFieldErrors()) {
+            log.error("error field : \"{}\", value : \"{}\", message : \"{}\"", error.getField(), error.getRejectedValue(), error.getDefaultMessage());
+        }
+        return new ErrorResponse(ErrorCode.QUERY_PARAMETER_BINDING_ERROR.getMessage());
     }
 }

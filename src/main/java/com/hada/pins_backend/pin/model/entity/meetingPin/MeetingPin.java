@@ -98,6 +98,16 @@ public class MeetingPin extends BaseTimeEntity {
 
 
     public enum MeetingPinCategory {
-        study, walk
+        FRIENDSHIP,
+        WALK,
+        PET,
+        FOOD,
+        CULTURAL,
+        GAME,
+        EXERCISE,
+        MOUNTAIN,
+        STUDY,
+        JOURNEY,
+        ETC
     }
 }

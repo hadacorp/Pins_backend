@@ -2,6 +2,7 @@ package com.hada.pins_backend.pin.model.response;
 
 
 import com.hada.pins_backend.pin.model.entity.communityPin.CommunityPin;
+import com.hada.pins_backend.pin.model.entity.dto.SimpleUser;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -11,13 +12,14 @@ import java.util.Set;
 
 /**
  * Created by bangjinhyuk on 2022/03/19.
+ * Modified by bangjinhyuk on 2022/03/27.
  */
 @Getter
 @ToString
 public class CommunityPinCardViewResponse {
     private Long id;
 
-    private Long createUser;
+    private SimpleUser createUser;
 
     private Double latitude;
 
@@ -36,7 +38,7 @@ public class CommunityPinCardViewResponse {
     public static CommunityPinCardViewResponse toCommunityPinCardView(CommunityPin communityPin){
         var response = new CommunityPinCardViewResponse();
         response.id = communityPin.getId();
-        response.createUser = communityPin.getCreateUser().getId();
+        response.createUser = SimpleUser.of(communityPin.getCreateUser());
         response.latitude = communityPin.getLatitude();
         response.longitude = communityPin.getLongitude();
         response.startedAt = communityPin.getStartedAt();

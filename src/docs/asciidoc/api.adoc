@@ -41,3 +41,9 @@ operation::users/nickname[snippets='http-request,request-fields,http-response,re
 
 === USER 업데이트 [POST]
 operation::users/update[snippets='http-request,request-headers,request-parts,request-part-request-fields,http-response,response-fields']
+
+=== Home API
+홈화면 핀 조회, 장소 검색
+
+=== Home 홈화면 핀 조회 [GET]
+operation::v1/home/pin[snippets='http-request,request-headers,request-parameters,response-body,response-fields']

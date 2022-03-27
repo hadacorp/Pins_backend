@@ -51,7 +51,15 @@ public class StoryPin extends BaseTimeEntity {
     private Set<String> images = new HashSet<>();
 
     public enum StoryPinCategory {
-        Town, Lost
+        CURIOUS,
+        REVIEW,
+        TOWN,
+        PET,
+        HELP,
+        ACCIDENT,
+        LOST,
+        CHAT,
+        ETC
     }
 
     @Builder
