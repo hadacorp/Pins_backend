@@ -6,6 +6,7 @@ import lombok.Getter;
 /*
  * Created by parksuho on 2022/01/27.
  * Modified by parksuho on 2022/03/25.
+ * Modified by bangjinhyuk on 2022/03/27.
  */
 
 @Getter
@@ -22,6 +23,7 @@ public enum ErrorCode {
     PATH_VARIABLE_MISSING("Path Variable 이 누락되었습니다."),
     PATH_VARIABLE_TYPE_ERROR("Path Variable 의 타입이 잘못되었습니다."),
     QUERY_PARAMETER_MISSING("Query Parameter 가 누락되었습니다."),
+    QUERY_PARAMETER_BINDING_ERROR("Query Parameter 의 Valid 에 문제가 있습니다."),
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
 //    INVALID_AUTH_TOKEN("권한 정보가 없는 토큰입니다"),
