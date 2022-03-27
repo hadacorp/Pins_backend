@@ -8,9 +8,12 @@ import java.util.List;
 
 /*
  * Created by parksuho on 2022/03/26.
+ * Modified by parksuho on 2022/03/26.
+ * Modified by parksuho on 2022/03/27.
  */
 public interface ChatService {
     Long numOfSubscribers(MessageClass messageClass, Long pinId);
     List<ChatMessage> loadMessages(Long userId, MessageClass messageClass, Long pinId);
     void publishMessage(Long senderId, MessageClass messageClass, Long pinId, ChatMessageDto chatMessageDto);
+    void testRedis();
 }

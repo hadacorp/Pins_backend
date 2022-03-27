@@ -9,8 +9,8 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://pins-dev.cipuud6hoacg.ap-northeast-2.rds.amazonaws.com:3306/pins_dev?serverTimezone=Asia/Seoul
-    username: hada
+    url: rds.dev.host
+    username: rds.dev.username
     password: rds.dev.password
   sql:
     init:
@@ -45,6 +45,13 @@ cloud:
   redis:
     host: redis.host
     port: redis.port
+    password: redis.password
+
+logging:
+  slack:
+    webhook-uri: hooks.slack.com
+  config: classpath:logback-spring.xml
+
 kakao:
   key: dev.kakao.key
 
@@ -53,4 +60,3 @@ cafe24:
 
 google:
   key: dev.google.key
-
