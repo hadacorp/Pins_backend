@@ -21,6 +21,7 @@ import java.util.List;
  * Created by parksuho on 2022/03/15.
  * Modified by parksuho on 2022/03/25.
  * Modified by parksuho on 2022/03/26.
+ * Modified by parksuho on 2022/03/27.
  */
 @RestController
 @RequiredArgsConstructor
@@ -47,5 +48,11 @@ public class ChatController {
             @CurrentUser User user, @PathVariable MessageClass messageClass,
             @PathVariable Long pinId, @RequestBody @Validated(ValidationSequence.class) ChatMessageDto chatMessageDto) {
         chatService.publishMessage(user.getId(), messageClass, pinId, chatMessageDto);
+    }
+
+    @GetMapping("/test/redis")
+    @ResponseStatus(HttpStatus.OK)
+    public void testRedis() {
+        chatService.testRedis();
     }
 }

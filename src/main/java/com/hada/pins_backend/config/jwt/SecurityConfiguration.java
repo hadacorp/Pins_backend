@@ -23,6 +23,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  * Modified by parksuho on 2022/03/15.
  * Modified by parksuho on 2022/03/25.
  * Modified by parksuho on 2022/03/26.
+ * Modified by parksuho on 2022/03/27.
  */
 @RequiredArgsConstructor
 @Configuration
@@ -51,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/users/join", "/users/login", "/users/old-user", "/users/nickname").permitAll()
-                .antMatchers("/exception/**").permitAll()
+                .antMatchers("/exception/**", "/test/**").permitAll()
                 .antMatchers("/h2-console/**", "/chatting/**").permitAll()
                 .antMatchers("/users/me", "/users/update", "/v1/home/**", "/chat/**", "/pub/**", "/sub/**").hasRole("USER")
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()

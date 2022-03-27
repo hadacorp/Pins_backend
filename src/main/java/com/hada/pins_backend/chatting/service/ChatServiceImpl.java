@@ -16,8 +16,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +25,7 @@ import java.util.List;
 
 /*
  * Created by parksuho on 2022/03/26.
+ * Modified by parksuho on 2022/03/27.
  */
 @Slf4j
 @Service
@@ -83,5 +82,10 @@ public class ChatServiceImpl implements ChatService {
             redisPubService.publish(MessageClass.community, communityMessage);
             communityMessageRepository.save(communityMessage);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public void testRedis() {
+        log.info(redisTemplate.opsForValue().get("PING"));
     }
 }
