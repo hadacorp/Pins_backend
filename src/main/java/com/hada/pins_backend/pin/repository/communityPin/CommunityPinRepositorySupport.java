@@ -15,7 +15,7 @@ import java.util.Objects;
 
 /**
  * Created by bangjinhyuk on 2022/03/13.
- * Modified by bangjinhyuk on 2022/03/26.
+ * Modified by bangjinhyuk on 2022/03/27.
  */
 
 @Repository
@@ -38,8 +38,8 @@ public class CommunityPinRepositorySupport{
         if(Objects.nonNull(homePinRequest.getCommunityPinCategory())){
             searchCondition.and(qCommunityPin.category.in(homePinRequest.getCommunityPinCategory()));
         }
-        if(Objects.nonNull(homePinRequest.getKeyWord())){
-            searchCondition.and(qCommunityPin.content.contains(homePinRequest.getKeyWord()));
+        if(Objects.nonNull(homePinRequest.getKeyword())){
+            searchCondition.and(qCommunityPin.content.contains(homePinRequest.getKeyword()));
         }
         return jpaQueryFactory.select(qCommunityPin).from(qCommunityPin)
                 .where(qCommunityPin.latitude.between(longitudeAndLatitude.getMinLatitude(), longitudeAndLatitude.getMaxLatitude()))

@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * Created by bangjinhyuk on 2022/01/22.
- * Modified by bangjinhyuk on 2022/03/26.
+ * Modified by bangjinhyuk on 2022/03/27.
  */
 @Getter
 @Setter
@@ -43,7 +43,7 @@ public class HomePinRequest {
     private Integer minAge;
     @Max(value = 100, message = "최대 나이는 100살 입니다.", groups = SizeCheckGroup.class)
     private Integer maxAge;
-    private String keyWord;
+    private String keyword;
     private Gender meetGender;
     private List<MeetingPin.MeetingPinCategory> meetingPinCategory;
     private List<CommunityPin.CommunityPinCategory> communityPinCategory;

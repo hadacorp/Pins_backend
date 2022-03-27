@@ -19,7 +19,7 @@ import java.util.Objects;
 /**
  * Created by bangjinhyuk on 2022/01/22.
  * Modified by bangjinhyuk on 2022/03/19.
- * Modified by bangjinhyuk on 2022/03/26.
+ * Modified by bangjinhyuk on 2022/03/27.
  */
 @Repository
 public class MeetingPinRepositorySupport {
@@ -52,8 +52,8 @@ public class MeetingPinRepositorySupport {
         if(Objects.nonNull(homePinRequest.getMeetingPinCategory())){
             searchCondition.and(qMeetingPin.category.in(homePinRequest.getMeetingPinCategory()));
         }
-        if(Objects.nonNull(homePinRequest.getKeyWord())){
-            searchCondition.and(qMeetingPin.content.contains(homePinRequest.getKeyWord()));
+        if(Objects.nonNull(homePinRequest.getKeyword())){
+            searchCondition.and(qMeetingPin.content.contains(homePinRequest.getKeyword()));
         }
 
         return jpaQueryFactory.select(qMeetingPin).from(qMeetingPin)

@@ -1,6 +1,7 @@
 package com.hada.pins_backend.pin.model.response;
 
 
+import com.hada.pins_backend.pin.model.entity.dto.SimpleUser;
 import com.hada.pins_backend.pin.model.entity.storyPin.StoryPin;
 import lombok.Getter;
 import lombok.ToString;
@@ -11,13 +12,14 @@ import java.util.Set;
 
 /**
  * Created by bangjinhyuk on 2022/03/19.
+ * Modified by bangjinhyuk on 2022/03/27.
  */
 @Getter
 @ToString
 public class StoryPinCardViewResponse {
     private Long id;
 
-    private Long createUser;
+    private SimpleUser createUser;
 
     private Double latitude;
 
@@ -34,7 +36,7 @@ public class StoryPinCardViewResponse {
     public static StoryPinCardViewResponse toStoryPinCardView(StoryPin storyPin){
         var response = new StoryPinCardViewResponse();
         response.id = storyPin.getId();
-        response.createUser = storyPin.getCreateUser().getId();
+        response.createUser = SimpleUser.of(storyPin.getCreateUser());
         response.latitude = storyPin.getLatitude();
         response.longitude = storyPin.getLongitude();
         response.content = storyPin.getContent();

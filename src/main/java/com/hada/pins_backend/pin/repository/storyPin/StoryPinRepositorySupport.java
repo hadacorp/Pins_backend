@@ -13,7 +13,7 @@ import java.util.Objects;
 
 /**
  * Created by bangjinhyuk on 2022/03/19.
- * Modified by bangjinhyuk on 2022/03/26.
+ * Modified by bangjinhyuk on 2022/03/27.
  */
 @Repository
 public class StoryPinRepositorySupport {
@@ -33,8 +33,8 @@ public class StoryPinRepositorySupport {
         if(Objects.nonNull(homePinRequest.getStoryPinCategory())){
             searchCondition.and(qStoryPin.category.in(homePinRequest.getStoryPinCategory()));
         }
-        if(Objects.nonNull(homePinRequest.getKeyWord())){
-            searchCondition.and(qStoryPin.content.contains(homePinRequest.getKeyWord()));
+        if(Objects.nonNull(homePinRequest.getKeyword())){
+            searchCondition.and(qStoryPin.content.contains(homePinRequest.getKeyword()));
         }
 
         return jpaQueryFactory.select(qStoryPin).from(qStoryPin)
