@@ -7,8 +7,10 @@ import com.hada.pins_backend.account.model.enumable.Gender;
 import com.hada.pins_backend.account.repository.RefreshTokenRepository;
 import com.hada.pins_backend.account.repository.UserRepository;
 import com.hada.pins_backend.account.service.UserService;
+import com.hada.pins_backend.pin.model.entity.communityPin.CommunityPin;
 import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPin;
 import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPinRequest;
+import com.hada.pins_backend.pin.model.entity.storyPin.StoryPin;
 import com.hada.pins_backend.pin.model.enumable.State;
 import com.hada.pins_backend.pin.repository.meetingPin.MeetingPinRepository;
 import com.hada.pins_backend.pin.repository.meetingPin.MeetingPinRequestRepository;
@@ -27,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,15 +68,11 @@ class MeetingPinTest {
 
     @BeforeEach
     public void setUp() {
-        refreshTokenRepository.deleteAllInBatch();
-        userRepository.deleteAllInBatch();
-        meetingPinRepository.deleteAllInBatch();
-
         user = userRepository.save(User.builder()
                 .name("홍길동")
                 .nickName("엘든링")
                 .resRedNumber("970404-1")
-                .phoneNum("010-1234-1234")
+                .phoneNum("010-0000-0001")
                 .age(21)
                 .gender(Gender.Male)
                 .profileImage("test.png")
@@ -83,13 +83,13 @@ class MeetingPinTest {
                 .name("이승횬")
                 .nickName("ㅣㅣㅏㅣㅏㅣ")
                 .resRedNumber("970402-1")
-                .phoneNum("010-1111-2222")
+                .phoneNum("010-0000-0002")
                 .age(25)
                 .gender(Gender.Male)
                 .profileImage("test.png")
                 .role("ROLE_USER")
                 .build());
-        tokenDto = userService.login(LoginUserRequest.builder().phoneNum("010-1234-1234").build());
+        tokenDto = userService.login(LoginUserRequest.builder().phoneNum("010-0000-0001").build());
     }
 
     @Test
@@ -105,7 +105,7 @@ class MeetingPinTest {
                 .gender(Gender.Both)
                 .latitude(37.2910659)
                 .longitude(127.0458188)
-                .category(MeetingPin.MeetingPinCategory.study)
+                .category(MeetingPin.MeetingPinCategory.STUDY)
                 .maxAge(25)
                 .minAge(20)
                 .setLimit(10)
