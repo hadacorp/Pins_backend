@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,18 +37,29 @@ public class MeetingPinRepositorySupport {
                                                     User user,
                                                     HomePinRequest homePinRequest) {
         BooleanBuilder searchCondition = new BooleanBuilder();
+        BooleanBuilder searchDateCondition = new BooleanBuilder();
 
         if(Objects.nonNull(homePinRequest.getMeetDate())) {
             LocalDateTime startDateTime = null;
             LocalDateTime endDateTime = null;
             for (LocalDate meetDate : homePinRequest.getMeetDate()) {
-                startDateTime = meetDate.atTime(homePinRequest.getStartMeetTime());
-                endDateTime = meetDate.atTime(homePinRequest.getEndMeetTime());
-                searchCondition.and(qMeetingPin.dateTime.between(startDateTime, endDateTime));
+                if(Objects.nonNull(homePinRequest.getStartMeetTime()))
+                    startDateTime = meetDate.atTime(homePinRequest.getStartMeetTime());
+                else
+                    startDateTime = meetDate.atTime(LocalTime.MIN);
+                if(Objects.nonNull(homePinRequest.getStartMeetTime()))
+                    endDateTime = meetDate.atTime(homePinRequest.getEndMeetTime());
+                else
+                    endDateTime = meetDate.atTime(LocalTime.MIN);
+                searchDateCondition.or(qMeetingPin.dateTime.between(startDateTime, endDateTime));
             }
         }
         if(Objects.nonNull(homePinRequest.getMaxAge()) && Objects.nonNull(homePinRequest.getMinAge())){
             searchCondition.and(qMeetingPin.createUser.age.between(homePinRequest.getMinAge(), homePinRequest.getMaxAge()));
+        }
+        if(Objects.nonNull(homePinRequest.getMeetGender())){
+            if(homePinRequest.getMeetGender() != Gender.Both)
+                searchCondition.and(qMeetingPin.gender.eq(homePinRequest.getMeetGender()));
         }
         if(Objects.nonNull(homePinRequest.getMeetingPinCategory())){
             searchCondition.and(qMeetingPin.category.in(homePinRequest.getMeetingPinCategory()));
@@ -61,7 +73,7 @@ public class MeetingPinRepositorySupport {
                 .where(qMeetingPin.longitude.between(longitudeAndLatitude.getMinLongitude(),longitudeAndLatitude.getMaxLongitude()))
                 .where(qMeetingPin.maxAge.goe(user.getAge()).and(qMeetingPin.minAge.loe(user.getAge())))
                 .where(qMeetingPin.gender.eq(user.getGender()).or(qMeetingPin.gender.eq(Gender.Both)))
-                .where(qMeetingPin.dateTime.before(LocalDateTime.now()))
+//                .where(qMeetingPin.dateTime.before(LocalDateTime.now()))
                 .where(searchCondition)
                 .fetch();
     }
