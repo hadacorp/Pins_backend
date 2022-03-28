@@ -18,6 +18,7 @@ import java.util.Set;
 /**
  * Created by bangjinhyuk on 2022/03/13.
  * Modified by bangjinhyuk on 2022/03/19.
+ * Modified by bangjinhyuk on 2022/03/28.
  */
 @Getter
 @NoArgsConstructor
@@ -75,6 +76,16 @@ public class CommunityPin extends BaseTimeEntity {
     @Column(name = "category", columnDefinition = "TINYINT")
     private CommunityPinCategory category;
 
+    @NotNull
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "community_pin_type", columnDefinition = "TINYINT")
+    private CommunityPinType communityPinType;
+
+    @NotNull
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "participation_method", columnDefinition = "TINYINT")
+    private ParticipationMethod participationMethod;
+
     @OneToMany(mappedBy = "requestCommunityPin", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CommunityPinRequest> communityPinRequests = new HashSet<>();
 
@@ -97,8 +108,16 @@ public class CommunityPin extends BaseTimeEntity {
         ETC
     }
 
+    public enum CommunityPinType {
+        ANONYMOUS, PERSONAL
+    }
+
+    public enum ParticipationMethod {
+        FREE, APPLICATION
+    }
+
     @Builder
-    public CommunityPin(User createUser, Double latitude, Double longitude, LocalDateTime startedAt, Gender gender, Integer maxAge, Integer minAge, String content, Integer setLimit, CommunityPinCategory category) {
+    public CommunityPin(User createUser, Double latitude, Double longitude, LocalDateTime startedAt, Gender gender, Integer maxAge, Integer minAge, String content, Integer setLimit, CommunityPinCategory category, CommunityPinType communityPinType, ParticipationMethod participationMethod) {
         this.createUser = createUser;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -109,5 +128,10 @@ public class CommunityPin extends BaseTimeEntity {
         this.content = content;
         this.setLimit = setLimit;
         this.category = category;
+        this.communityPinType = communityPinType;
+        this.participationMethod = participationMethod;
     }
+
+
+
 }

@@ -50,7 +50,7 @@ public class MeetingPinCardViewResponse {
         response.latitude = meetingPin.getLatitude();
         response.longitude = meetingPin.getLongitude();
         response.content = meetingPin.getContent();
-        response.address  = gpsToAddress.getAddress(meetingPin.getLatitude(),meetingPin.getLongitude());
+//        response.address  = gpsToAddress.getAddress(meetingPin.getLatitude(),meetingPin.getLongitude());
         response.dateTime  = meetingPin.getDateTime().toString();
         response.images = meetingPin.getImages();
         response.setLimit = meetingPin.getSetLimit();

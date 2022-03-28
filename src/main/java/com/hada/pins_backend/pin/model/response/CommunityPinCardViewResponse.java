@@ -35,6 +35,10 @@ public class CommunityPinCardViewResponse {
 
     private CommunityPin.CommunityPinCategory category;
 
+    private CommunityPin.CommunityPinType communityPinType;
+
+    private CommunityPin.ParticipationMethod participationMethod;
+
     public static CommunityPinCardViewResponse toCommunityPinCardView(CommunityPin communityPin){
         var response = new CommunityPinCardViewResponse();
         response.id = communityPin.getId();
@@ -46,6 +50,8 @@ public class CommunityPinCardViewResponse {
         response.images = communityPin.getImages();
         response.participantNum = communityPin.getCommunityPinParticipants().size();
         response.category = communityPin.getCategory();
+        response.participationMethod = communityPin.getParticipationMethod();
+        response.communityPinType = communityPin.getCommunityPinType();
         return response;
     }
 
