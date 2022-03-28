@@ -123,6 +123,8 @@ class HomeControllerTest {
                 .category(CommunityPin.CommunityPinCategory.APARTMENT)
                 .createUser(user2)
                 .setLimit(10)
+                .communityPinType(CommunityPin.CommunityPinType.PERSONAL)
+                .participationMethod(CommunityPin.ParticipationMethod.FREE)
                 .startedAt(LocalDateTime.now())
                 .build());
         communityPins.add(CommunityPin.builder()
@@ -135,6 +137,8 @@ class HomeControllerTest {
                 .category(CommunityPin.CommunityPinCategory.SCHOOL)
                 .createUser(user2)
                 .setLimit(10)
+                .communityPinType(CommunityPin.CommunityPinType.ANONYMOUS)
+                .participationMethod(CommunityPin.ParticipationMethod.APPLICATION)
                 .startedAt(LocalDateTime.now())
                 .build());
         List<StoryPin> storyPins = new ArrayList<>();

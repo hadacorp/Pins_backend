@@ -91,6 +91,8 @@ public class HomeDocumentation {
                         fieldWithPath("data.communityPin[].content").description("커뮤니티핀 내용"),
                         fieldWithPath("data.communityPin[].images").description("커뮤니티핀 이미지"),
                         fieldWithPath("data.communityPin[].participantNum").description("커뮤니티핀 참여 인원"),
+                        fieldWithPath("data.communityPin[].communityPinType").description("커뮤니티핀 참여 인원"),
+                        fieldWithPath("data.communityPin[].participationMethod").description("커뮤니티핀 참여 인원"),
                         fieldWithPath("data.meetingPin[].id").description("만남핀 id"),
                         fieldWithPath("data.meetingPin[].createUser.id").description("생성 유저 id"),
                         fieldWithPath("data.meetingPin[].createUser.nickName").description("생성 유저 닉네임"),
