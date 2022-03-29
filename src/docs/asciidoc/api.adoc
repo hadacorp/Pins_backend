@@ -17,7 +17,7 @@ endif::[]
 == Host
 |===
 |환경|Host
-|LOCAL|http://localhost:8080
+|DEV|http://dev.pins.live:8081
 |PROD|http://
 |===
 
