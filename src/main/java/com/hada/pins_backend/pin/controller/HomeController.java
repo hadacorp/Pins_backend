@@ -46,7 +46,7 @@ public class HomeController {
      */
     @GetMapping("/search/location")
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<List<HomeLocationResponse>> searchLocation(@RequestParam String keyword) throws ParseException {
-        return new ApiResponse<>(homeService.searchLocation(keyword));
+    public ResponseEntity searchLocation(@RequestParam String keyword) throws ParseException {
+        return new ResponseEntity(new ApiResponse<>(homeService.searchLocation(keyword)), HttpStatus.OK);
     }
 }
