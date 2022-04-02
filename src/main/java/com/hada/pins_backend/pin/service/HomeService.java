@@ -13,7 +13,7 @@ import java.util.Map;
  * Modified by bangjinhyuk on 2022/03/19.
  */
 public interface HomeService {
-    List<HomeLocationResponse> searchLocation(String keyword) throws ParseException;
+    List<HomeLocationResponse.LocationResponse> searchLocation(String keyword) throws ParseException;
 
     Map<String,List> loadPin(User user, HomePinRequest homePinRequest);
 
