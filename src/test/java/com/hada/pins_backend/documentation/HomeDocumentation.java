@@ -111,4 +111,20 @@ public class HomeDocumentation {
                 )
         );
     }
+
+    public static RestDocumentationResultHandler getLocations() {
+        return document("v1/home/search/location",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestHeaders(headerWithName("Authorization").description("회원 Access Token")),
+                requestParameters(
+                        parameterWithName("keyword").description("장소 키워드")
+                ),
+                responseFields(
+                        fieldWithPath("data[].placeName").description("장소명"),
+                        fieldWithPath("data[].latitude").description("위도"),
+                        fieldWithPath("data[].longitude").description("경도")
+                )
+        );
+    }
 }
