@@ -74,8 +74,8 @@ public class MeetingPin extends BaseTimeEntity {
     private Integer setLimit;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-//    @Column(name = "category", columnDefinition = "TINYINT")
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "category", columnDefinition = "TINYINT")
     private MeetingPinCategory category;
 
     @OneToMany(mappedBy = "requestMeetingPin", cascade = CascadeType.ALL, orphanRemoval = true)
