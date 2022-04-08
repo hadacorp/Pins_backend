@@ -3,13 +3,11 @@ package com.hada.pins_backend.pin.model.entity.communityPin;
 import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.model.BaseTimeEntity;
 import com.hada.pins_backend.pin.model.enumable.Position;
-import com.hada.pins_backend.pin.model.enumable.State;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -34,7 +32,7 @@ public class CommunityPinParticipants extends BaseTimeEntity {
     private CommunityPin communityPin;
 
     @NotNull
-    @Column(name = "position")
+    @Column(name = "position", columnDefinition = "TINYINT")
     @Enumerated(EnumType.ORDINAL)
     private Position position;
 
