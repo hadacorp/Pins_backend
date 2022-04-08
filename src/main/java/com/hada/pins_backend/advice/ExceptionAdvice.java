@@ -31,6 +31,7 @@ import javax.validation.ConstraintViolationException;
  * Modified by parksuho on 2022/01/26.
  * Modified by parksuho on 2022/03/25.
  * Modified by bangjinhyuk on 2022/03/27.
+ * Modified by parksuho on 2022/04/09.
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -64,6 +65,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse requestBodyWrongException(HttpServletRequest request, HttpMessageNotReadableException e) {
+        log.error("error message : \"{}\"", e.getMessage());
         return new ErrorResponse(ErrorCode.REQUEST_BODY_PROBLEM.getMessage());
     }
 

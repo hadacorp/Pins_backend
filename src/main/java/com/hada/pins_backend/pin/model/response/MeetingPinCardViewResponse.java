@@ -8,12 +8,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.Set;
 
 /**
  * Created by bangjinhyuk on 2022/03/19.
  * Modified by bangjinhyuk on 2022/03/19.
  * Modified by bangjinhyuk on 2022/03/27.
+ * Modified by parksuho on 2022/04/06.
  */
 @Getter
 @ToString
@@ -35,7 +37,7 @@ public class MeetingPinCardViewResponse {
 
     private String content;
 
-    private Set<String> images;
+    private List<String> images;
 
     private Integer setLimit;
 
@@ -50,7 +52,7 @@ public class MeetingPinCardViewResponse {
         response.latitude = meetingPin.getLatitude();
         response.longitude = meetingPin.getLongitude();
         response.content = meetingPin.getContent();
-//        response.address  = gpsToAddress.getAddress(meetingPin.getLatitude(),meetingPin.getLongitude());
+        response.address  = gpsToAddress.getAddress(meetingPin.getLatitude(),meetingPin.getLongitude());
         response.dateTime  = meetingPin.getDateTime().toString();
         response.images = meetingPin.getImages();
         response.setLimit = meetingPin.getSetLimit();

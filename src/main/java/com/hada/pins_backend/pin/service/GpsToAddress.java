@@ -3,15 +3,20 @@ package com.hada.pins_backend.pin.service;
 /**
  * Created by bangjinhyuk on 2021/12/01.
  * Modified by bangjinhyuk on 2022/03/19.
+ * Modified by parksuho on 2022/04/06.
  */
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.*;
 
+import lombok.NoArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.springframework.stereotype.Component;
 
+@Component
+@NoArgsConstructor
 public class GpsToAddress {
 
     String googleKey;

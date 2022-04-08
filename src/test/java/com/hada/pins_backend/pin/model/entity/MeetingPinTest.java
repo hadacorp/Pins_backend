@@ -102,7 +102,7 @@ class MeetingPinTest {
                 .content("1231123")
                 .createUser(user)
                 .dateTime(LocalDateTime.of(2022,3,15,15,30,0))
-                .gender(Gender.Both)
+                .genderLimit(Gender.Both)
                 .latitude(37.2910659)
                 .longitude(127.0458188)
                 .category(MeetingPin.MeetingPinCategory.STUDY)
@@ -128,7 +128,7 @@ class MeetingPinTest {
                 .state(State.Requested).build();
         logger.info("==== meetingPinRequest save  ====");
         user2.getMeetingPinRequests().add(meetingPinRequest);
-//        meetingPinRequestRepository.save(meetingPinRequest);
+        meetingPinRequestRepository.save(meetingPinRequest);
         em.flush();
         em.clear();
         logger.info("==== end meetingPinRequest save  ====");

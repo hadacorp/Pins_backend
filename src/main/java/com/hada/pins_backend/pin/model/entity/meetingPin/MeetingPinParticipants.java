@@ -1,5 +1,7 @@
 package com.hada.pins_backend.pin.model.entity.meetingPin;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.model.BaseTimeEntity;
 import lombok.Builder;
@@ -11,11 +13,11 @@ import javax.persistence.*;
 
 /**
  * Created by bangjinhyuk on 2022/03/12.
+ * Modified by parksuho on 2022/04/08.
  */
 @Entity
 @Getter
 @NoArgsConstructor
-@ToString
 @Table(name = "meeting_pin_participants")
 public class MeetingPinParticipants extends BaseTimeEntity {
 
@@ -29,11 +31,11 @@ public class MeetingPinParticipants extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User member;
+    private User user;
 
     @Builder
-    public MeetingPinParticipants(MeetingPin meetingPin, User member) {
+    public MeetingPinParticipants(MeetingPin meetingPin, User user) {
         this.meetingPin = meetingPin;
-        this.member = member;
+        this.user = user;
     }
 }

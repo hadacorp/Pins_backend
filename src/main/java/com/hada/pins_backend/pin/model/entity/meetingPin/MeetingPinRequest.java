@@ -1,5 +1,7 @@
 package com.hada.pins_backend.pin.model.entity.meetingPin;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.model.BaseTimeEntity;
 import com.hada.pins_backend.pin.model.enumable.State;
@@ -18,7 +20,6 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Getter
 @NoArgsConstructor
-@ToString
 @Table(name = "meeting_pin_request")
 public class MeetingPinRequest extends BaseTimeEntity {
 
@@ -35,8 +36,8 @@ public class MeetingPinRequest extends BaseTimeEntity {
     private User requestUser;
 
     @NotNull
-    @Enumerated(value = EnumType.ORDINAL)
-    @Column(name = "state", columnDefinition = "TINYINT")
+    @Enumerated(value = EnumType.STRING)
+//    @Column(name = "state", columnDefinition = "TINYINT")
     private State state;
 
     @NotNull @NotBlank

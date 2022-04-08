@@ -21,6 +21,7 @@ import java.util.Objects;
  * Created by bangjinhyuk on 2022/01/22.
  * Modified by bangjinhyuk on 2022/03/19.
  * Modified by bangjinhyuk on 2022/03/27.
+ * Modified by parksuho on 2022/04/08.
  */
 @Repository
 public class MeetingPinRepositorySupport {
@@ -59,7 +60,7 @@ public class MeetingPinRepositorySupport {
         }
         if(Objects.nonNull(homePinRequest.getMeetGender())){
             if(homePinRequest.getMeetGender() != Gender.Both)
-                searchCondition.and(qMeetingPin.gender.eq(homePinRequest.getMeetGender()));
+                searchCondition.and(qMeetingPin.genderLimit.eq(homePinRequest.getMeetGender()));
         }
         if(Objects.nonNull(homePinRequest.getMeetingPinCategory())){
             searchCondition.and(qMeetingPin.category.in(homePinRequest.getMeetingPinCategory()));
@@ -72,7 +73,7 @@ public class MeetingPinRepositorySupport {
                 .where(qMeetingPin.latitude.between(longitudeAndLatitude.getMinLatitude(), longitudeAndLatitude.getMaxLatitude()))
                 .where(qMeetingPin.longitude.between(longitudeAndLatitude.getMinLongitude(),longitudeAndLatitude.getMaxLongitude()))
                 .where(qMeetingPin.maxAge.goe(user.getAge()).and(qMeetingPin.minAge.loe(user.getAge())))
-                .where(qMeetingPin.gender.eq(user.getGender()).or(qMeetingPin.gender.eq(Gender.Both)))
+                .where(qMeetingPin.genderLimit.eq(user.getGender()).or(qMeetingPin.genderLimit.eq(Gender.Both)))
 //                .where(qMeetingPin.dateTime.before(LocalDateTime.now()))
                 .where(searchCondition)
                 .fetch();

@@ -7,6 +7,7 @@ import lombok.Getter;
  * Created by parksuho on 2022/01/27.
  * Modified by parksuho on 2022/03/25.
  * Modified by bangjinhyuk on 2022/03/27.
+ * Modified by parksuho on 2022/04/01.
  */
 
 @Getter
@@ -24,6 +25,9 @@ public enum ErrorCode {
     PATH_VARIABLE_TYPE_ERROR("Path Variable 의 타입이 잘못되었습니다."),
     QUERY_PARAMETER_MISSING("Query Parameter 가 누락되었습니다."),
     QUERY_PARAMETER_BINDING_ERROR("Query Parameter 의 Valid 에 문제가 있습니다."),
+    DATE_EXCEPTION("날짜에 문제가 있습니다."),
+    COMMUNITY_IMAGE_INVALID("프로필 사진에 문제가 있습니다."),
+    PIN_PARTICIPANTS_LIMIT_ERROR("참가인원을 초과했습니다."),
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
 //    INVALID_AUTH_TOKEN("권한 정보가 없는 토큰입니다"),
