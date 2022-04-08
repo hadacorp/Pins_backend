@@ -1,6 +1,0 @@
-.gradle
-.idea
-.DS_Store
-.application.yml
-/src/main/resources/
-/build/reports/

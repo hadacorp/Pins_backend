@@ -17,7 +17,7 @@ endif::[]
 == Host
 |===
 |환경|Host
-|LOCAL|http://localhost:8080
+|DEV|http://dev.pins.live:8081
 |PROD|http://
 |===
 
@@ -47,6 +47,9 @@ operation::users/update[snippets='http-request,request-headers,request-parts,req
 
 === Home 홈화면 핀 조회 [GET]
 operation::v1/home/pin[snippets='http-request,request-headers,request-parameters,response-body,response-fields']
+
+=== Home 홈화면 장소 키워드 검색 [GET]
+operation::v1/home/search/location[snippets='http-request,request-headers,request-parameters,response-body,response-fields']
 
 == Pin API
 만남핀/커뮤니티핀 생성, 상세보기, 가입

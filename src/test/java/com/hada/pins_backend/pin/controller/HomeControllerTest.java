@@ -10,7 +10,14 @@ import com.hada.pins_backend.pin.model.entity.communityPin.CommunityPin;
 import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPin;
 import com.hada.pins_backend.pin.model.entity.storyPin.StoryPin;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -19,8 +26,7 @@ import org.springframework.util.MultiValueMap;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -35,8 +41,11 @@ class HomeControllerTest extends ControllerTest {
     User user2;
     TokenDto tokenDto;
 
+
+
+
     @BeforeEach
-    public void setUp() {
+    public void setUp(TestInfo info) {
         user = userRepository.save(User.builder()
                 .name("주동석")
                 .nickName("주주주")
@@ -59,6 +68,9 @@ class HomeControllerTest extends ControllerTest {
                 .role("ROLE_USER")
                 .build());
         tokenDto = userService.login(LoginUserRequest.builder().phoneNum("010-0000-0001").build());
+
+        if(info.getTags().contains("getLocations"))
+            return;
 
         List<MeetingPin> meetingPins = new ArrayList<>();
         meetingPins.add(MeetingPin.builder()
@@ -131,6 +143,7 @@ class HomeControllerTest extends ControllerTest {
     }
 
     @Test
+    @Tag("getPins")
     @Transactional
     public void getList() throws Exception {
         //given
@@ -158,5 +171,25 @@ class HomeControllerTest extends ControllerTest {
                 .andDo(HomeDocumentation.getPins())
                 .andReturn();
     }
+    @Test
+    @Tag("getLocations")
+    @Transactional
+    public void getLocations() throws Exception {
+        //given
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("keyword", "광교");
+
+        //when
+        ResultActions actions = mockMvc.perform(get("/v1/home/search/location")
+                .header("Authorization", "Bearer " + tokenDto.getAccessToken())
+                .params(params)
+        );
+        //then
+        actions.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(HomeDocumentation.getLocations())
+                .andReturn();
+    }
+
 
 }

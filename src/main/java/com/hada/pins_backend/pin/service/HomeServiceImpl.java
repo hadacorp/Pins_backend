@@ -1,6 +1,10 @@
 package com.hada.pins_backend.pin.service;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hada.pins_backend.account.model.entity.User;
+import com.hada.pins_backend.advice.exception.BusinessException;
 import com.hada.pins_backend.model.LongitudeAndLatitude;
 import com.hada.pins_backend.pin.model.entity.communityPin.CommunityPin;
 import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPin;
@@ -24,10 +28,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import retrofit2.Call;
+import retrofit2.Response;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.hada.pins_backend.advice.ErrorCode.SERVER_ERROR;
 
 /**
  * Created by bangjinhyuk on 2022/01/15.
@@ -43,6 +52,7 @@ public class HomeServiceImpl implements HomeService{
     private final MeetingPinRepositorySupport meetingPinRepositorySupport;
     private final CommunityPinRepositorySupport communityPinRepositorySupport;
     private final StoryPinRepositorySupport storyPinRepositorySupport;
+    private final RetrofitInterface retrofitInterface;
 
     @Value("${kakao.key}")
     private String kakaoKey;
@@ -50,41 +60,26 @@ public class HomeServiceImpl implements HomeService{
     @Value("${google.key}")
     String googleKey;
 
+
     @Override
-    public List<HomeLocationResponse> searchLocation(String keyword) throws ParseException {
-        URI uri = UriComponentsBuilder
-                .fromUriString("https://dapi.kakao.com")
-                .path("/v2/local/search/keyword.json")
-                .queryParam("query", keyword)
-                .encode()
-                .build()
-                .toUri();
-        RestTemplate restTemplate = new RestTemplate();
+    public List<HomeLocationResponse.LocationResponse> searchLocation(String keyword) {
 
-        RequestEntity<Void> req = RequestEntity
-                .get(uri)
-                .header("Authorization",kakaoKey)
-                .build();
-
-        ResponseEntity<String> result = restTemplate.exchange(req,String.class);
-        List<HomeLocationResponse> homeLocationResponses = new ArrayList<>();
-
-
-        JSONParser jsonParser = new JSONParser();
-        JSONObject responseJson = (JSONObject) jsonParser.parse(result.getBody());
-        JSONArray locations = (JSONArray) responseJson.get("documents");
-        for (Object jsonArray: locations) {
-            JSONObject data = (JSONObject) jsonArray;
-
-            HomeLocationResponse homeLocationResponse = HomeLocationResponse.builder()
-                    .placeName((String) data.get("place_name"))
-                    .longitude((Double) data.get("x"))
-                    .latitude((Double) data.get("y"))
-                    .build();
-            homeLocationResponses.add(homeLocationResponse);
+        Call<Object> call = retrofitInterface.getLocations(kakaoKey, keyword);
+        HomeLocationResponse homeLocationResponse = new HomeLocationResponse();
+        try {
+            Response<Object> response = call.execute();
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+            String json = new ObjectMapper().writeValueAsString(response.body());
+            HomeLocationResponse getResult = objectMapper.readValue(json, HomeLocationResponse.class);
+            if(Objects.nonNull(getResult))
+                homeLocationResponse = getResult;
+        } catch (IOException e) {
+            throw new BusinessException(SERVER_ERROR);
         }
 
-        return homeLocationResponses;
+        return homeLocationResponse.getLocationResponses();
     }
 
     @Override
