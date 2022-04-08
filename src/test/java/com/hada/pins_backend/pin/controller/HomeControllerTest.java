@@ -1,27 +1,16 @@
 package com.hada.pins_backend.pin.controller;
 
-
+import com.hada.pins_backend.ControllerTest;
 import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.account.model.entity.dto.LoginUserRequest;
 import com.hada.pins_backend.account.model.entity.dto.TokenDto;
 import com.hada.pins_backend.account.model.enumable.Gender;
-import com.hada.pins_backend.account.repository.RefreshTokenRepository;
-import com.hada.pins_backend.account.repository.UserRepository;
-import com.hada.pins_backend.account.service.UserService;
 import com.hada.pins_backend.documentation.HomeDocumentation;
 import com.hada.pins_backend.pin.model.entity.communityPin.CommunityPin;
 import com.hada.pins_backend.pin.model.entity.meetingPin.MeetingPin;
 import com.hada.pins_backend.pin.model.entity.storyPin.StoryPin;
-import com.hada.pins_backend.pin.repository.communityPin.CommunityPinRepository;
-import com.hada.pins_backend.pin.repository.meetingPin.MeetingPinRepository;
-import com.hada.pins_backend.pin.repository.storyPin.StoryPinRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -39,25 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * Created by bangjinhyuk on 2022/03/26.
+ * Modified by parksuho on 2022/04/08.
  */
-@SpringBootTest
-@AutoConfigureMockMvc
-@AutoConfigureRestDocs
-class HomeControllerTest {
-    @Autowired
-    MockMvc mockMvc;
-    @Autowired
-    RefreshTokenRepository refreshTokenRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    MeetingPinRepository meetingPinRepository;
-    @Autowired
-    CommunityPinRepository communityPinRepository;
-    @Autowired
-    StoryPinRepository storyPinRepository;
-    @Autowired
-    UserService userService;
+class HomeControllerTest extends ControllerTest {
     User user;
     User user2;
     TokenDto tokenDto;
@@ -92,7 +65,7 @@ class HomeControllerTest {
                 .content("1번 만남핀test")
                 .createUser(user)
                 .dateTime(LocalDateTime.of(LocalDate.now().plusDays(3), LocalTime.NOON))
-                .gender(Gender.Both)
+                .genderLimit(Gender.Both)
                 .latitude(37.2910659)
                 .longitude(127.0458188)
                 .category(MeetingPin.MeetingPinCategory.STUDY)
@@ -104,7 +77,7 @@ class HomeControllerTest {
                 .content("2번 만남핀test")
                 .createUser(user)
                 .dateTime(LocalDateTime.of(LocalDate.now().plusDays(2), LocalTime.of(15,10,10)))
-                .gender(Gender.Both)
+                .genderLimit(Gender.Both)
                 .latitude(37.2910610)
                 .longitude(127.0458192)
                 .category(MeetingPin.MeetingPinCategory.STUDY)
@@ -116,10 +89,11 @@ class HomeControllerTest {
         communityPins.add(CommunityPin.builder()
                 .latitude(37.2910620)
                 .longitude(127.0458200)
+                .title("푸르지오 모임")
                 .content("푸르지오 월드마크 커뮤니티test")
                 .maxAge(25)
                 .minAge(20)
-                .gender(Gender.Both)
+                .genderLimit(Gender.Both)
                 .category(CommunityPin.CommunityPinCategory.APARTMENT)
                 .createUser(user2)
                 .setLimit(10)
@@ -130,10 +104,11 @@ class HomeControllerTest {
         communityPins.add(CommunityPin.builder()
                 .latitude(37.2910622)
                 .longitude(127.0458112)
+                .title("서울대 모임")
                 .content("서울대학교 커뮤니티test")
                 .maxAge(25)
                 .minAge(20)
-                .gender(Gender.Both)
+                .genderLimit(Gender.Both)
                 .category(CommunityPin.CommunityPinCategory.SCHOOL)
                 .createUser(user2)
                 .setLimit(10)

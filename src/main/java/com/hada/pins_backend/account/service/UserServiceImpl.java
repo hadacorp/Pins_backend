@@ -11,7 +11,9 @@ import com.hada.pins_backend.account.repository.RefreshTokenRepository;
 import com.hada.pins_backend.account.repository.UserRepository;
 import com.hada.pins_backend.config.jwt.JwtTokenProvider;
 import com.hada.pins_backend.account.exception.CAlreadyJoinUserException;
+import com.hada.pins_backend.handler.FileHandler;
 import com.hada.pins_backend.handler.S3Uploader;
+import com.hada.pins_backend.model.FileFolderName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,7 @@ import java.util.*;
  * Modified by parksuho on 2022/01/31.
  * Modified by parksuho on 2022/02/07.
  * Modified by parksuho on 2022/02/27.
+ * Modified by parksuho on 2022/04/05.
  */
 @Slf4j
 @Service
@@ -61,13 +64,6 @@ public class UserServiceImpl implements UserService{
             details.put("genderKor", "여자");
         }
         return details;
-//        Gender gender;
-//        String genderKor = "여자";
-//        if (genderNum%2==1) {
-//            gender = Gender.Male;
-//            genderKor = "남자";
-//        }
-//        else gender = Gender.Female;
     }
 
     @Transactional
@@ -88,7 +84,7 @@ public class UserServiceImpl implements UserService{
         }
 
         // 프로필 사진에서 파일 path 추출
-        String profileImagePath = fileHandler.parseFileInfo(file, request.getPhoneNum());
+        String profileImagePath = fileHandler.parseFileInfo(file, request.getPhoneNum(), FileFolderName.profileImage);
         
         // 이미지 S3에 업로드
         String profileImage = s3Uploader.upload(file, profileImagePath);
@@ -151,7 +147,7 @@ public class UserServiceImpl implements UserService{
         String changedImage;
         if(file.isEmpty()) changedImage = modifiedUser.getProfileImage();
         else {
-            changedImage = fileHandler.parseFileInfo(file, modifiedUser.getPhoneNum());
+            changedImage = fileHandler.parseFileInfo(file, modifiedUser.getPhoneNum(), FileFolderName.profileImage);
             changedImage = s3Uploader.updateS3(file, modifiedUser.getProfileImage(), changedImage);
         }
         String changedName = (request.getName().isBlank()) ? modifiedUser.getName() : request.getName();

@@ -13,6 +13,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 
 /**
  * Created by bangjinhyuk on 2022/03/27.
+ * Modified by parksuho on 2022/04/09.
  */
 
 public class HomeDocumentation {
@@ -89,7 +90,7 @@ public class HomeDocumentation {
                         fieldWithPath("data.communityPin[].startedAt").description("커뮤니티핀 시작 일자"),
                         fieldWithPath("data.communityPin[].category").description("커뮤니티핀 카테고리"),
                         fieldWithPath("data.communityPin[].content").description("커뮤니티핀 내용"),
-                        fieldWithPath("data.communityPin[].images").description("커뮤니티핀 이미지"),
+                        fieldWithPath("data.communityPin[].image").description("커뮤니티핀 이미지"),
                         fieldWithPath("data.communityPin[].participantNum").description("커뮤니티핀 참여 인원"),
                         fieldWithPath("data.communityPin[].communityPinType").description("커뮤니티핀 프로필 : PERSONAL, ANONYMOUS"),
                         fieldWithPath("data.communityPin[].participationMethod").description("커뮤니티핀 신청 방식 : FREE, APPLICATION"),

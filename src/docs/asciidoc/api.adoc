@@ -47,3 +47,24 @@ operation::users/update[snippets='http-request,request-headers,request-parts,req
 
 === Home 홈화면 핀 조회 [GET]
 operation::v1/home/pin[snippets='http-request,request-headers,request-parameters,response-body,response-fields']
+
+== Pin API
+만남핀/커뮤니티핀 생성, 상세보기, 가입
+
+=== Meeting 핀 생성 [POST]
+operation::meetingPin/create[snippets='http-request,request-headers,request-parts,request-part-request-fields']
+
+=== Community 핀 생성 [POST]
+operation::communityPin/create[snippets='http-request,request-headers,request-parts,request-part-request-fields']
+
+=== Meeting 핀 상세보기 [GET]
+operation::meetingPin/info[snippets='http-request,request-headers,path-parameters,response-body,response-fields']
+
+=== Community 핀 상세보기 [GET]
+operation::communityPin/info[snippets='http-request,request-headers,path-parameters,response-body,response-fields']
+
+=== Meeting 핀 가입 [POST]
+operation::meetingPin/join[snippets='http-request,request-headers,path-parameters']
+
+=== Community 핀 가입 [POST]
+operation::communityPin/join[snippets='http-request,request-headers,path-parameters']

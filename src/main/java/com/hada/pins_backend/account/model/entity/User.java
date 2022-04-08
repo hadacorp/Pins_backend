@@ -1,6 +1,8 @@
 package com.hada.pins_backend.account.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.hada.pins_backend.account.model.enumable.Gender;
 import com.hada.pins_backend.model.BaseTimeEntity;
 import com.hada.pins_backend.pin.model.entity.communityPin.CommunityPin;
@@ -14,7 +16,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,6 +27,7 @@ import java.util.Set;
  * Modified by parksuho in 2022/01/27.
  * Modified by parksuho on 2022/02/27.
  * Modified by bangjinhyuk on 2022/03/19.
+ * Modified by parksuho on 2022/04/08.
  */
 @Getter
 @NoArgsConstructor
@@ -65,30 +70,29 @@ public class User extends BaseTimeEntity {
     @Pattern(regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$")
     private String email;
 
-
     @Column(nullable = false)
     private String role;
 
     @OneToMany(mappedBy = "createUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MeetingPin> meetingPins = new HashSet<>();
+    private List<MeetingPin> meetingPins = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MeetingPinParticipants> meetingPinParticipants = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MeetingPinParticipants> meetingPinParticipants = new ArrayList<>();
 
     @OneToMany(mappedBy = "requestUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MeetingPinRequest> meetingPinRequests = new HashSet<>();
+    private List<MeetingPinRequest> meetingPinRequests = new ArrayList<>();
 
     @OneToMany(mappedBy = "requestCommunityPin", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CommunityPinRequest> communityPinRequests = new HashSet<>();
+    private List<CommunityPinRequest> communityPinRequests = new ArrayList<>();
 
     @OneToMany(mappedBy = "communityPin", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CommunityPinParticipants> communityPinParticipants = new HashSet<>();
+    private List<CommunityPinParticipants> communityPinParticipants = new ArrayList<>();
 
     @OneToMany(mappedBy = "createUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CommunityPin> communityPins = new HashSet<>();
+    private List<CommunityPin> communityPins = new ArrayList<>();
 
     @OneToMany(mappedBy = "createUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<StoryPin> storyPins = new HashSet<>();
+    private List<StoryPin> storyPins = new ArrayList<>();
 
 
     @Builder

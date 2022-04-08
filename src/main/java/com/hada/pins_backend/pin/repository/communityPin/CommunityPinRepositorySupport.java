@@ -16,6 +16,7 @@ import java.util.Objects;
 /**
  * Created by bangjinhyuk on 2022/03/13.
  * Modified by bangjinhyuk on 2022/03/27.
+ * Modified by parksuho on 2022/04/09.
  */
 
 @Repository
@@ -45,7 +46,7 @@ public class CommunityPinRepositorySupport{
                 .where(qCommunityPin.latitude.between(longitudeAndLatitude.getMinLatitude(), longitudeAndLatitude.getMaxLatitude()))
                 .where(qCommunityPin.longitude.between(longitudeAndLatitude.getMinLongitude(),longitudeAndLatitude.getMaxLongitude()))
                 .where(qCommunityPin.maxAge.goe(user.getAge()).and(qCommunityPin.minAge.loe(user.getAge())))
-                .where(qCommunityPin.gender.eq(user.getGender()).or(qCommunityPin.gender.eq(Gender.Both)))
+                .where(qCommunityPin.genderLimit.eq(user.getGender()).or(qCommunityPin.genderLimit.eq(Gender.Both)))
                 .where(searchCondition)
                 .fetch();
     }

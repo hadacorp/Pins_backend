@@ -502,6 +502,71 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
+<li><a href="#_home_api">Home API</a>
+<ul class="sectlevel2">
+<li><a href="#_home_홈화면_핀_조회_get">Home 홈화면 핀 조회 [GET]</a>
+<ul class="sectlevel3">
+<li><a href="#_home_홈화면_핀_조회_get_http_request">Example Request</a></li>
+<li><a href="#_home_홈화면_핀_조회_get_request_headers">Request headers</a></li>
+<li><a href="#_home_홈화면_핀_조회_get_request_parameters">Request parameters</a></li>
+<li><a href="#_home_홈화면_핀_조회_get_response_body">Response body</a></li>
+<li><a href="#_home_홈화면_핀_조회_get_response_fields">Response fields</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_pin_api">Pin API</a>
+<ul class="sectlevel2">
+<li><a href="#_meeting_핀_생성_post">Meeting 핀 생성 [POST]</a>
+<ul class="sectlevel3">
+<li><a href="#_meeting_핀_생성_post_http_request">Example Request</a></li>
+<li><a href="#_meeting_핀_생성_post_request_headers">Request headers</a></li>
+<li><a href="#_meeting_핀_생성_post_request_parts">Request parts</a></li>
+<li><a href="#_meeting_핀_생성_post_request_part-request-fields">Request part-request-fields</a></li>
+</ul>
+</li>
+<li><a href="#_community_핀_생성_post">Community 핀 생성 [POST]</a>
+<ul class="sectlevel3">
+<li><a href="#_community_핀_생성_post_http_request">Example Request</a></li>
+<li><a href="#_community_핀_생성_post_request_headers">Request headers</a></li>
+<li><a href="#_community_핀_생성_post_request_parts">Request parts</a></li>
+<li><a href="#_community_핀_생성_post_request_part-request-fields">Request part-request-fields</a></li>
+</ul>
+</li>
+<li><a href="#_meeting_핀_상세보기_get">Meeting 핀 상세보기 [GET]</a>
+<ul class="sectlevel3">
+<li><a href="#_meeting_핀_상세보기_get_http_request">Example Request</a></li>
+<li><a href="#_meeting_핀_상세보기_get_request_headers">Request headers</a></li>
+<li><a href="#_meeting_핀_상세보기_get_path_parameters">Path parameters</a></li>
+<li><a href="#_meeting_핀_상세보기_get_response_body">Response body</a></li>
+<li><a href="#_meeting_핀_상세보기_get_response_fields">Response fields</a></li>
+</ul>
+</li>
+<li><a href="#_community_핀_상세보기_get">Community 핀 상세보기 [GET]</a>
+<ul class="sectlevel3">
+<li><a href="#_community_핀_상세보기_get_http_request">Example Request</a></li>
+<li><a href="#_community_핀_상세보기_get_request_headers">Request headers</a></li>
+<li><a href="#_community_핀_상세보기_get_path_parameters">Path parameters</a></li>
+<li><a href="#_community_핀_상세보기_get_response_body">Response body</a></li>
+<li><a href="#_community_핀_상세보기_get_response_fields">Response fields</a></li>
+</ul>
+</li>
+<li><a href="#_meeting_핀_가입_post">Meeting 핀 가입 [POST]</a>
+<ul class="sectlevel3">
+<li><a href="#_meeting_핀_가입_post_http_request">Example Request</a></li>
+<li><a href="#_meeting_핀_가입_post_request_headers">Request headers</a></li>
+<li><a href="#_meeting_핀_가입_post_path_parameters">Path parameters</a></li>
+</ul>
+</li>
+<li><a href="#_community_핀_가입_post">Community 핀 가입 [POST]</a>
+<ul class="sectlevel3">
+<li><a href="#_community_핀_가입_post_http_request">Example Request</a></li>
+<li><a href="#_community_핀_가입_post_request_headers">Request headers</a></li>
+<li><a href="#_community_핀_가입_post_path_parameters">Path parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -549,7 +614,7 @@ Accept: application/json
 Host: localhost:8080
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Content-Disposition: form-data; name=profileImage; filename=test.png
+Content-Disposition: form-data; name=profileImage; filename=ffd445bd-f505-45c8-b463-40fc753d2db5.png
 Content-Type: image/png
 
 test
@@ -750,8 +815,8 @@ Content-Length: 431
 {
   "data" : {
     "grantType" : "Bearer",
-    "accessToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtMTIzNC0xMjM0Iiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDY4ODU1OTAsImV4cCI6MTY0Njg4OTE5MH0.vk7dCosb3MA6TK3r51m0x2Bz8SZI2znKXXibJMYiluI",
-    "refreshToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NDgwOTUxOTB9.Zvd3ZvK2B3C_hGCGVweKUswl7iZr4IleniyY5OO2Xlg",
+    "accessToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtMTIzNC0xMjM0Iiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDk0NDI5NTYsImV4cCI6MTY0OTQ0NjU1Nn0.IPHsNfVIQWwxX6Okg2syoXtd5_EaSZupvQ3PR0nqWt8",
+    "refreshToken" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTA2NTI1NTZ9.wfZOZU2rXeLVNbWzTcrE0Ov9dJcf8loHSqarrtw4OBg",
     "accessTokenExpireDate" : 3600000
   }
 }</code></pre>
@@ -805,7 +870,7 @@ Content-Length: 431
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/me HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtMTIzNC0xMjM0Iiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDY4ODU1OTAsImV4cCI6MTY0Njg4OTE5MH0.vk7dCosb3MA6TK3r51m0x2Bz8SZI2znKXXibJMYiluI
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtMTIzNC0xMjM0Iiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDk0NDI5NTYsImV4cCI6MTY0OTQ0NjU1Nn0.IPHsNfVIQWwxX6Okg2syoXtd5_EaSZupvQ3PR0nqWt8
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -846,11 +911,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 191
+Content-Length: 192
 
 {
   "data" : {
-    "id" : 6,
+    "id" : 18,
     "name" : "홍길동",
     "phoneNum" : "010-1234-1234",
     "nickName" : "엘든링",
@@ -1100,11 +1165,11 @@ Content-Length: 22
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /users/update HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtMTIzNC0xMjM0Iiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDY4ODU1OTAsImV4cCI6MTY0Njg4OTE5MH0.vk7dCosb3MA6TK3r51m0x2Bz8SZI2znKXXibJMYiluI
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtMTIzNC0xMjM0Iiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDk0NDI5NTYsImV4cCI6MTY0OTQ0NjU1Nn0.IPHsNfVIQWwxX6Okg2syoXtd5_EaSZupvQ3PR0nqWt8
 Host: localhost:8080
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Content-Disposition: form-data; name=profileImage; filename=test.png
+Content-Disposition: form-data; name=profileImage; filename=9e37566e-93a5-47d2-b3d7-0bb7c78a2dde.png
 Content-Type: image/png
 
 test
@@ -1207,15 +1272,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 284
+Content-Length: 285
 
 {
   "data" : {
-    "id" : 5,
+    "id" : 17,
     "name" : "name",
     "phoneNum" : "010-1234-1234",
     "nickName" : "1234",
-    "profileImage" : "https://d21ye6uqd6ovq2.cloudfront.net/local/profileImage/010-1234-1234/d3e36036-e283-4f62-95f1-dc4345c7dab9.png",
+    "profileImage" : "https://d21ye6uqd6ovq2.cloudfront.net/local/profileImage/010-1234-1234/b3fe2f79-5bfa-43f9-9e09-ee1f793272e0.png",
     "role" : "ROLE_USER"
   }
 }</code></pre>
@@ -1274,11 +1339,1299 @@ Content-Length: 284
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_home_api"><a class="link" href="#_home_api">Home API</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>홈화면 핀 조회, 장소 검색</p>
+</div>
+<div class="sect2">
+<h3 id="_home_홈화면_핀_조회_get"><a class="link" href="#_home_홈화면_핀_조회_get">Home 홈화면 핀 조회 [GET]</a></h3>
+<div class="sect3">
+<h4 id="_home_홈화면_핀_조회_get_http_request"><a class="link" href="#_home_홈화면_핀_조회_get_http_request">Example Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /v1/home/pin?latitude=37.291985900000014&amp;longitude=127.048468299999998&amp;keyword=test&amp;maxAge=99&amp;minAge=20&amp;meetDate=2022-04-09%2C2022-04-10%2C2022-04-11%2C2022-04-12%2C2022-04-13&amp;startMeetTime=07%3A00%3A00&amp;endMeetTime=23%3A00%3A00&amp;meetGender=Both&amp;meetingPinCategory=WALK%2CSTUDY&amp;storyPinCategory=&amp;communityPinCategory=APARTMENT&amp;storyPinCategory= HTTP/1.1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtMDAwMC0wMDAxIiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDk0NDI5NTYsImV4cCI6MTY0OTQ0NjU1Nn0.bcClPb1CzSTLlOiRpdig76vjhJjOSdimMEaB7_kOaDc
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_home_홈화면_핀_조회_get_request_headers"><a class="link" href="#_home_홈화면_핀_조회_get_request_headers">Request headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 Access Token</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_home_홈화면_핀_조회_get_request_parameters"><a class="link" href="#_home_홈화면_핀_조회_get_request_parameters">Request parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>latitude</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">위도 : Double</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>longitude</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">경도 : Double</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>meetDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 날짜 리스트 : LocalDate List yyyy-MM-dd</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startMeetTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 조회 시작 시간 : LocalTime HH:mm:ss</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endMeetTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 조회 끝 시간 : LocalTime HH:mm:ss</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>minAge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">최소 나이 : 최소 20</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxAge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">최대 나이 : 최대 100</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>keyword</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">키워드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>meetGender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성별 : Male, Female, Both</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>meetingPinCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 카테고리 리스트 : FRIENDSHIP,
+        WALK,
+        PET,
+        FOOD,
+        CULTURAL,
+        GAME,
+        EXERCISE,
+        MOUNTAIN,
+        STUDY,
+        JOURNEY,
+        ETC</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>communityPinCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 카테고리 리스트 : FRIENDSHIP,
+        WALK,
+        PET,
+        FOOD,
+        CULTURAL,
+        GAME,
+        EXERCISE,
+        MOUNTAIN,
+        STUDY,
+        JOURNEY,
+        SCHOOL,
+        APARTMENT,
+        ETC</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>storyPinCategory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이야기핀 카테고리 리스트 : CURIOUS,
+        REVIEW,
+        TOWN,
+        PET,
+        HELP,
+        ACCIDENT,
+        LOST,
+        CHAT,
+        ETC</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_home_홈화면_핀_조회_get_response_body"><a class="link" href="#_home_홈화면_핀_조회_get_response_body">Response body</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
+  "data" : {
+    "storyPin" : [ {
+      "id" : 1,
+      "createUser" : {
+        "id" : 20,
+        "nickName" : "주주주",
+        "age" : 21,
+        "gender" : "Male",
+        "profileImage" : "test.png"
+      },
+      "latitude" : 37.291061,
+      "longitude" : 127.0458198,
+      "createAt" : "2022-04-09T03:35:56.7393461",
+      "category" : "LOST",
+      "content" : "에어팟 잃어버렸습니다..test",
+      "images" : [ ]
+    } ],
+    "meetingPin" : [ {
+      "id" : 8,
+      "createUser" : {
+        "id" : 20,
+        "nickName" : "주주주",
+        "age" : 21,
+        "gender" : "Male",
+        "profileImage" : "test.png"
+      },
+      "latitude" : 37.2910659,
+      "longitude" : 127.0458188,
+      "address" : "대한민국 경기도 수원시 영통구 이의동 산119-23",
+      "dateTime" : "2022-04-12T12:00",
+      "content" : "1번 만남핀test",
+      "images" : [ ],
+      "setLimit" : 10,
+      "participantNum" : 0,
+      "category" : "STUDY"
+    }, {
+      "id" : 9,
+      "createUser" : {
+        "id" : 20,
+        "nickName" : "주주주",
+        "age" : 21,
+        "gender" : "Male",
+        "profileImage" : "test.png"
+      },
+      "latitude" : 37.291061,
+      "longitude" : 127.0458192,
+      "address" : "대한민국 경기도 수원시 영통구 이의동 산119-23",
+      "dateTime" : "2022-04-11T15:10:10",
+      "content" : "2번 만남핀test",
+      "images" : [ ],
+      "setLimit" : 10,
+      "participantNum" : 0,
+      "category" : "STUDY"
+    } ],
+    "communityPin" : [ {
+      "id" : 8,
+      "createUser" : {
+        "id" : 21,
+        "nickName" : "강강강",
+        "age" : 25,
+        "gender" : "Male",
+        "profileImage" : "test.png"
+      },
+      "latitude" : 37.291062,
+      "longitude" : 127.04582,
+      "startedAt" : "2022-04-09T03:35:56.7237455",
+      "content" : "푸르지오 월드마크 커뮤니티test",
+      "image" : null,
+      "participantNum" : 0,
+      "category" : "APARTMENT",
+      "communityPinType" : "PERSONAL",
+      "participationMethod" : "FREE"
+    } ]
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_home_홈화면_핀_조회_get_response_fields"><a class="link" href="#_home_홈화면_핀_조회_get_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.storyPin[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이야기핀 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.storyPin[].createUser.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.storyPin[].createUser.nickName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.storyPin[].createUser.age</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 나이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.storyPin[].createUser.gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.storyPin[].createUser.profileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.storyPin[].latitude</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이야기핀 위도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.storyPin[].longitude</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이야기핀 경도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.storyPin[].createAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이야기핀 생성 일자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.storyPin[].category</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이야기핀 카테고리</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.storyPin[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이야기핀 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.storyPin[].images</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이야기핀 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].createUser.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].createUser.nickName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].createUser.age</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 나이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].createUser.gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].createUser.profileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].latitude</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 위도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].longitude</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 경도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].startedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 시작 일자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].category</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 카테고리</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].image</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].participantNum</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 참여 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].communityPinType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 프로필 : PERSONAL, ANONYMOUS</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPin[].participationMethod</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 신청 방식 : FREE, APPLICATION</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].createUser.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].createUser.nickName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].createUser.age</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 나이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].createUser.gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유저 성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].createUser.profileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 유 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].latitude</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 위도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].longitude</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 경도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].address</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 주소</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].dateTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남 시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].category</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 카테고리</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].images</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].setLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 인원 제한</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingPin[].participantNum</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 참여 인원수</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pin_api"><a class="link" href="#_pin_api">Pin API</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>만남핀/커뮤니티핀 생성, 상세보기, 가입</p>
+</div>
+<div class="sect2">
+<h3 id="_meeting_핀_생성_post"><a class="link" href="#_meeting_핀_생성_post">Meeting 핀 생성 [POST]</a></h3>
+<div class="sect3">
+<h4 id="_meeting_핀_생성_post_http_request"><a class="link" href="#_meeting_핀_생성_post_http_request">Example Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /pin/meeting HTTP/1.1
+Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtNTY3OC01Njc4Iiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDk0NDI5NTQsImV4cCI6MTY0OTQ0NjU1NH0.AqrgzWyjIDVxAt2IZ2pEzUOhmHp8eKxYkKIZbgUCobw
+Host: localhost:8080
+
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=files; filename=3e40f1b5-946c-4e86-9df8-1eb99cae1dc0.png
+Content-Type: image/png
+
+test
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=request
+Content-Type: application/json
+
+{"latitude":37.283809,"longitude":127.043746,"category":"CULTURAL","dateTime":"2022-05-17T09:00:00","genderLimit":"Both","maxAge":25,"minAge":20,"setLimit":30,"content":"Dong-guan moim"}
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_meeting_핀_생성_post_request_headers"><a class="link" href="#_meeting_핀_생성_post_request_headers">Request headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">호스트의 Access Token</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_meeting_핀_생성_post_request_parts"><a class="link" href="#_meeting_핀_생성_post_request_parts">Request parts</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Part</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>files</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만님핀 이미지들</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_meeting_핀_생성_post_request_part-request-fields"><a class="link" href="#_meeting_핀_생성_post_request_part-request-fields">Request part-request-fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>latitude</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만님핀 위도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>longitude</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만님핀 경도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>category</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만님핀 카테고리</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dateTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만님핀 만남시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>genderLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만님핀 제한성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxAge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만님핀 최대나이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>minAge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만님핀 최소나이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만님핀 제한인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만님핀 내용</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_community_핀_생성_post"><a class="link" href="#_community_핀_생성_post">Community 핀 생성 [POST]</a></h3>
+<div class="sect3">
+<h4 id="_community_핀_생성_post_http_request"><a class="link" href="#_community_핀_생성_post_http_request">Example Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /pin/community HTTP/1.1
+Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtNTY3OC01Njc4Iiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDk0NDI5NTUsImV4cCI6MTY0OTQ0NjU1NX0.B3lRekkn4kxq8WoILo7l1I73gcAqbUHthJMUEusL1R8
+Host: localhost:8080
+
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=file; filename=09409118-aa9e-4978-8ef4-999111c7d008.png
+Content-Type: image/png
+
+test
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=request
+Content-Type: application/json
+
+{"latitude":37.282967,"longitude":127.043469,"category":"ETC","participationMethod":"APPLICATION","communityPinType":"ANONYMOUS","genderLimit":"Both","maxAge":25,"minAge":25,"setLimit":170,"title":"Woncheon-guan moim","content":"See you Woncheon-guan"}
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_community_핀_생성_post_request_headers"><a class="link" href="#_community_핀_생성_post_request_headers">Request headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">호스트의 Access Token</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_community_핀_생성_post_request_parts"><a class="link" href="#_community_핀_생성_post_request_parts">Request parts</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Part</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>request</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>file</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 이미지</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_community_핀_생성_post_request_part-request-fields"><a class="link" href="#_community_핀_생성_post_request_part-request-fields">Request part-request-fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>latitude</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 위도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>longitude</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 경도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>category</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 카테고리</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>participationMethod</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 가입방법</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>communityPinType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 종류</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>genderLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 제한성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxAge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 최대나이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>minAge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 최소나이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 제한인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 내용</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_meeting_핀_상세보기_get"><a class="link" href="#_meeting_핀_상세보기_get">Meeting 핀 상세보기 [GET]</a></h3>
+<div class="sect3">
+<h4 id="_meeting_핀_상세보기_get_http_request"><a class="link" href="#_meeting_핀_상세보기_get_http_request">Example Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /pin/meeting/4 HTTP/1.1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtNjU0My00MTIzIiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDk0NDI5NTUsImV4cCI6MTY0OTQ0NjU1NX0.XNgh2sk_PXmiKaxK7QKsz1YYfjg3GlyI0yFiMXYpdxU
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_meeting_핀_상세보기_get_request_headers"><a class="link" href="#_meeting_핀_상세보기_get_request_headers">Request headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저의 Access Token</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_meeting_핀_상세보기_get_path_parameters"><a class="link" href="#_meeting_핀_상세보기_get_path_parameters">Path parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /pin/meeting/{pinId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pinId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 번호</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_meeting_핀_상세보기_get_response_body"><a class="link" href="#_meeting_핀_상세보기_get_response_body">Response body</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
+  "data" : {
+    "host" : {
+      "id" : 5,
+      "nickName" : "핀돌이",
+      "age" : 22,
+      "gender" : "Male",
+      "profileImage" : "test.png"
+    },
+    "category" : "FOOD",
+    "content" : "팔달관 모임",
+    "images" : [ "사진1.jpg" ],
+    "createdAt" : "0분전",
+    "location" : "",
+    "meetingTime" : "다음주 화요일 오후 2시",
+    "ageLimit" : "24살 이상",
+    "genderLimit" : "남자만",
+    "participants" : [ {
+      "id" : 5,
+      "nickName" : "핀돌이",
+      "age" : 22,
+      "gender" : "Male",
+      "profileImage" : "test.png"
+    }, {
+      "id" : 5,
+      "nickName" : "핀돌이",
+      "age" : 22,
+      "gender" : "Male",
+      "profileImage" : "test.png"
+    } ],
+    "participantsNum" : 2,
+    "setLimit" : 30
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_meeting_핀_상세보기_get_response_fields"><a class="link" href="#_meeting_핀_상세보기_get_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.host</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">호스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.host.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">호스트 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.host.nickName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">호스트 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.host.age</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">호스트 나이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.host.gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">호스트 성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.host.profileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">호스트 사진</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.category</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 카테고리</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.images</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 이미지들</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 생성일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 위치</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.meetingTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 만남날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.ageLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 나이제한</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.genderLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 성별제한</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participants</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 참가자들</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participants.[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참가자 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participants.[].nickName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참가자 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participants.[].age</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참가자 나이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participants.[].gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참가자 성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participants.[].profileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참가자 사진</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participantsNum</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 현재 참가자수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.setLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 참가자 제한수</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_community_핀_상세보기_get"><a class="link" href="#_community_핀_상세보기_get">Community 핀 상세보기 [GET]</a></h3>
+<div class="sect3">
+<h4 id="_community_핀_상세보기_get_http_request"><a class="link" href="#_community_핀_상세보기_get_http_request">Example Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /pin/community/7 HTTP/1.1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtNjU0My00MTIzIiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDk0NDI5NTYsImV4cCI6MTY0OTQ0NjU1Nn0.EPMsCLb0ie_TGO6JIzBNlQFDsATgXtPmTNjWSnAsZF4
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_community_핀_상세보기_get_request_headers"><a class="link" href="#_community_핀_상세보기_get_request_headers">Request headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저의 Access Token</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_community_핀_상세보기_get_path_parameters"><a class="link" href="#_community_핀_상세보기_get_path_parameters">Path parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /pin/community/{pinId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pinId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 번호</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_community_핀_상세보기_get_response_body"><a class="link" href="#_community_핀_상세보기_get_response_body">Response body</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
+  "data" : {
+    "title" : "사과대 모임",
+    "communityPinType" : "PERSONAL",
+    "category" : "APARTMENT",
+    "content" : "사과대 모임입니다.",
+    "image" : "사진2.jpg",
+    "participantsNum" : 2,
+    "location" : "",
+    "startedAt" : "2022년 6월 11일부터",
+    "ageLimit" : "29살 까지",
+    "genderLimit" : "여자만",
+    "setLimit" : 30,
+    "participants" : [ {
+      "id" : 11,
+      "nickName" : "핀돌이",
+      "age" : 22,
+      "gender" : "Male",
+      "profileImage" : "test.png"
+    }, {
+      "id" : 11,
+      "nickName" : "핀돌이",
+      "age" : 22,
+      "gender" : "Male",
+      "profileImage" : "test.png"
+    } ]
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_community_핀_상세보기_get_response_fields"><a class="link" href="#_community_핀_상세보기_get_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.communityPinType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 종류</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.category</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 카테고리</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.image</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 이미지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participantsNum</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 현재 참가자수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 장소</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.startedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 생성일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.ageLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 나이제한</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.genderLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 제한성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.setLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 참가자 제한수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participants</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 참가자들</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participants.[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참가자 번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participants.[].nickName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참가자 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participants.[].age</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참가자 나이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participants.[].gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참가자 성별</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.participants.[].profileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참가자 사진</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_meeting_핀_가입_post"><a class="link" href="#_meeting_핀_가입_post">Meeting 핀 가입 [POST]</a></h3>
+<div class="sect3">
+<h4 id="_meeting_핀_가입_post_http_request"><a class="link" href="#_meeting_핀_가입_post_http_request">Example Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /pin/meeting/3/join HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtNjU0My00MTIzIiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDk0NDI5NTUsImV4cCI6MTY0OTQ0NjU1NX0.XNgh2sk_PXmiKaxK7QKsz1YYfjg3GlyI0yFiMXYpdxU
+Accept: application/json
+Content-Length: 37
+Host: localhost:8080
+
+{
+  "content" : "안녕하세요"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_meeting_핀_가입_post_request_headers"><a class="link" href="#_meeting_핀_가입_post_request_headers">Request headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여자의 Access Token</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_meeting_핀_가입_post_path_parameters"><a class="link" href="#_meeting_핀_가입_post_path_parameters">Path parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /pin/meeting/{pinId}/join</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pinId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만남핀 번호</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_community_핀_가입_post"><a class="link" href="#_community_핀_가입_post">Community 핀 가입 [POST]</a></h3>
+<div class="sect3">
+<h4 id="_community_핀_가입_post_http_request"><a class="link" href="#_community_핀_가입_post_http_request">Example Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /pin/community/6/join HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTAtNjU0My00MTIzIiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE2NDk0NDI5NTYsImV4cCI6MTY0OTQ0NjU1Nn0.EPMsCLb0ie_TGO6JIzBNlQFDsATgXtPmTNjWSnAsZF4
+Accept: application/json
+Content-Length: 50
+Host: localhost:8080
+
+{
+  "content" : "커뮤니티핀 가입해요"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_community_핀_가입_post_request_headers"><a class="link" href="#_community_핀_가입_post_request_headers">Request headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">참여자의 Access Token</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_community_핀_가입_post_path_parameters"><a class="link" href="#_community_핀_가입_post_path_parameters">Path parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /pin/community/{pinId}/join</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pinId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티핀 번호</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-03-10 04:01:04 +0900
+Last updated 2022-04-09 02:56:30 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

@@ -1,6 +1,7 @@
 package com.hada.pins_backend.account.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hada.pins_backend.ControllerTest;
 import com.hada.pins_backend.PinsBackendApplication;
 import com.hada.pins_backend.account.model.entity.User;
 import com.hada.pins_backend.account.model.entity.dto.*;
@@ -47,27 +48,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by parksuho on 2022/02/26.
  * Modified by parksuho on 2022/03/10.
  * Modified by parksuho on 2022/03/26.
+ * Modified by parksuho on 2022/04/06.
  */
-@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-@SpringBootTest
-@AutoConfigureRestDocs
-@AutoConfigureMockMvc
-class UserControllerTest {
-    @Autowired
-    protected MockMvc mockMvc;
-
-    @Autowired
-    protected ObjectMapper objectMapper;
-
-    @Autowired
-    protected UserRepository userRepository;
-
-    @Autowired
-    protected RefreshTokenRepository refreshTokenRepository;
-
-    @Autowired
-    protected UserService userService;
-
+class UserControllerTest extends ControllerTest {
     private User user;
     private TokenDto tokenDto;
 
